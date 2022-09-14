@@ -1,0 +1,34 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="header-fr">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" id="truck-icon" th:href="@{/}">
+            <img th:src="@{//cdn-icons-png.flaticon.com/512/819/819438.png}" width="30" height="30" alt="">
+        </a>
+        <a class="navbar-brand" th:href="@{/}">Web-Trans</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="#">Pricing</a>
+                <a class="nav-item nav-link disabled" href="#">Disabled</a>
+            </div>
+        </div>
+        <a th:href="@{/login}" type="button" class="btn btn-outline-primary">sing in</a>
+        <a th:href="@{/add}" type="button" class="btn btn-outline-primary">sing up</a>
+        <div class="dropdown">
+            <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-bs-toggle="dropdown" aria-expanded="false" >
+                <div th:text="test" ></div>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" th:href="@{/user/profile/{id} (id = 1)}">Account</a></li>
+                <li><a class="dropdown-item" href="#">test</a></li>
+                <li><a class="dropdown-item" href="#">logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+</html>

@@ -1,0 +1,76 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Login web-trans</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+    <div th:replace="fragments/header::header-fr"></div>
+
+</head>
+<body>
+
+    <!-- Section: Design Block -->
+    <section class="bottom-marg">
+        <!-- Jumbotron -->
+        <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+            <div class="container">
+                <div class="row gx-lg-5 align-items-center">
+                    <div class="col-lg-6 mb-5 mb-lg-0">
+                        <h1 class="my-5 display-3 fw-bold ls-tight">
+                            The best service <br/>
+                            <span class="text-primary">for monitoring cargo transportation</span>
+                        </h1>
+                        <p style="color: hsl(217, 10%, 50.8%)">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Eveniet, itaque accusantium odio, soluta, corrupti aliquam
+                            quibusdam tempora at cupiditate quis eum maiores libero
+                            veritatis? Dicta facilis sint aliquid ipsum atque?
+                        </p>
+                    </div>
+
+                    <div class="col-lg-6 mb-5 mb-lg-0">
+                        <div class="card">
+                            <div class="card-body py-5 px-md-5">
+                                    <!--<div class="d-flex align-items-center mb-3 pb-1">
+                                    <i class="fas fa-cubes fa-2x me-3"></i>
+                                    <span class="h1 fw-bold mb-0">Logo</span>
+                                </div>-->
+                                <div class="card-body md-2 text-black">
+                                    <h4 class="text-uppercase">Sign into your account</h4>
+                                </div>
+                                    <!--<h5 class="fw-normal mb-3 pb-3">Sign into your account</h5>-->
+                                    <div th:if="${!#strings.isEmpty(error_message)}">
+
+                                        <div class="alert alert-warning" th:text="${error_message}" role="alert"></div>
+                                    </div>
+                                <form th:action="@{/login}" method="post">
+                                    <!-- Email input -->
+                                    <div class="form-floating mb-4">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="email"
+                                               name="email">
+                                        <label for="floatingInput">Email address</label>
+                                    </div>
+                                    <!-- Password input -->
+                                    <div class="form-floating mb-4">
+                                        <input type="password" class="form-control" id="floatingPassword"
+                                               placeholder="Password" name="password">
+                                        <label for="floatingPassword">Password</label>
+                                    </div>
+                                    <!-- Submit button -->
+                                    <button type="submit" value="Login" class="btn btn-primary btn-block mb-4">
+                                        Login
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section: Design Block -->
+<div class="test">
+</div>
+<div th:replace="fragments/footer::footer-fr"></div>
+</body>
+</html>
