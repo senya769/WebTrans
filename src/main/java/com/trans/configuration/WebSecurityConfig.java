@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,6 +40,7 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+
     @Bean
     public UserDetailsService userDetailsService(){
         return new UserDetailsServiceImpl(userRepository);
@@ -49,7 +51,7 @@ public class WebSecurityConfig {
     }
     @Bean
     public AuthenticationManagerBuilder managerBuilder(HttpSecurity http) throws Exception {
-        return (AuthenticationManagerBuilder) http.getSharedObject(AuthenticationManagerBuilder.class).userDetailsService(userDetailsService())
-                .passwordEncoder(passwordEncoder()).and().build();
+        return (AuthenticationManagerBuilder) http.getSharedObject(AuthenticationManagerBuilder.class).userDetailsService(userDetailsService()).and()
+               .build();
     }
 }

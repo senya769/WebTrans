@@ -20,7 +20,7 @@ import java.util.Date;
 
 @Controller
 public class MainController {
-    private final UserService userService;
+    public UserService userService;
 
     @Autowired
     public MainController(UserService userService) {
@@ -44,11 +44,6 @@ public class MainController {
         return redirectView;
     }
 
-    @ModelAttribute("user")
-    public User user() {
-        return new User();
-    }
-
     @GetMapping("/login")
     public ModelAndView loginGet(ModelAndView modelAndView) {
         modelAndView.setViewName("pages/login");
@@ -62,7 +57,7 @@ public class MainController {
             attributes.addAttribute("id", user.getId());
             return new RedirectView("/user/profile/{id}", true);
         } else {
-            attributes.addFlashAttribute("error_message", new String("This username and password combination was not found."));
+            attributes.addFlashAttribute("error_message", "This username and password combination was not found.");
             //attributes.addAttribute("message","This username and password combination was not found.");
             return new RedirectView("/login", true);
         }
