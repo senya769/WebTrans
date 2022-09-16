@@ -24,7 +24,7 @@ class WebSecurityConfig {
     private AuthenticationConfiguration configuration;
 
     private UserDetailsService userDetailsService;
-
+@Autowired
     public WebSecurityConfig(AuthenticationConfiguration configuration, UserDetailsService userDetailsService, AccessDeniedHandler accessDeniedHandler) {
         this.configuration = configuration;
         this.accessDeniedHandler = accessDeniedHandler;
@@ -45,13 +45,12 @@ class WebSecurityConfig {
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .successForwardUrl("/")
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll)
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
-        return http.csrf().disable().build();
+        return http.build();
     }
 
     @Bean
