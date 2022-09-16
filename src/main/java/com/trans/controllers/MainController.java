@@ -16,7 +16,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 
 @Controller
 public class MainController {
@@ -27,13 +29,13 @@ public class MainController {
         this.userService = userService;
     }
 
-    @GetMapping("/add")
+    @GetMapping("/registration")
     public ModelAndView add(ModelAndView model) {
         model.setViewName("pages/registration");
         return model;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/registration")
     public RedirectView add(@ModelAttribute User user, RedirectAttributes attributes) {
         User userByBD = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
         RedirectView redirectView = new RedirectView();
@@ -44,7 +46,7 @@ public class MainController {
             return redirectView;
 
         } else {
-            user.setRoles(Roles.USER);
+            user.setRoles(new HashSet<>(Collections.singleton(Roles.USER)));
             userService.save(user);
             attributes.addAttribute("id", user.getId());
             redirectView.setUrl("/user/profile/{id}");

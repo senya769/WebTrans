@@ -38,6 +38,7 @@
                             </div>
                             <form th:action="@{/add}" th:object="${user}" th:method="post">
 
+
                                 <div class="form-floating mb-4">
 
                                     <div class="form-group">
@@ -76,8 +77,17 @@
                                            th:field="${user.nickname}" placeholder="nick" required>
                                     <label for="floatingInput">Nickname
                                     </label>
-
                                 </div>
+                                <!-- input image in acc profile-->
+                                <div class="form-floating mb-4">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlFile1">Example file input</label>
+                                            <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                        </div>
+                                    </form>
+                                </div>
+
                                 <div class="form-floating mb-4">
                                     <input type="tel" class="form-control" id="floatingInput1"
                                            th:field="${user.numberPhone}" autocomplete="off"
