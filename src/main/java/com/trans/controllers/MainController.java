@@ -37,12 +37,12 @@ public class MainController {
 
     @PostMapping("/registration")
     public RedirectView add(@ModelAttribute User user, RedirectAttributes attributes) {
-        User userByBD = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
+        User userByBD = userService.findByEmail(user.getEmail());
         RedirectView redirectView = new RedirectView();
         redirectView.setContextRelative(true);
         if (userByBD != null) {
             attributes.addFlashAttribute("message", "User exists!");
-            redirectView.setUrl("/add");
+            redirectView.setUrl("/registration");
             return redirectView;
 
         } else {
@@ -61,7 +61,7 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    public RedirectView loginPost(@RequestParam String email, @RequestParam String password, RedirectAttributes attributes) {
+    public RedirectView loginPost(@RequestParam("username") String email, @RequestParam String password, RedirectAttributes attributes) {
         User user = userService.findByEmailAndPassword(email, password);
         if (user != null) {
             attributes.addAttribute("id", user.getId());
@@ -72,7 +72,6 @@ public class MainController {
             return new RedirectView("/login", true);
         }
     }
-
     @ModelAttribute("error_message")
     public String error_message() {
         return null;

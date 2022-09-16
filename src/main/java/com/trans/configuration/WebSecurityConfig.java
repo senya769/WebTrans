@@ -40,17 +40,18 @@ class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/", "/login", "/about", "/registration", "/monitor", "/monitor/*", "/api/messages/{id}", "/api/*", "/messages/*").permitAll()
+                        .antMatchers("/", "/login", "/registration", "/monitor/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
+                        .successForwardUrl("/")
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll)
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
-        return http.build();
+        return http.csrf().disable().build();
     }
 
     @Bean
