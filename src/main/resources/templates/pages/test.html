@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org"  lang="">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="">
 <head>
     <title>test</title>
     <!-- CSS only -->
@@ -11,5 +11,24 @@
 TEST
 <!--/*@thymesVar id="userId" type=""*/-->
 <p th:text="${userId}"></p>
+<div sec:authorize="isAuthenticated()">
+    Text visible only to authenticated users.
+</div>
+---------
+Authenticated username:
+<div sec:authentication="name"></div>
+<!--Authenticated pass:
+<div sec:authentication="password"></div>-->
+Authenticated pas1s:
+<div sec:authentication="principal.password"></div>
+Authenticated user roles:
+<div sec:authentication="principal.authorities"></div>
+
+<button th:action="@{/sec}" th:method="post" >TEST</button>
+------
+<form  th:action="@{/sec}" th:method="post">
+    <button type="submit">go</button>
+</form>
+<p th:text="${user}"></p>
 </body>
 </html>
