@@ -19,12 +19,13 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @EnableWebSecurity
 @Configuration
 class WebSecurityConfig {
-    private AccessDeniedHandler accessDeniedHandler;
+    private final AccessDeniedHandler accessDeniedHandler;
 
-    private AuthenticationConfiguration configuration;
+    private final AuthenticationConfiguration configuration;
 
-    private UserDetailsService userDetailsService;
-@Autowired
+    private final UserDetailsService userDetailsService;
+
+    @Autowired
     public WebSecurityConfig(AuthenticationConfiguration configuration, UserDetailsService userDetailsService, AccessDeniedHandler accessDeniedHandler) {
         this.configuration = configuration;
         this.accessDeniedHandler = accessDeniedHandler;
@@ -40,11 +41,12 @@ class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/", "/login", "/registration", "/monitor/*").permitAll()
+                        .antMatchers("/","/user/*", "/login", "/registration", "/monitor/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
+                        .successForwardUrl("/test")
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll)
