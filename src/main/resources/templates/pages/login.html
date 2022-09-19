@@ -1,13 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Login web-trans</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <link rel="stylesheet" th:href="@{css/style.css}">
-    <div th:replace="fragments/header::header-fr"></div>
-
+    <link rel="stylesheet" th:href="@{/styles/css/style.css}" media="all" type="text/css">-->
+    <div th:replace="fragments/header::header-css"></div>
 </head>
 <body>
+    <div th:replace="fragments/header::header-fr"></div>
 
     <!-- Section: Design Block -->
     <section class="bottom-marg">
@@ -39,15 +39,17 @@
                                     <h4 class="text-uppercase">Sign into your account</h4>
                                 </div>
                                     <!--<h5 class="fw-normal mb-3 pb-3">Sign into your account</h5>-->
-                                    <div th:if="${!#strings.isEmpty(error_message)}">
-
-                                        <div class="alert alert-warning" th:text="${error_message}" role="alert"></div>
+<!--                                    <div th:if="${!#strings.isEmpty(error_message)}">-->
+                                <div th:if="${param.error}">
+                                        <div class="alert alert-warning"  role="alert">
+                                            This username and password combination was not found.
+                                        </div>
                                     </div>
                                 <form th:action="@{/login}" method="post">
                                     <!-- Email input -->
                                     <div class="form-floating mb-4">
                                         <input type="text" class="form-control" id="floatingInput" placeholder="email"
-                                               name="email">
+                                               name="username">
                                         <label for="floatingInput">Email address</label>
                                     </div>
                                     <!-- Password input -->
@@ -57,7 +59,8 @@
                                         <label for="floatingPassword">Password</label>
                                     </div>
                                     <!-- Submit button -->
-                                    <button type="submit" value="Login" class="btn btn-primary btn-block mb-4">
+                                    <button type="submit"
+                                            class="btn btn-primary btn-block mb-4">
                                         Login
                                     </button>
                                 </form>

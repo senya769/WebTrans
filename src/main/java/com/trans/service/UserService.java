@@ -12,4 +12,5 @@ public interface UserService {
   void update(User user);
   User findById(int id);
   List<User> getAll();
+  User findByEmail(String email);
 }

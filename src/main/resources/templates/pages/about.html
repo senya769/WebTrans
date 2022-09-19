@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <div th:replace="fragments/header::header-css"></div>
     <div th:replace="fragments/header :: header-fr"></div>
 </head>
 <body>
@@ -10,8 +11,8 @@
     <div class="starter-template">
         <h1>Normal page (No need login)</h1>
     </div>
-
 </div>
+<p th:text="${user}"></p>
 <!-- /.container -->
 
 <div th:replace="fragments/footer :: footer-fr"></div>
