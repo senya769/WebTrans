@@ -41,7 +41,7 @@ class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/","/user/*", "/login", "/registration", "/monitor/*","/sec/*","/about").permitAll()
+                        .antMatchers("/", "/login", "/registration", "/monitor/*", "/sec/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
@@ -50,7 +50,8 @@ class WebSecurityConfig {
                         .permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll)
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+                .and().csrf().disable();
 
         return http.build();
     }
@@ -59,7 +60,7 @@ class WebSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web
                 .ignoring()
-                .antMatchers("/resources/**", "/styles/**", "/webjars/**");
+                .antMatchers("/resources/**", "/static/**");
     }
 
     @Bean

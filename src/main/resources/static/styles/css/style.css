@@ -30,3 +30,6 @@ form{
 .badge-danger{
     background-color: red;
 }
+.dropdown {
+    margin-right: 2px;
+}

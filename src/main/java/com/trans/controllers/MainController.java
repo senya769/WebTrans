@@ -60,7 +60,12 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public ModelAndView loginGet(ModelAndView modelAndView) {
+    public ModelAndView loginGet(ModelAndView modelAndView, Authentication authentication) {
+            modelAndView.setViewName("pages/login");
+        return modelAndView;
+    }
+    @GetMapping("/idTest")
+    public ModelAndView loginG1et(ModelAndView modelAndView) {
             modelAndView.setViewName("pages/login");
         return modelAndView;
     }
@@ -80,29 +85,20 @@ public class MainController {
     }*/
 
     @GetMapping("/test")
-    public ModelAndView test(ModelAndView modelAndView) {
+    public ModelAndView test(ModelAndView modelAndView, Principal principal) {
+//        modelAndView.addObject("principal_test",principal);
         modelAndView.setViewName("pages/test");
         return modelAndView;
     }
-    @GetMapping("/about")
-    public ModelAndView about(ModelAndView modelAndView) {
-        modelAndView.setViewName("pages/test");
-        return modelAndView;
-    }
+
     @PostMapping("/test")
     public ModelAndView test1(ModelAndView modelAndView) {
         modelAndView.setViewName("pages/test");
         return modelAndView;
     }
 
-    @ModelAttribute("error_message")
-    public String error_message() {
-        return null;
-    }
-
     @ModelAttribute("user")
     public User user() {
         return new User();
     }
-
 }

@@ -15,7 +15,7 @@
     <name>web transports</name>
     <description>web trans</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>18</java.version>
     </properties>
 
     <dependencies>
@@ -62,7 +62,6 @@
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
-            <version>3.0.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
