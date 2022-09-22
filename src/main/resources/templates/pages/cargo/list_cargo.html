@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>list cargo</title>
     <div th:replace="fragments/header::header-css"></div>
@@ -7,20 +7,18 @@
 </head>
 <body>
 
-<div th:each="cargo:${cargoList}" >
-    <span th:text="${cargo}"></span>
-</div><br>
-
-<table class="table table-hover">
-    <thead>
+<table class="table table-hover table-info table-bordered table-sm">
+    <thead class="table-group-divider table-light">
     <tr>
         <div class="head-table">
             <th scope="col">ID</th>
             <th scope="col">NAME</th>
-            <th scope="col">EMAIL</th>
-            <th scope="col">NUMBER</th>
-            <th scope="col">ROLE</th>
-            <th scope="col">STATUS</th>
+            <th scope="col">country_from</th>
+            <th scope="col">country_to</th>
+            <th scope="col">Characteristics</th>
+            <th scope="col">Date publish</th>
+            <th scope="col">Date deadline</th>
+            <th scope="col">Owner</th>
             <th scope="col">PANEL</th>
         </div>
     </tr>
@@ -29,17 +27,25 @@
     <tr th:each="c:${cargoList}">
         <th th:text="${c.id}">
         <td th:text="${c.name}">
-        <td th:text="${c.county_form}">
-        <td th:text="${c.county_to}">
-        <td th:text="${c.height}">
-        <td th:text="${c.length}">
-        <td th:text="${c.weight}">
-        <td th:text="${c.dateCreated}">
-        <td th:text="${c.dateDeadline}">
-        <td th:text="${c.user}">
+        <td th:text="${c.country_from}">
+        <td th:text="${c.country_to}">
+            <!--  <td th:text="${c.height}">
+              <td th:text="${c.length}">-->
         <td>
-            <div th:if="${c.user.getEmail == principal.getUsername()}">
-                <form th:action="@{/user/{id_u}/cargo/remove/id_c(id_u = ${c.user.getId()},id_c = ${c.id})}" method="post">
+            W:<span th:text="${c.weight}"></span>
+            H:<span th:text="${c.height}"></span>
+            L:<span th:text="${c.length}"></span>
+        </td>
+        <td th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}">
+        <td th:text="${#temporals.format(c.localDateDeadline,'dd-MMM-yyyy HH:mm')}">
+        <td>
+            <div th:text="${c.user.status}"></div>
+            <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nickname}"></a>
+        </td>
+        <td>
+            <div th:if="${c.user.email == #request.userPrincipal.getName()}">
+                <form th:action="@{/user/${c.user.id}/cargo/remove/{id_c}(id_c = ${c.id})}"
+                      method="get">
                     <button type="submit" class="badge badge-danger">delete</button>
                 </form>
             </div>

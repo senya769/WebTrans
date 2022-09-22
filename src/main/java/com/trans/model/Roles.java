@@ -21,4 +21,5 @@ public enum Roles {
         }
         throw new IllegalArgumentException("No such value");
     }
+
 }

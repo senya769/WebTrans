@@ -4,6 +4,7 @@ import com.trans.model.Roles;
 import com.trans.model.User;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -16,7 +17,8 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
    private final UserService userService;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
@@ -47,7 +49,7 @@ public class UserController {
         user.setEmail(email);
         user.setNickname(nickname);
         user.setNumberPhone(numberPhone);
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
         user.setStatus(status);
         userService.save(user);
         redirectAttributes.addAttribute("id", id);

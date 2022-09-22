@@ -37,7 +37,8 @@ public class CargoServiceImpl implements CargoService {
 
     @Override
     public boolean deleteCargoById(int id) {
-        return repository.deleteCargoById(id);
+        repository.deleteCargoById(id);
+        return true;
     }
 
     @Override
@@ -53,7 +54,8 @@ public class CargoServiceImpl implements CargoService {
 
     @Override
     public boolean deleteAllByUserId(int user_id) {
-        return repository.deleteAllByUserId(user_id);
+        repository.deleteAllByUserId(user_id);
+        return true;
     }
 
     @Override

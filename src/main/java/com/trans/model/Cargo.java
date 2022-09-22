@@ -1,5 +1,6 @@
 package com.trans.model;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,10 +15,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Cargo extends AbstractEntity{
+    @NotNull
+    private double price;
     private String weight;
     private String length;
     private String height;
+    @NotNull
     private String country_from;
+    @NotNull
     private String country_to;
     @Column(name = "date_deadline")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

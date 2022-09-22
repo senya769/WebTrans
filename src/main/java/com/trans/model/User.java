@@ -1,6 +1,7 @@
 package com.trans.model;
 
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,22 +20,25 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String firstName;
+    private String lastName;
     private String nickname;
+    @Column(name = "number", unique = true)
+    private String numberPhone;
+    @Column(unique = true)
+    private String email;
+    private String password;
+    private String status;
+
     @ElementCollection(targetClass = Roles.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Roles> roles;
-    //    private String role;
-    @Column(name = "number")
-    private String numberPhone;
-    private String email;
-    private String password;
-    private String status;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Cargo> cargoList;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Transport> transportList;
-
 }

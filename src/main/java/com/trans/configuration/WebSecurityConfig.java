@@ -41,17 +41,20 @@ class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/", "/login", "/registration", "/monitor/*", "/sec/*").permitAll()
+                        .antMatchers("/", "/login", "/registration", "/monitor/**", "/sec/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .successForwardUrl("/test")
+                        .successForwardUrl("/successLogin")
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll)
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
-                .and().csrf().disable();
+                .logout()
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .and()
+                .csrf().disable();
 
         return http.build();
     }

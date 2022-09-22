@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class MainController {
@@ -46,13 +47,13 @@ public class MainController {
         User userByBD = userService.findByEmail(user.getEmail());
         ModelAndView modelAndView = new ModelAndView();
         if (userByBD != null) {
-            attributes.addFlashAttribute("message", "User exists!");
-            modelAndView.setViewName("/registration");
+            modelAndView.addObject("message", "User exists!");
+            modelAndView.setViewName("pages/registration");
             return modelAndView;
 
         } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRoles(new HashSet<>(Collections.singleton(Roles.USER)));
+            user.setRoles(Set.of(Roles.USER));
             userService.save(user);
             modelAndView.setViewName("redirect:/login}");
             return modelAndView;
@@ -85,15 +86,14 @@ public class MainController {
     }*/
 
     @GetMapping("/test")
-    public ModelAndView test(ModelAndView modelAndView, Principal principal) {
-//        modelAndView.addObject("principal_test",principal);
-        modelAndView.setViewName("pages/test");
+    public ModelAndView test(ModelAndView modelAndView) {
+        modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
 
-    @PostMapping("/test")
+    @PostMapping("/successLogin")
     public ModelAndView test1(ModelAndView modelAndView) {
-        modelAndView.setViewName("pages/test");
+        modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
 

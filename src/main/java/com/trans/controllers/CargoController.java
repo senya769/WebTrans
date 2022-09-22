@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -38,7 +39,7 @@ public class CargoController {
             modelAndView.setViewName("pages/cargo/list_cargo");
         } else {
             modelAndView.addObject("isNotFoundCargo", "Cargo is not exits!");
-            modelAndView.setViewName("redirect: /user/profile/"+id);
+            modelAndView.setViewName("redirect: /user/profile/" + id);
         }
         return modelAndView;
     }
@@ -66,19 +67,25 @@ public class CargoController {
         return modelAndView;
     }
 
- @GetMapping("/remove/{id_cargo}")
- protected ModelAndView removeCargo(@PathVariable("id") int id_user,@PathVariable int id_cargo){
-     ModelAndView modelAndView = new ModelAndView();
-     if(cargoService.deleteCargoById(id_cargo)){
-         modelAndView.addObject("isDelete",true);
-         modelAndView.setViewName("forward:/user/profile/" + id_user);
-     }
-     else {
-         modelAndView.addObject("isDelete",false);
-         modelAndView.setViewName("redirect:/error");
-     }
-     return modelAndView;
- }
+    @GetMapping("/remove/{id_cargo}")
+    protected ModelAndView removeCargo(@PathVariable int id_cargo) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("pages/error/403");
+        if (cargoService.deleteCargoById(id_cargo)) {
+            modelAndView.setViewName("pages/cargo/success_add_cargo");
+        }
+        return modelAndView;
+    }
+
+    @GetMapping("/test")
+    public ModelAndView test(ModelAndView modelAndView) {
+        List<Cargo> cargoList = cargoService.findAll();
+        Cargo cargo = userService.findById(4).getCargoList().get(0);
+        modelAndView.addObject("cargo_list", cargoList);
+        modelAndView.addObject("cargo_user", cargo);
+        modelAndView.setViewName("pages/test");
+        return modelAndView;
+    }
 
     @ModelAttribute("cargo")
     public Cargo newCargo() {

@@ -1,35 +1,3 @@
 body{
     background: azure;
 }
-h1{
-    text-align: center;
-}
-.navbar-brand #truck-icon{
-    margin-left: 5px;
-}
-nav a{
-    float: right;
-    margin: 0 5px;
-}
-.block-homepage {
-    text-align: center;
-}
-form{
-    margin-block-end: 0;
-}
-.form-check {
-    display: inline;
-}
-.text-lg-start{
-    padding: 10px
-}
-.success {
-    background-color: #ddffdd;
-    border-left: 6px solid #4CAF50;
-}
-.badge-danger{
-    background-color: red;
-}
-.dropdown {
-    margin-right: 2px;
-}
