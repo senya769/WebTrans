@@ -7,24 +7,17 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <link th:rel="stylesheet" th:href="@{profile.css}">
+    <div th:replace="fragments/header::header-css"></div>
     <link th:rel="stylesheet" th:href="@{css/styles/profile.css}">
 </head>
+<!--
+Привести к нормальному виду панели управления
+-->
 <div th:replace="fragments/header::header-fr"></div>
 <body>
-<p th:text="${user}"></p>
-<div th:each="cargo:${user.cargoList}">
-    <div th:text="${cargo}"></div>
-    <p th:text="${#temporals.format(cargo.localDateCreated,'dd-MM-yyyy HH:mm:ss')}"></p>
-</div>
-<div th:each="tr:${user.transportList}">
-    <p th:text="${tr}"></p>
-</div>
 <section class="vh-100" style="background-color: #eee;">
     <div class="container py-5 h-100">
-
-        <div class="row justify-content-between">
-
+        <div class="row ">
             <div class="col-3">
                 <div class="card w-20">
                     <div class="card-body">
@@ -49,6 +42,67 @@
                     </div>
                 </div>
             </div>
+            <div class="col-6">
+                <div class="card w-20">
+                    <div class="text-lg-start">
+                        <a type="button" th:href="@{/user/update/{id}(id = ${user.id})}" class="btn btn-primary">
+                            Edit acc
+                        </a>
+                        <a type="button" th:href="@{/user/delete/{id}(id = ${user.id})}"
+                           class="btn btn-danger btn-rounded ">
+                            Remove Account
+                        </a>
+                        <a type="button" th:href="@{/user/list}" class="btn btn-primary btn-rounded ">
+                            Show All Users
+                        </a>
+
+                    </div>
+
+                    <div class="card-body text-center">
+                        <div class="mt-3 mb-4">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp"
+                                 class="rounded-circle img-fluid" style="width: 100px;" alt=""/>
+                        </div>
+
+                        <h4 class="mb-2" th:text="${user.nickname}">
+                        </h4>
+                        <span class="text-muted mb-4" th:text="${user.roles}"></span>
+                        <span class="mx-2">|</span>
+                        <a href="#" th:text="${user.email}"></a>
+
+                        <!--  <div class="dropdown">
+                              <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                 data-bs-toggle="dropdown" aria-expanded="false">
+                                  Delete ID
+                              </a>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                  <li><input type="text" class="form-control" name="deleteById" placeholder="id"
+                                             th:action="@{user/delete/{{}" required  />
+                                  </li>
+                              </ul>
+                              <button type="submit">submit</button>
+                          </div>-->
+
+                        <div class="d-flex justify-content-between text-center mt-5 mb-2">
+                            <div>
+                                <p class="mb-2 h5">Number Phone</p>
+                                <p class="text-muted mb-0" th:text="${user.numberPhone}">
+                                </p>
+                            </div>
+                            <div class="px-3">
+                                <p class="mb-2 h5">Status</p>
+                                <p class="text-muted mb-0" th:text="${user.status}">
+                                </p>
+                            </div>
+                            <div>
+                                <p class="mb-2 h5">ID</p>
+                                <p class="text-muted mb-0" th:text="${user.id}">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-3">
                 <div class="card w-20">
                     <div class="card-body module-graph">
@@ -59,7 +113,7 @@
                         </div>
                         <a th:href="@{/user/{id}/transport/add (id = ${user.id})}"
                            class="btn btn-outline-primary my-1">Add</a>
-
+                        <!--checking, if you will be some amount > 0 cargo - show RUD-operations-->
                         <div th:if="${user.transportList.size()} > 0">
                             <a th:href="@{/user/{id}/transport/list (id = ${user.id})}"
                                class="btn btn-outline-info ">Show all</a>
@@ -69,71 +123,6 @@
 
                             <a th:href="@{/user/{id}/transport/delete (id = ${user.id})}"
                                class="btn btn-outline-danger">Remove</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-md-12 col-xl-6 ">
-
-                    <div class="card">
-                        <div class="text-lg-start">
-                            <a type="button" th:href="@{/user/update/{id}(id = ${user.id})}" class="btn btn-primary">
-                                Edit acc
-                            </a>
-                            <a type="button" th:href="@{/user/delete/{id}(id = ${user.id})}"
-                               class="btn btn-danger btn-rounded ">
-                                Remove Account
-                            </a>
-                            <a type="button" th:href="@{/user/list}" class="btn btn-primary btn-rounded ">
-                                Show All Users
-                            </a>
-
-                        </div>
-
-                        <div class="card-body text-center">
-                            <div class="mt-3 mb-4">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp"
-                                     class="rounded-circle img-fluid" style="width: 100px;" alt=""/>
-                            </div>
-
-                            <h4 class="mb-2" th:text="${user.nickname}">
-                            </h4>
-                            <p class="text-muted mb-4" th:text="${user.status}">@<span class="mx-2">|</span> <a
-                                    href="#" th:text="${user.email}">
-                            </a></p>
-
-                            <!--  <div class="dropdown">
-                                  <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                      Delete ID
-                                  </a>
-                                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                      <li><input type="text" class="form-control" name="deleteById" placeholder="id"
-                                                 th:action="@{user/delete/{{}" required  />
-                                      </li>
-                                  </ul>
-                                  <button type="submit">submit</button>
-                              </div>-->
-
-                            <div class="d-flex justify-content-between text-center mt-5 mb-2">
-                                <div>
-                                    <p class="mb-2 h5">Number Phone</p>
-                                    <p class="text-muted mb-0" th:text="${user.numberPhone}">
-                                    </p>
-                                </div>
-                                <div class="px-3">
-                                    <p class="mb-2 h5">Status</p>
-                                    <p class="text-muted mb-0" th:text="${user.status}">
-                                    </p>
-                                </div>
-                                <div>
-                                    <p class="mb-2 h5">ID</p>
-                                    <p class="text-muted mb-0" th:text="${user.id}">
-                                    </p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
