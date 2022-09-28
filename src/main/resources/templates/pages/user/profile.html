@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="en">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta charset="UTF-8">
     <title th:text="${user.nickname}"></title>
@@ -15,121 +15,127 @@
 -->
 <div th:replace="fragments/header::header-fr"></div>
 <body>
-<section class="vh-100" style="background-color: #eee;">
-    <div class="container py-5 h-100">
-        <div class="row ">
-            <div class="col-3">
-                <div class="card w-20">
-                    <div class="card-body">
-                        <h5 class="card-title">Panel management cargo</h5>
-                        <div class="card-text">
-                            Count cargo this user:
-                            <span th:text="${user.cargoList.size()}"></span>
-                        </div>
-                        <a th:href="@{/user/{id}/cargo/add (id = ${user.id})}"
-                           class="btn btn-outline-primary my-1">Add</a>
-
-                        <div th:if="${user.cargoList.size()} > 0">
-                            <a th:href="@{/user/{id}/cargo/list (id = ${user.id})}"
+<div th:each="principal:${#request.userPrincipal.principal}">
+    <section class="vh-100" style="background-color: #eee;">
+        <div class="container py-5 h-100">
+            <div class="row ">
+                <div class="col-3">
+                    <div class="card w-20">
+                        <div class="card-body">
+                            <h5 class="card-title">Panel management cargo</h5>
+                            <div class="card-text">
+                                Count cargo this user:
+                                <span th:text="${user.cargoList.size()}"></span>
+                            </div>
+                            <a th:if="${user.cargoList.size()} > 0" th:href="@{/user/{id}/cargo/list (id = ${user.id})}"
                                class="btn btn-outline-info">Show all</a>
 
-                            <a th:href="@{/user/{id}/cargo/update (id = ${user.id})}"
-                               class="btn btn-outline-success">Update</a>
+                            <div th:if="${user.cargoList.size()} > 0 and  ${principal.email == user.email}">
+                                <a th:href="@{/user/{id}/cargo/add (id = ${user.id})}"
+                                   class="btn btn-outline-primary my-1">Add</a>
 
-                            <a th:href="@{/user/{id}/cargo/delete (id = ${user.id})}"
-                               class="btn btn-outline-danger">Remove</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="card w-20">
-                    <div class="text-lg-start">
-                        <a type="button" th:href="@{/user/update/{id}(id = ${user.id})}" class="btn btn-primary">
-                            Edit acc
-                        </a>
-                        <a type="button" th:href="@{/user/delete/{id}(id = ${user.id})}"
-                           class="btn btn-danger btn-rounded ">
-                            Remove Account
-                        </a>
-                        <a type="button" th:href="@{/user/list}" class="btn btn-primary btn-rounded ">
-                            Show All Users
-                        </a>
+                                <a th:href="@{/user/{id}/cargo/update (id = ${user.id})}"
+                                   class="btn btn-outline-success">Update</a>
 
-                    </div>
-
-                    <div class="card-body text-center">
-                        <div class="mt-3 mb-4">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp"
-                                 class="rounded-circle img-fluid" style="width: 100px;" alt=""/>
-                        </div>
-
-                        <h4 class="mb-2" th:text="${user.nickname}">
-                        </h4>
-                        <span class="text-muted mb-4" th:text="${user.roles}"></span>
-                        <span class="mx-2">|</span>
-                        <a href="#" th:text="${user.email}"></a>
-
-                        <!--  <div class="dropdown">
-                              <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                  Delete ID
-                              </a>
-                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                  <li><input type="text" class="form-control" name="deleteById" placeholder="id"
-                                             th:action="@{user/delete/{{}" required  />
-                                  </li>
-                              </ul>
-                              <button type="submit">submit</button>
-                          </div>-->
-
-                        <div class="d-flex justify-content-between text-center mt-5 mb-2">
-                            <div>
-                                <p class="mb-2 h5">Number Phone</p>
-                                <p class="text-muted mb-0" th:text="${user.numberPhone}">
-                                </p>
-                            </div>
-                            <div class="px-3">
-                                <p class="mb-2 h5">Status</p>
-                                <p class="text-muted mb-0" th:text="${user.status}">
-                                </p>
-                            </div>
-                            <div>
-                                <p class="mb-2 h5">ID</p>
-                                <p class="text-muted mb-0" th:text="${user.id}">
-                                </p>
+                                <a th:href="@{/user/{id}/cargo/delete (id = ${user.id})}"
+                                   class="btn btn-outline-danger">Remove</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-3">
-                <div class="card w-20">
-                    <div class="card-body module-graph">
-                        <h5 class="card-title">Panel management transport</h5>
-                        <div class="card-text">
-                            Count transports this user:
-                            <span th:text="${user.transportList.size()}"></span>
+                <div class="col-6">
+                    <div class="card w-20">
+                        <div th:if="${principal.email == user.email}" class="text-lg-start">
+                            <a type="button" th:href="@{/user/update/{id}(id = ${user.id})}" class="btn btn-primary">
+                                Edit acc
+                            </a>
+                            <a type="button" th:href="@{/user/delete/{id}(id = ${user.id})}"
+                               class="btn btn-danger btn-rounded ">
+                                Remove Account
+                            </a>
+                            <a type="button" th:href="@{/user/list}" class="btn btn-primary btn-rounded ">
+                                Show All Users
+                            </a>
+
                         </div>
-                        <a th:href="@{/user/{id}/transport/add (id = ${user.id})}"
-                           class="btn btn-outline-primary my-1">Add</a>
-                        <!--checking, if you will be some amount > 0 cargo - show RUD-operations-->
-                        <div th:if="${user.transportList.size()} > 0">
-                            <a th:href="@{/user/{id}/transport/list (id = ${user.id})}"
+
+                        <div class="card-body text-center">
+                            <div class="mt-3 mb-4">
+<!--                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava2-bg.webp"-->
+<!--                                     class="rounded-circle img-fluid" style="width: 100px;" alt=""/>   -->
+                                <img th:src="@{{userfirstName}(userfirstName = ${user.firstName})}"
+                                     class="rounded-circle img-fluid" style="width: 100px;" alt=""/>
+                            </div>
+
+                            <h4 class="mb-2" th:text="${user.nickname}">
+                            </h4>
+                            <div th:each="role :${user.roles}">
+                                <span class="text-muted mb-4" th:text="${role.name}"></span>
+                            </div>
+                                <span class="mx-2"></span>
+                                <a href="#" th:text="${user.email}"></a>
+                            <!--  <div class="dropdown">
+                                  <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                     data-bs-toggle="dropdown" aria-expanded="false">
+                                      Delete ID
+                                  </a>
+                                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                      <li><input type="text" class="form-control" name="deleteById" placeholder="id"
+                                                 th:action="@{user/delete/{{}" required  />
+                                      </li>
+                                  </ul>
+                                  <button type="submit">submit</button>
+                              </div>-->
+
+                            <div class="d-flex justify-content-between text-center mt-5 mb-2">
+                                <div>
+                                    <p class="mb-2 h5">Number Phone</p>
+                                    <p class="text-muted mb-0" th:text="${user.numberPhone}">
+                                    </p>
+                                </div>
+                                <div class="px-3">
+                                    <p class="mb-2 h5">Status</p>
+                                    <p class="text-muted mb-0" th:text="${user.status}">
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="mb-2 h5">ID</p>
+                                    <p class="text-muted mb-0" th:text="${user.id}">
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card w-20">
+                        <div class="card-body module-graph">
+                            <h5 class="card-title">Panel management transport</h5>
+                            <div class="card-text">
+                                Count transports this user:
+                                <span th:text="${user.transportList.size()}"></span>
+                            </div>
+                            <a th:if="${user.cargoList.size()} > 0"
+                               th:href="@{/user/{id}/transport/list (id = ${user.id})}"
                                class="btn btn-outline-info ">Show all</a>
+                            <!--checking, if you will be some amount > 0 cargo - show RUD-operations-->
+                            <div th:if="${user.transportList.size()} > 0 and ${principal.email == user.email}">
+                                <a th:href="@{/user/{id}/transport/add (id = ${user.id})}"
+                                   class="btn btn-outline-primary my-1">Add</a>
 
-                            <a th:href="@{/user/{id}/transport/update (id = ${user.id})}"
-                               class="btn btn-outline-success">Update</a>
+                                <a th:href="@{/user/{id}/transport/update (id = ${user.id})}"
+                                   class="btn btn-outline-success">Update</a>
 
-                            <a th:href="@{/user/{id}/transport/delete (id = ${user.id})}"
-                               class="btn btn-outline-danger">Remove</a>
+                                <a th:href="@{/user/{id}/transport/delete (id = ${user.id})}"
+                                   class="btn btn-outline-danger">Remove</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 <div th:replace="fragments/footer::footer-fr"></div>
 </body>
 </html>

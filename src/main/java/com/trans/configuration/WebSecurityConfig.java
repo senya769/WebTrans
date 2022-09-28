@@ -10,11 +10,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @Configuration
@@ -33,46 +35,49 @@ class WebSecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/", "/login", "/registration", "/monitor/**", "/sec/*").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .formLogin((form) -> form
-                        .loginPage("/login")
-                        .successForwardUrl("/successLogin")
-                        .permitAll()
-                )
+                .authorizeHttpRequests()
+                .antMatchers("/", "/login", "/registration",
+                        "/monitor/**", "/sec/*", "/cargo/list", "/transport/list").permitAll()
+                    .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                    .loginPage("/login")
+                    .successForwardUrl("/")
+                    .permitAll()
+                .and()
                 .logout()
-                .logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
+                    .logoutUrl("/logout")
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
                 .and()
                 .csrf().disable();
-
         return http.build();
     }
 
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
+    protected WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**");
+                .antMatchers("/resources/**", "/static/**")
+                .antMatchers("/js/**")
+                .antMatchers("/styles/css/**");
     }
 
     @Bean
-    AuthenticationManager authenticationManager() throws Exception {
+    protected AuthenticationManager authenticationManager() throws Exception {
         return configuration.getAuthenticationManager();
     }
 
     @Autowired
-    void configure(AuthenticationManagerBuilder builder) throws Exception {
+    protected void configure(AuthenticationManagerBuilder builder) throws Exception {
         builder.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 }
