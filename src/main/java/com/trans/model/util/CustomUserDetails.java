@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 @ToString
 public class CustomUserDetails extends User {
+
     private int id;
     private String email;
     private String nickname;

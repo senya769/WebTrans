@@ -7,37 +7,9 @@
 </head>
 <body>
 TEST
-<!--/*@thymesVar id="userId" type=""*/-->
-<div sec:authorize="!isAuthenticated()">
-    Text visible only to authenticated users2.
-</div>
-<div sec:authorize="isAuthenticated()">
-    Text visible only to authenticated users1.
-</div>
-<div sec:authorize="!isAuthenticated()">
-    Text visible only to authenticated users2.
-</div>
----------
-Authenticated username:
-<div sec:authentication="name"></div>
-<!--Authenticated pass:
-<div sec:authentication="password"></div>-->
-Authenticated pas1s:
-<div sec:authentication="principal.password"></div>
-Authenticated user:
-<div sec:authentication="principal.id"></div>
-Authenticated user roles:
-<div sec:authentication="principal.authorities"></div>
 
-<button th:action="@{/sec}" th:method="post" >TEST</button>
-------
-<form  th:action="@{/sec}" th:method="post">
-    <button type="submit">go</button>
-</form>
-<p th:text="${user_sec}"></p>
-<p th:text="${principal_test}"></p>
-
-
-
+<p th:text="${#temporals.format(cargo_user.localDateDeadline,'dd/MM/yyyy HH:mm')}"></p>
+<p th:text="${cargo_user.localDateDeadline}"></p>
+<div th:replace="fragments/footer::footer-fr"></div>
 </body>
 </html>

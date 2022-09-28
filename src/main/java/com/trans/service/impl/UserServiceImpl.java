@@ -13,13 +13,12 @@ import java.util.List;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-    UserRepository userRepository;
+    private final UserRepository  userRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
 
     @Override
     public User findByEmailAndPassword(String e, String p) {

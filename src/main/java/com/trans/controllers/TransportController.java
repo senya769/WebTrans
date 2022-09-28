@@ -32,14 +32,13 @@ public class TransportController {
     protected ModelAndView list(@PathVariable int id) {
         ModelAndView modelAndView = new ModelAndView();
         User user = userService.findById(id);
-        List<Transport> transportList = user.getTransportList();
-        modelAndView.addObject("transportList", transportList);
-        if (!transportList.isEmpty()) {
-            modelAndView.setViewName("pages/transport/list_transport");
+        if (user.getTransportList().isEmpty()) {
+            modelAndView.addObject("notExists", true);
         } else {
-            modelAndView.addObject("isNotFoundTransport","Transport is not exits!");
-            modelAndView.setViewName("redirect: /user/profile/"+id);
+            modelAndView.addObject("notExists", false);
         }
+        modelAndView.addObject("user", user);
+        modelAndView.setViewName("pages/transport/list_transport");
         return modelAndView;
     }
 
