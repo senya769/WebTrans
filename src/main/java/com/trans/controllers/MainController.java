@@ -85,11 +85,7 @@ public class MainController {
             modelAndView.setViewName("pages/login");
         return modelAndView;
     }
-    @PostMapping("/login")
-    public ModelAndView loginPost(ModelAndView modelAndView, Authentication authentication) {
-            modelAndView.setViewName("pages/login");
-        return modelAndView;
-    }
+
     @GetMapping("/idTest")
     public ModelAndView loginG1et(ModelAndView modelAndView) {
             modelAndView.setViewName("pages/login");
