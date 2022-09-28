@@ -13,4 +13,5 @@ public interface CargoService {
     int countCargo();
     boolean deleteAllByUserId(int user_id);
     void save(Cargo cargo);
+    List<Cargo> findAllCargoAsk();
 }

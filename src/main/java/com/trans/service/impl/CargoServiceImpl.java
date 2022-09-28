@@ -62,4 +62,9 @@ public class CargoServiceImpl implements CargoService {
     public void save(Cargo cargo) {
         repository.save(cargo);
     }
+
+    @Override
+    public List<Cargo> findAllCargoAsk() {
+        return repository.findAllCargoAsk();
+    }
 }

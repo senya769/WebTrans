@@ -4,53 +4,67 @@
     <title>list cargo</title>
     <div th:replace="fragments/header::header-css"></div>
     <div th:replace="fragments/header::header-fr"></div>
+    <link rel="stylesheet" th:href="@{/styles/css/profile.css}" media="all" type="text/css">
+
 </head>
 <body>
 
-<table class="table table-hover table-info table-bordered table-sm">
-    <thead class="table-group-divider table-light">
-    <tr>
-        <div class="head-table">
-            <th scope="col">ID</th>
-            <th scope="col">NAME</th>
-            <th scope="col">country_from</th>
-            <th scope="col">country_to</th>
-            <th scope="col">Characteristics</th>
-            <th scope="col">Date publish</th>
-            <th scope="col">Date deadline</th>
-            <th scope="col">Owner</th>
-            <th scope="col">PANEL</th>
-        </div>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="c:${cargoList}">
-        <th th:text="${c.id}">
-        <td th:text="${c.name}">
-        <td th:text="${c.country_from}">
-        <td th:text="${c.country_to}">
-            <!--  <td th:text="${c.height}">
-              <td th:text="${c.length}">-->
-        <td>
-            W:<span th:text="${c.weight}"></span>
-            H:<span th:text="${c.height}"></span>
-            L:<span th:text="${c.length}"></span>
-        </td>
-        <td th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}">
-        <td th:text="${#temporals.format(c.localDateDeadline,'dd-MMM-yyyy HH:mm')}">
-        <td>
-            <div th:text="${c.user.status}"></div>
-            <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nickname}"></a>
-        </td>
-        <td>
-            <div th:if="${c.user.email == #request.userPrincipal.getName()}">
-                <form th:action="@{/user/${c.user.id}/cargo/remove/{id_c}(id_c = ${c.id})}"
-                      method="get">
-                    <button type="submit" class="badge badge-danger">delete</button>
-                </form>
+<div th:if="${notExists}" class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">You dont have cargo!</h4>
+    <p>You can add cargo right now!</p>
+    <hr>
+    <p class="mb-0"><a th:href="@{/user/{id}/cargo/add (id = ${user.id})}"
+                       class="btn btn-outline-primary my-1">Add</a></p>
+</div>
+<div class="page">
+<div th:if="${notExists} == false">
+    <table class="table table-hover table-info table-bordered table-sm">
+        <thead class="table-group-divider table-light">
+        <tr>
+            <div class="head-table">
+                <th scope="col">ID</th>
+                <th scope="col">NAME</th>
+                <th scope="col">country_from</th>
+                <th scope="col">country_to</th>
+                <th scope="col">Characteristics</th>
+                <th scope="col">Date publish</th>
+                <th scope="col">Date deadline</th>
+                <th scope="col">Owner</th>
+                <th scope="col">PANEL</th>
             </div>
-        </td>
-    </tr>
-</table>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="c:${user.cargoList}">
+                <th th:text="${c.id}">
+                <td th:text="${c.name}">
+                <td th:text="${c.country_from}">
+                <td th:text="${c.country_to}">
+                    <!--  <td th:text="${c.height}">
+                      <td th:text="${c.length}">-->
+                <td>
+                    W:<span th:text="${c.weight}"></span>
+                    H:<span th:text="${c.height}"></span>
+                    L:<span th:text="${c.length}"></span>
+                </td>
+                <td th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}">
+                <td th:text="${#temporals.format(c.localDateDeadline,'dd-MMM-yyyy HH:mm')}">
+                <td>
+                    <div th:text="${c.user.status}"></div>
+                    <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nickname}"></a>
+                </td>
+                <td>
+                    <div th:if="${user.email == #request.userPrincipal.getName()}">
+                        <form th:action="@{/user/{user_id}/cargo/remove/{cargo_id} (cargo_id = ${c.id},user_id = ${user.id})}"
+                              method="get">
+                            <button type="submit" class="badge badge-danger">delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+    </table>
+</div>
+<div th:replace="fragments/footer::footer-fr"></div>
+</div>
 </body>
 </html>

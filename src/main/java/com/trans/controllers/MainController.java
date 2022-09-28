@@ -4,6 +4,8 @@ package com.trans.controllers;
 import com.trans.model.Cargo;
 import com.trans.model.Roles;
 import com.trans.model.User;
+import com.trans.service.CargoService;
+import com.trans.service.TransportService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,13 +29,18 @@ import java.util.Set;
 @Controller
 public class MainController {
 
-    public UserService userService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final CargoService cargoService;
+    private final TransportService transportService;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public MainController(UserService userService) {
+
+    public MainController(UserService userService, CargoService cargoService,
+                          TransportService transportService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.cargoService = cargoService;
+        this.transportService = transportService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/registration")
@@ -41,7 +48,20 @@ public class MainController {
         model.setViewName("pages/registration");
         return model;
     }
-
+    @GetMapping("/cargo/list")
+    protected ModelAndView listCargoAsk() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("cargoListAsk",cargoService.findAllCargoAsk());
+        modelAndView.setViewName("pages/cargo/list_all_cargo");
+        return modelAndView;
+    }
+    @GetMapping("/transport/list")
+    protected ModelAndView listTransportAsk() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("transportList", transportService.findAll());
+        modelAndView.setViewName("pages/transport/list_all_transport");
+        return modelAndView;
+    }
     @PostMapping("/registration")
     public ModelAndView add(@ModelAttribute User user, RedirectAttributes attributes) {
         User userByBD = userService.findByEmail(user.getEmail());
@@ -65,34 +85,19 @@ public class MainController {
             modelAndView.setViewName("pages/login");
         return modelAndView;
     }
+    @PostMapping("/login")
+    public ModelAndView loginPost(ModelAndView modelAndView, Authentication authentication) {
+            modelAndView.setViewName("pages/login");
+        return modelAndView;
+    }
     @GetMapping("/idTest")
     public ModelAndView loginG1et(ModelAndView modelAndView) {
             modelAndView.setViewName("pages/login");
         return modelAndView;
     }
 
-
-/*    @PostMapping("/login")
-    public RedirectView loginPost(@RequestParam("username") String email, @RequestParam String password, RedirectAttributes attributes) {
-        User user = userService.findByEmailAndPassword(email, password);
-        if (user != null) {
-            attributes.addAttribute("id", user.getId());
-            return new RedirectView("/user/profile/{id}", true);
-        } else {
-            attributes.addFlashAttribute("error_message", "This username and password combination was not found.");
-            //attributes.addAttribute("message","This username and password combination was not found.");
-            return new RedirectView("/login", true);
-        }
-    }*/
-
     @GetMapping("/test")
     public ModelAndView test(ModelAndView modelAndView) {
-        modelAndView.setViewName("redirect:/");
-        return modelAndView;
-    }
-
-    @PostMapping("/successLogin")
-    public ModelAndView test1(ModelAndView modelAndView) {
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }

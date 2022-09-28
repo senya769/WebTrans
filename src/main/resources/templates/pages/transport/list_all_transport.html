@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>list cargo</title>
+    <div th:replace="fragments/header::header-css"></div>
+    <div th:replace="fragments/header::header-fr"></div>
+</head>
+<body>
+<div class="page">
+    <table class="table table-hover table-info table-bordered table-sm">
+        <thead class="table-group-divider table-light">
+        <thead>
+        <tr>
+            <div class="head-table">
+                <th scope="col">ID</th>
+                <th scope="col">name</th>
+                <th scope="col">Type</th>
+                <th scope="col">capacity load</th>
+                <th scope="col">is free</th>
+                <th scope="col">Owner</th>
+                <th scope="col">PANEL</th>
+            </div>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="t:${transportList}">
+            <td th:text="${t.id}">
+            <td th:text="${t.name}">
+            <td th:text="${t.typeTransport}">
+            <td th:text="${t.maxCapacityLoad}">
+            <td th:text="${t.isFree}">
+            <td>
+                <div th:text="${t.user.status}"></div>
+                <a th:href="@{/user/profile/{id_user}(id_user = ${t.user.id})}" th:text="${t.user.nickname}"></a>
+            </td>
+            <td>
+                <a th:href="@{#}">book</a>
+            </td>
+        </tr>
+    </table>
+    <div th:replace="fragments/footer::footer-fr"></div>
+</div>
+</body>
+</html>
