@@ -15,15 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
-import java.security.Principal;
-import java.text.DateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
+
 import java.util.Set;
 
 @Controller
@@ -34,7 +27,7 @@ public class MainController {
     private final TransportService transportService;
     private final PasswordEncoder passwordEncoder;
 
-
+    @Autowired
     public MainController(UserService userService, CargoService cargoService,
                           TransportService transportService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
@@ -48,13 +41,15 @@ public class MainController {
         model.setViewName("pages/registration");
         return model;
     }
+
     @GetMapping("/cargo/list")
     protected ModelAndView listCargoAsk() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("cargoListAsk",cargoService.findAllCargoAsk());
+        modelAndView.addObject("cargoListAsk", cargoService.findAllCargoAsk());
         modelAndView.setViewName("pages/cargo/list_all_cargo");
         return modelAndView;
     }
+
     @GetMapping("/transport/list")
     protected ModelAndView listTransportAsk() {
         ModelAndView modelAndView = new ModelAndView();
@@ -62,6 +57,7 @@ public class MainController {
         modelAndView.setViewName("pages/transport/list_all_transport");
         return modelAndView;
     }
+
     @PostMapping("/registration")
     public ModelAndView add(@ModelAttribute User user, RedirectAttributes attributes) {
         User userByBD = userService.findByEmail(user.getEmail());
@@ -82,18 +78,13 @@ public class MainController {
 
     @GetMapping("/login")
     public ModelAndView loginGet(ModelAndView modelAndView, Authentication authentication) {
-            modelAndView.setViewName("pages/login");
+        modelAndView.setViewName("pages/login");
         return modelAndView;
     }
 
-    @GetMapping("/idTest")
-    public ModelAndView loginG1et(ModelAndView modelAndView) {
-            modelAndView.setViewName("pages/login");
-        return modelAndView;
-    }
 
-    @GetMapping("/test")
-    public ModelAndView test(ModelAndView modelAndView) {
+    @PostMapping("/successLogin")
+    public ModelAndView succesLogin(ModelAndView modelAndView) {
         modelAndView.setViewName("redirect:/");
         return modelAndView;
     }

@@ -42,6 +42,7 @@ class WebSecurityConfig {
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers("/", "/login", "/registration",
                         "/monitor/**", "/sec/*", "/cargo/list", "/transport/list").permitAll()
@@ -49,16 +50,14 @@ class WebSecurityConfig {
                 .and()
                 .formLogin()
                     .loginPage("/login")
-                    .successForwardUrl("/")
+                    .successForwardUrl("/successLogin")
                     .permitAll()
                 .and()
                 .logout()
                     .logoutUrl("/logout")
                     .clearAuthentication(true)
                     .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
-                .and()
-                .csrf().disable();
+                    .deleteCookies("JSESSIONID");
         return http.build();
     }
 
@@ -67,8 +66,8 @@ class WebSecurityConfig {
         return (web) -> web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**")
-                .antMatchers("/js/**")
-                .antMatchers("/styles/css/**");
+                .antMatchers("/styles/js/*")
+                .antMatchers("/styles/css/*");
     }
 
     @Bean
