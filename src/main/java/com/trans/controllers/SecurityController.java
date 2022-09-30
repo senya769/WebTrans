@@ -1,16 +1,11 @@
 package com.trans.controllers;
 
 import com.trans.model.User;
-import com.trans.model.util.CustomUserDetails;
-import com.trans.service.UserService;
+import com.trans.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
 
@@ -18,10 +13,10 @@ import java.security.Principal;
 @RequestMapping("/sec")
 public class SecurityController {
 
-    private final UserService userService;
+    private final UserRepository userService;
 
     @Autowired
-    public SecurityController(UserService userService) {
+    public SecurityController(UserRepository userService) {
         this.userService = userService;
     }
 

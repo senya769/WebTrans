@@ -1,16 +1,20 @@
 package com.trans.service;
 
+import com.trans.model.Cargo;
 import com.trans.model.Transport;
+import com.trans.model.User;
 
 import java.util.List;
 
 public interface TransportService {
     List<Transport> findAll();
     List<Transport> findAllByUserId(int user_id);
-    Transport findTransportById(int id);
-    boolean deleteTransportById(int id);
-    Transport findTransportByUserId(int user_id);
-    int countTransport();
+    Transport findById(int id);
+    boolean deleteById(int id);
     boolean deleteAllByUserId(int user_id);
-    void save(Transport transport);
+    int save(Transport transport);
+    int saveWithUser(Transport transport, User user);
+   /* List<Cargo> findAllSortByDateCreated();
+    List<Cargo> findAll(int page,int count);
+    List<Cargo> findAllSortByDateCreated(int page);*/
 }

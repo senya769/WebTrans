@@ -10,9 +10,7 @@ import java.util.List;
 public interface TransportRepository extends JpaRepository<Transport,Integer> {
     List<Transport> findAll();
     List<Transport> findAllByUserId(int user_id);
-    Transport findTransportById(int id);
-    boolean deleteTransportById(int id);
-    Transport findTransportByUserId(int user_id);
-//    int countTransport();
+    Transport findById(int id);
+    boolean deleteById(int id);
     boolean deleteAllByUserId(int user_id);
 }

@@ -1,29 +1,24 @@
 package com.trans.controllers;
 
-import com.trans.model.Cargo;
 import com.trans.model.Transport;
 import com.trans.model.User;
-import com.trans.service.CargoService;
 import com.trans.service.TransportService;
-import com.trans.service.UserService;
+import com.trans.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/user/{id}/transport")
 public class TransportController {
 
     private final TransportService transportService;
-    private final UserService userService;
+    private final UserRepository userService;
 
     @Autowired
-    public TransportController(TransportService transportService, UserService userService) {
+    public TransportController(TransportService transportService, UserRepository userService) {
         this.transportService = transportService;
         this.userService = userService;
     }
@@ -52,17 +47,15 @@ public class TransportController {
     @PostMapping("/add")
     protected ModelAndView addPost(@ModelAttribute Transport transport, @PathVariable int id, RedirectAttributes attributes) {
         ModelAndView modelAndView = new ModelAndView();
-        transport.setUser(userService.findById(id));
-        transportService.save(transport);
+        transportService.saveWithUser(transport,userService.findById(id));
         modelAndView.addObject("isCreateTransport", true);
-        //        attributes.addAttribute("id", id);
         modelAndView.setViewName("pages/transport/success_add_transport");
         return modelAndView;
     }
     @GetMapping("/remove/{transport}")
-    protected ModelAndView removeCargo(@PathVariable("id") int id_user,@PathVariable int id_transport){
+    protected ModelAndView removeCargo(@PathVariable("id") int id_user,@PathVariable("transport") int transport_id){
         ModelAndView modelAndView = new ModelAndView();
-        if(transportService.deleteTransportById(id_transport)){
+        if(transportService.deleteById(transport_id)){
             modelAndView.addObject("isDelete",true);
             modelAndView.setViewName("forward:/user/profile/" + id_user);
         }

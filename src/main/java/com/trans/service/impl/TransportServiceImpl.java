@@ -1,8 +1,10 @@
 package com.trans.service.impl;
 
 import com.trans.model.Transport;
+import com.trans.model.User;
 import com.trans.repository.TransportRepository;
 import com.trans.service.TransportService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -11,8 +13,9 @@ import java.util.List;
 @Service
 @Transactional
 public class TransportServiceImpl implements TransportService {
-    private TransportRepository repository;
 
+    private final TransportRepository repository;
+    @Autowired
     public TransportServiceImpl(TransportRepository repository) {
         this.repository = repository;
     }
@@ -28,24 +31,13 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public Transport findTransportById(int id) {
-        return repository.findTransportById(id);
+    public Transport findById(int id) {
+        return repository.findById(id);
     }
 
     @Override
-    public boolean deleteTransportById(int id) {
-        return repository.deleteTransportById(id);
-    }
-
-    @Override
-    public Transport findTransportByUserId(int user_id) {
-        return repository.findTransportByUserId(user_id);
-    }
-
-    @Override
-    public int countTransport() {
-        return 1;
-        //return repository.countTransport();
+    public boolean deleteById(int id) {
+        return repository.deleteById(id);
     }
 
     @Override
@@ -54,7 +46,13 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public void save(Transport transport) {
-        repository.save(transport);
+    public int save(Transport transport) {
+       return repository.save(transport).getId();
+    }
+
+    @Override
+    public int saveWithUser(Transport transport, User user) {
+        transport.setUser(user);
+        return this.save(transport);
     }
 }

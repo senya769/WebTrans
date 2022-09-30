@@ -1,8 +1,7 @@
 package com.trans.controllers;
 
-import com.trans.model.Roles;
 import com.trans.model.User;
-import com.trans.service.UserService;
+import com.trans.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-   private final UserService userService;
+   private final UserRepository userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserRepository userService) {
         this.userService = userService;
     }
 
