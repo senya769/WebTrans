@@ -44,7 +44,7 @@ class WebSecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers("/", "/login", "/registration",
+                .antMatchers("/", "/login", "/registration","/add",
                         "/monitor/**", "/sec/*", "/cargo/list", "/transport/list").permitAll()
                     .anyRequest().authenticated()
                 .and()
@@ -67,6 +67,7 @@ class WebSecurityConfig {
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**")
                 .antMatchers("/styles/js/*")
+                .antMatchers("/img/user/*")
                 .antMatchers("/styles/css/*");
     }
 

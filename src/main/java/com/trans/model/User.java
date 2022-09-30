@@ -41,4 +41,5 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Transport> transportList;
+
 }

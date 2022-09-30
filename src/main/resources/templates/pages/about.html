@@ -6,15 +6,53 @@
 </head>
 <body>
 
-<div class="container">
+<!--<form th:href="@{/user/2/cargo/test}" th:method="get" >
+    <input th:value="1" th:name="page" name = "page" value="1">
+    <input th:value="2" th:name="count" name = "count" value="1">
+    <button th:type="submit">get</button>
+</form>-->
 
-    <div class="starter-template">
-        <h1>Normal page (No need login)</h1>
-    </div>
-</div>
-<p th:text="${user}"></p>
-<!-- /.container -->
-
+    <form th:action="@{/user/2/cargo/test}" method="post">
+        <input type="number" th:name="page"/>
+        <input type="number" th:name="count"/>
+        <input type="submit"/>
+    </form>
+<table class="table table-hover table-info table-bordered table-sm">
+    <thead class="table-group-divider table-light">
+    <thead>
+    <tr>
+        <div class="head-table">
+            <th scope="col">localDateCreated</th>
+            <th scope="col">localDateDeadline</th>
+            <th scope="col">country_from</th>
+            <th scope="col">country_to</th>
+            <th scope="col">Characteristics</th>
+            <th scope="col">price</th>
+            <th scope="col">Owner</th>
+        </div>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c:${onePageList}">
+        <td th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}">
+        <td th:text="${#temporals.format(c.localDateDeadline,'dd-MMM-yyyy HH:mm')}">
+        <td th:text="${c.country_from}">
+        <td th:text="${c.country_to}">
+        <td>
+            Weight:<span th:text="${c.weight}"></span>
+            Height:<span th:text="${c.height}"></span>
+            Length:<span th:text="${c.length}"></span>
+        </td>
+        <td th:if="${c.price == 0.0}">contract</td>
+        <td th:if="${c.price != 0.0}">
+            <div th:text="${c.price}+'$'"></div>
+        </td>
+        <td>
+            <div th:text="${c.user.status}"></div>
+            <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nickname}"></a>
+        </td>
+    </tr>
+</table>
 <div th:replace="fragments/footer :: footer-fr"></div>
 
 </body>
