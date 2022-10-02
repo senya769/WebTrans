@@ -1,13 +1,10 @@
 package com.trans.controllers.api;
 
-import com.trans.controllers.MainController;
-import com.trans.model.Roles;
-import com.trans.model.User;
-
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TestMainApp {
     public static void main(String[] args) {
-        //test
     }
 }

@@ -45,7 +45,8 @@
                 </div>
                 <div class="col-6">
                     <div class="card w-20">
-                        <div th:if="${principal.email == user.email}" class="text-lg-start">
+                        <div th:if="${principal.email == user.email or #request.isUserInRole('ROLE_ADMIN')}"
+                             class="text-lg-start">
                             <a type="button" th:href="@{/user/update/{id}(id = ${user.id})}" class="btn btn-primary">
                                 Edit acc
                             </a>
@@ -63,7 +64,7 @@
                             <div class="mt-3 mb-4">
                                 <!--rename field this obj-->
                                 <img th:src="@{${user.firstName}}"
-                                class="rounded-pill img-fluid" style="width: 160px;" alt="" />
+                                     class="rounded-pill img-fluid" style="width: 160px;" alt=""/>
                             </div>
 
                             <h4 class="mb-2" th:text="${user.nickname}">
@@ -73,18 +74,6 @@
                             </div>
                             <span class="mx-2"></span>
                             <a href="#" th:text="${user.email}"></a>
-                            <!--  <div class="dropdown">
-                                  <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                      Delete ID
-                                  </a>
-                                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                      <li><input type="text" class="form-control" name="deleteById" placeholder="id"
-                                                 th:action="@{user/delete/{{}" required  />
-                                      </li>
-                                  </ul>
-                                  <button type="submit">submit</button>
-                              </div>-->
 
                             <div class="d-flex justify-content-between text-center mt-5 mb-2">
                                 <div>

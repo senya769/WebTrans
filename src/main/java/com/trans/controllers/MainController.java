@@ -29,7 +29,7 @@ public class MainController {
     @GetMapping("/cargo/list")
     protected ModelAndView listCargoAsk() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("cargoListAsk", cargoService.findAllSortByDateCreated());
+        modelAndView.addObject("cargoList", cargoService.findAllSortByDateCreated());
         modelAndView.setViewName("pages/cargo/list_all_cargo");
         return modelAndView;
     }
@@ -37,12 +37,14 @@ public class MainController {
     protected ModelAndView listCargoAskPost(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("cargoListAsk", cargoService.findAllSortByDateCreated(page));
+        modelAndView.addObject("pageList", cargoService.findAllSortByDateCreated(page).size());
+        modelAndView.addObject("pageActive", page);
         modelAndView.setViewName("pages/cargo/list_all_cargo");
         return modelAndView;
     }
 
     @GetMapping("/transport/list")
-    protected ModelAndView listTransportAsk() {
+    protected ModelAndView listTransportAsk(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("transportList", transportService.findAll());
         modelAndView.setViewName("pages/transport/list_all_transport");

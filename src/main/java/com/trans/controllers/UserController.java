@@ -3,12 +3,16 @@ package com.trans.controllers;
 import com.trans.model.User;
 import com.trans.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -24,8 +28,10 @@ public class UserController {
     }
 
     @GetMapping("/profile/{id}")
-    public ModelAndView profileGet(@PathVariable int id, ModelAndView modelAndView) {
+    public ModelAndView profileGet(@PathVariable int id, ModelAndView modelAndView, Authentication principal, HttpServletRequest request) {
         User user = userService.findById(id);
+//        boolean admin = principal.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        boolean role_admin = request.isUserInRole("ROLE_ADMIN");
         modelAndView.addObject("user", user);
         modelAndView.setViewName("pages/user/profile");
         return modelAndView;

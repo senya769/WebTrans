@@ -17,24 +17,26 @@
                        class="btn btn-outline-primary my-1">Add</a></p>
 </div>
 <div class="page">
-<div th:if="${notExists} == false">
-    <table class="table table-hover table-info table-bordered table-sm">
-        <thead class="table-group-divider table-light">
-        <tr>
-            <div class="head-table">
-                <th scope="col">ID</th>
-                <th scope="col">NAME</th>
-                <th scope="col">country_from</th>
-                <th scope="col">country_to</th>
-                <th scope="col">Characteristics</th>
-                <th scope="col">Date publish</th>
-                <th scope="col">Date deadline</th>
-                <th scope="col">Owner</th>
-                <th scope="col">PANEL</th>
-            </div>
-        </tr>
-        </thead>
-        <tbody>
+    <div th:if="${notExists} == false">
+        <table class="table table-hover table-info table-bordered table-sm">
+            <thead class="table-group-divider table-light">
+            <tr>
+                <div class="head-table">
+                    <th scope="col">ID</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">country_from</th>
+                    <th scope="col">country_to</th>
+                    <th scope="col">Characteristics</th>
+                    <th scope="col">Date publish</th>
+                    <th scope="col">Date deadline</th>
+                    <th scope="col">Owner</th>
+                    <div th:if="${user.email == #request.userPrincipal.getName() or #request.isUserInRole('ROLE_ADMIN')}">
+                        <th scope="col">PANEL</th>
+                    </div>
+                </div>
+            </tr>
+            </thead>
+            <tbody>
             <tr th:each="c:${user.cargoList}">
                 <th th:text="${c.id}">
                 <td th:text="${c.name}">
@@ -53,18 +55,19 @@
                     <div th:text="${c.user.status}"></div>
                     <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nickname}"></a>
                 </td>
-                <td>
-                    <div th:if="${user.email == #request.userPrincipal.getName()}">
+                <div th:if="${user.email == #request.userPrincipal.getName() or #request.isUserInRole('ROLE_ADMIN')}">
+                    <td>
+                        <p th:text="${user.password}"></p>
                         <form th:action="@{/user/{user_id}/cargo/remove/{cargo_id} (cargo_id = ${c.id},user_id = ${user.id})}"
                               method="get">
                             <button type="submit" class="badge badge-danger">delete</button>
                         </form>
-                    </div>
-                </td>
+                    </td>
+                </div>
             </tr>
-    </table>
-</div>
-<div th:replace="fragments/footer::footer-fr"></div>
+        </table>
+    </div>
+    <div th:replace="fragments/footer::footer-fr"></div>
 </div>
 </body>
 </html>
