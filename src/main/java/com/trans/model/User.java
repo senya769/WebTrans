@@ -1,7 +1,6 @@
 package com.trans.model;
 
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,8 +22,8 @@ public class User {
     private String firstName;
     private String lastName;
     private String nickname;
-    @Column(name = "number", unique = true)
-    private String numberPhone;
+    @Column(unique = true)
+    private String number;
     @Column(unique = true)
     private String email;
     private String password;
