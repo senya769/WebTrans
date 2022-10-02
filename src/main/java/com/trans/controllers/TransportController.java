@@ -3,7 +3,7 @@ package com.trans.controllers;
 import com.trans.model.Transport;
 import com.trans.model.User;
 import com.trans.service.TransportService;
-import com.trans.service.UserRepository;
+import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +15,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class TransportController {
 
     private final TransportService transportService;
-    private final UserRepository userService;
+    private final UserService userService;
 
     @Autowired
-    public TransportController(TransportService transportService, UserRepository userService) {
+    public TransportController(TransportService transportService, UserService userService) {
         this.transportService = transportService;
         this.userService = userService;
     }

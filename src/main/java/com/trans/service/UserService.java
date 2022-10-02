@@ -5,7 +5,7 @@ import com.trans.model.User;
 
 import java.util.List;
 
-public interface UserRepository {
+public interface UserService {
   User findByEmailAndPassword(String e,String p);
   int save(User user);
   void deleteById(int id);

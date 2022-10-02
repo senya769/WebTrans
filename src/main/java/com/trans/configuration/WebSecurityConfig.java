@@ -1,5 +1,6 @@
 package com.trans.configuration;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,7 +61,10 @@ class WebSecurityConfig {
                     .deleteCookies("JSESSIONID");
         return http.build();
     }
-
+    @Bean
+    public ModelMapper getMapper() {
+        return new ModelMapper();
+    }
     @Bean
     protected WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web

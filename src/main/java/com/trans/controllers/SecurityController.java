@@ -1,7 +1,7 @@
 package com.trans.controllers;
 
 import com.trans.model.User;
-import com.trans.service.UserRepository;
+import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import java.security.Principal;
 @RequestMapping("/sec")
 public class SecurityController {
 
-    private final UserRepository userService;
+    private final UserService userService;
 
     @Autowired
-    public SecurityController(UserRepository userService) {
+    public SecurityController(UserService userService) {
         this.userService = userService;
     }
 

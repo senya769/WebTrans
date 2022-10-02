@@ -3,7 +3,7 @@ package com.trans.service.impl;
 
 import com.trans.model.Roles;
 import com.trans.model.User;
-import com.trans.service.UserRepository;
+import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserRepository {
+public class UserServiceImpl implements UserService {
     private final com.trans.repository.UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 

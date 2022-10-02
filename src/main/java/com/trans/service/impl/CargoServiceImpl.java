@@ -4,7 +4,6 @@ import com.trans.model.Cargo;
 import com.trans.model.User;
 import com.trans.repository.CargoRepository;
 import com.trans.service.CargoService;
-import com.trans.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

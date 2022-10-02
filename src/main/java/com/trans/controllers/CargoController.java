@@ -4,22 +4,21 @@ package com.trans.controllers;
 import com.trans.model.Cargo;
 import com.trans.model.User;
 import com.trans.service.CargoService;
-import com.trans.service.UserRepository;
+import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user/{id}/cargo")
 public class CargoController {
 
     private final CargoService cargoService;
-    private final UserRepository userService;
+    private final UserService userService;
 
     @Autowired
-    public CargoController(CargoService cargoService, UserRepository userService) {
+    public CargoController(CargoService cargoService, UserService userService) {
         this.cargoService = cargoService;
         this.userService = userService;
     }

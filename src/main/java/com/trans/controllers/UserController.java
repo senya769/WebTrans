@@ -1,7 +1,7 @@
 package com.trans.controllers;
 
 import com.trans.model.User;
-import com.trans.service.UserRepository;
+import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,19 +11,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-   private final UserRepository userService;
+   private final UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    public UserController(UserRepository userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
