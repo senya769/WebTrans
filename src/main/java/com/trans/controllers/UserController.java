@@ -50,10 +50,10 @@ public class UserController {
                              @PathVariable int id) {
         User user = userService.findById(id);
         user.setEmail(email);
-        user.setNickname(nickname);
+       // user.setNickname(nickname);
         user.setNumber(numberPhone);
         user.setPassword(passwordEncoder.encode(password));
-        user.setStatus(status);
+        //user.setStatus(status);
         userService.save(user);
         redirectAttributes.addAttribute("id", id);
         view.setContextRelative(true);

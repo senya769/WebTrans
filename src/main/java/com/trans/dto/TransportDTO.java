@@ -1,6 +1,6 @@
 package com.trans.dto;
 
-import com.trans.model.TypeTransport;
+import com.trans.model.enums.TypeTransport;
 import com.trans.model.User;
 import lombok.Data;
 

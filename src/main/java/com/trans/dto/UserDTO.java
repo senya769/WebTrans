@@ -1,7 +1,7 @@
 package com.trans.dto;
 
 import com.trans.model.Cargo;
-import com.trans.model.Roles;
+import com.trans.model.enums.Roles;
 import com.trans.model.Transport;
 import lombok.Data;
 

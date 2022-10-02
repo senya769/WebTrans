@@ -47,6 +47,7 @@ public class MainController {
     protected ModelAndView listTransportAsk(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("transportList", transportService.findAll());
+        modelAndView.addObject("userTest", userService.findById(1));
         modelAndView.setViewName("pages/transport/list_all_transport");
         return modelAndView;
     }

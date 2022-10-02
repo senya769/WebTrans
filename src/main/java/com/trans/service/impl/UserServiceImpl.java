@@ -1,7 +1,7 @@
 package com.trans.service.impl;
 
 
-import com.trans.model.Roles;
+import com.trans.model.enums.Roles;
 import com.trans.model.User;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

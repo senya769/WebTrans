@@ -1,6 +1,7 @@
 package com.trans.model;
 
 
+import com.trans.model.enums.TypeTransport;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,9 +18,7 @@ public class Transport extends AbstractEntity{
     private double maxCapacityLoad;
     private boolean isFree = true;
     @Enumerated(EnumType.STRING)
-//    after rename enum
-    private TypeTransport typeTransport;
+    private TypeTransport type;
     @ManyToOne
     private User user;
-
 }

@@ -23,7 +23,7 @@ public class CustomUserDetails extends User {
         super(details.getUsername(), details.getPassword(), details.getAuthorities());
         this.id = user.getId();
         this.email = user.getEmail();
-        this.nickname = user.getNickname();
+       // this.nickname = user.getNickname();
     }
 
 
