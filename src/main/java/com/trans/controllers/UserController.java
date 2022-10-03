@@ -26,10 +26,8 @@ public class UserController {
     }
 
     @GetMapping("/profile/{id}")
-    public ModelAndView profileGet(@PathVariable int id, ModelAndView modelAndView, Authentication principal, HttpServletRequest request) {
+    public ModelAndView profileGet(@PathVariable int id, ModelAndView modelAndView) {
         User user = userService.findById(id);
-//        boolean admin = principal.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-        boolean role_admin = request.isUserInRole("ROLE_ADMIN");
         modelAndView.addObject("user", user);
         modelAndView.setViewName("pages/user/profile");
         return modelAndView;
