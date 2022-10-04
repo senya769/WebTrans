@@ -46,13 +46,13 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public int save(Transport transport) {
-       return repository.save(transport).getId();
+    public void save(Transport transport) {
+        repository.save(transport);
     }
 
     @Override
-    public int saveWithUser(Transport transport, User user) {
+    public void saveWithUser(Transport transport, User user) {
         transport.setUser(user);
-        return this.save(transport);
+        this.save(transport);
     }
 }

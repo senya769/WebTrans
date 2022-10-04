@@ -61,10 +61,10 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public int saveWithUserAndDate(Cargo cargo, User user, String dateDeadline) {
-        cargo.setId(0);
-        Cargo save = cargoRepository.save(cargo);
-        return save.getId();
+    public void saveWithUserAndDate(Cargo cargo, User user, String dateDeadline) {
+        cargo.setUser(user);
+        cargo.setLocalDateDeadline(LocalDateTime.parse(dateDeadline));
+         cargoRepository.save(cargo);
     }
 
     @Override

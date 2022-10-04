@@ -16,8 +16,6 @@
 <div th:replace="fragments/header::header-fr"></div>
 <body>
 <div th:each="principal:${#request.userPrincipal.principal}">
-    <div th:text="${user}"></div>
-    <div th:text="${#request.userPrincipal}"></div>
     <section class="vh-100" style="background-color: #eee;">
         <div class="container py-5 h-100">
             <div class="row ">
@@ -32,15 +30,15 @@
                             <a th:if="${user.cargoList.size()} > 0" th:href="@{/user/{id}/cargo/list (id = ${user.id})}"
                                class="btn btn-outline-info">Show all</a>
 
-                            <div th:if="${user.cargoList.size()} > 0 and  ${principal.email == user.email}">
+                            <div th:if="${user.cargoList.size()} >= 0 and  ${principal.email == user.email}">
                                 <a th:href="@{/user/{id}/cargo/add (id = ${user.id})}"
                                    class="btn btn-outline-primary my-1">Add</a>
 
-                                <a th:href="@{/user/{id}/cargo/update (id = ${user.id})}"
+                                <!--<a th:href="@{/user/{id}/cargo/update (id = ${user.id})}"
                                    class="btn btn-outline-success">Update</a>
 
                                 <a th:href="@{/user/{id}/cargo/delete (id = ${user.id})}"
-                                   class="btn btn-outline-danger">Remove</a>
+                                   class="btn btn-outline-danger">Remove</a>-->
                             </div>
                         </div>
                     </div>
@@ -110,15 +108,15 @@
                                th:href="@{/user/{id}/transport/list (id = ${user.id})}"
                                class="btn btn-outline-info ">Show all</a>
                             <!--checking, if you will be some amount > 0 cargo - show RUD-operations-->
-                            <div th:if="${user.transportList.size()} > 0 and ${principal.email == user.email}">
+                            <div th:if="${user.transportList.size()} >= 0 and ${principal.email == user.email}">
                                 <a th:href="@{/user/{id}/transport/add (id = ${user.id})}"
                                    class="btn btn-outline-primary my-1">Add</a>
 
-                                <a th:href="@{/user/{id}/transport/update (id = ${user.id})}"
+                             <!--   <a th:href="@{/user/{id}/transport/update (id = ${user.id})}"
                                    class="btn btn-outline-success">Update</a>
 
                                 <a th:href="@{/user/{id}/transport/delete (id = ${user.id})}"
-                                   class="btn btn-outline-danger">Remove</a>
+                                   class="btn btn-outline-danger">Remove</a>-->
                             </div>
                         </div>
                     </div>

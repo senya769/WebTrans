@@ -12,19 +12,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Entity
-@Table(name = "cargo")
 @Getter
 @Setter
-public class Cargo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String name;
+@Entity
+@Table(name = "cargo")
+public class Cargo extends AbstractEntity {
     @NotNull
     private double price;
-    private String weight;
-    private String volume;
+    private double weight;
+    private double volume;
     @NotNull
     @Enumerated(EnumType.STRING)
     private Countries country_from;

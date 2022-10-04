@@ -24,8 +24,7 @@ public class TransportController {
     }
 
     @GetMapping("/list")
-    protected ModelAndView list(@PathVariable int id) {
-        ModelAndView modelAndView = new ModelAndView();
+    protected ModelAndView list(@PathVariable int id,ModelAndView modelAndView) {
         User user = userService.findById(id);
         if (user.getTransportList().isEmpty()) {
             modelAndView.addObject("notExists", true);

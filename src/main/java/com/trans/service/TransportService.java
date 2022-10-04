@@ -1,6 +1,5 @@
 package com.trans.service;
 
-import com.trans.model.Cargo;
 import com.trans.model.Transport;
 import com.trans.model.User;
 
@@ -12,8 +11,8 @@ public interface TransportService {
     Transport findById(int id);
     boolean deleteById(int id);
     boolean deleteAllByUserId(int user_id);
-    int save(Transport transport);
-    int saveWithUser(Transport transport, User user);
+    void save(Transport transport);
+    void saveWithUser(Transport transport, User user);
    /* List<Cargo> findAllSortByDateCreated();
     List<Cargo> findAll(int page,int count);
     List<Cargo> findAllSortByDateCreated(int page);*/

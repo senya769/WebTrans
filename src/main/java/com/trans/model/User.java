@@ -43,11 +43,11 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Set<Roles> roles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
     @ToString.Exclude
     private List<Cargo> cargoList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
     @ToString.Exclude
     private List<Transport> transportList;
 

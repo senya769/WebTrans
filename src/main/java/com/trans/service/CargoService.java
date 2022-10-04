@@ -16,6 +16,6 @@ public interface CargoService {
     List<Cargo> findAllSortByDateCreated();
     List<Cargo> findAll(int page,int count);
     Page<Cargo> findAllSortByDateCreated(int page);
-    int saveWithUserAndDate(Cargo cargo, User user, String dateDeadline);
+    void saveWithUserAndDate(Cargo cargo, User user, String dateDeadline);
     void save(Cargo cargo);
 }

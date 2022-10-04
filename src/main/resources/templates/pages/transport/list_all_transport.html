@@ -7,36 +7,33 @@
     <div th:replace="fragments/header::header-fr"></div>
 </head>
 <body>
-<p th:text="${userTest}"></p>
 <div class="page">
     <table class="table table-hover table-info table-bordered table-sm">
         <thead class="table-group-divider table-light">
         <thead>
         <tr>
             <div class="head-table">
-                <th scope="col">ID</th>
-                <th scope="col">name</th>
+                <th scope="col">Name</th>
                 <th scope="col">Type</th>
-                <th scope="col">capacity load</th>
-                <th scope="col">is free</th>
+                <th scope="col">Capacity Load (Max)</th>
+                <th scope="col">Is free</th>
                 <th scope="col">Owner</th>
-                <th scope="col">PANEL</th>
+                <th scope="col" th:if="${#request.isUserInRole('ADMIN')}">PANEL</th>
             </div>
         </tr>
         </thead>
         <tbody>
         <tr th:each="t:${transportList}">
-            <td th:text="${t.id}">
             <td th:text="${t.name}">
-            <td th:text="${t.typeTransport}">
+            <td th:text="${t.type}">
             <td th:text="${t.maxCapacityLoad}">
             <td th:text="${t.isFree}">
             <td>
-                <div th:text="${t.user.status}"></div>
-                <a th:href="@{/user/profile/{id_user}(id_user = ${t.user.id})}" th:text="${t.user.nickname}"></a>
+                <div th:text="${t.user.activity}"></div>
+                <a th:href="@{/user/profile/{id_user}(id_user = ${t.user.id})}" th:text="${t.user.nameCompany}"></a>
             </td>
-            <td>
-                <a th:href="@{#}">book</a>
+            <td th:if="${#request.isUserInRole('ADMIN')}">
+                <a th:href="@{#}">test</a>
             </td>
         </tr>
     </table>
