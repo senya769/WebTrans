@@ -31,14 +31,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int save(User user) {
-        User userByBD = this.findByEmail(user.getEmail());
-        if (userByBD == null) {
+        if(user.getNameCompany() == null){
+            setNameCompanyEI(user);
+        }
+        User userFromDb = this.findByEmailOrNumber(user.getEmail(),user.getNumber());
+        if (userFromDb == null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Set.of(Roles.USER));
             return userRepository.save(user).getId();
         } else {
             return 0;
         }
+    }
+
+    private void setNameCompanyEI(User user) {
+        user.setNameCompany(new StringBuilder("EI \"")
+                .append(user.getFirstName())
+                .append(" ")
+                .append(user.getLastName())
+                .append("\"").toString());
     }
 
     @Override
@@ -64,5 +75,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public User findByNumber(String number) {
+        return userRepository.findByNumber(number);
+    }
+
+    @Override
+    public User findByEmailOrNumber(String email, String number) {
+        return userRepository.findByEmailOrNumber(email, number);
     }
 }

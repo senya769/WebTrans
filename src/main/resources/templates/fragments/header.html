@@ -63,8 +63,8 @@
                 </div>
                 <div class="modal-body">
                     Choose your type status
-                    <a type="button" class="btn btn-primary align-content-center" th:href="@{/registration}">Individual</a>
-                    <a type="button" class="btn btn-primary align-items-center" th:href="@{registration}" >Company</a>
+                    <a type="button" class="btn btn-primary align-content-center" th:href="@{/registration(activity='Individual')}">Individual</a>
+                    <a type="button" class="btn btn-primary align-items-center" th:href="@{registration(activity = 'Company')}" >Company</a>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>

@@ -13,52 +13,58 @@
         <thead>
         <tr>
             <div class="head-table">
-                <th scope="col">localDateCreated</th>
-                <th scope="col">localDateDeadline</th>
-                <th scope="col">country_from</th>
-                <th scope="col">country_to</th>
+                <th scope="col">Date</th>
+                <th scope="col">Countries</th>
+                <th scope="col">Cities</th>
+                <th scope="col">Name</th>
                 <th scope="col">Characteristics</th>
-                <th scope="col">price</th>
+                <th scope="col">Price</th>
                 <th scope="col">Owner</th>
+                <!--                <th scope="col">Book</th>-->
             </div>
         </tr>
         </thead>
         <tbody>
         <tr th:each="c:${cargoList}">
-            <td th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}">
-            <td th:text="${#temporals.format(c.localDateDeadline,'dd-MMM-yyyy HH:mm')}">
-            <td th:text="${c.country_from}">
-            <td th:text="${c.country_to}">
             <td>
-                Weight:<span th:text="${c.weight}"></span>
-                Height:<span th:text="${c.height}"></span>
-                Length:<span th:text="${c.length}"></span>
+                <div th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}"></div>
+                -
+                <span th:text="${#temporals.format(c.localDateDeadline,'dd-MMM-yy HH:mm')}"></span>
+            </td>
+            <td>
+                <span th:text="${c.country_from}"></span>
+                ->
+                <span th:text="${c.country_to}"></span>
+            </td>
+            <td>
+                <span th:text="${c.city_from}"></span>
+                ->
+                <span th:text="${c.city_to}"></span>
+            </td>
+            <td th:text="${c.name}">
+            <td>
+                Weight:<span th:text="${c.weight} + 't'"></span>
+                <br>
+                Volume:<span th:text="${c.volume} + 'm3'"></span>
+
             </td>
             <td th:if="${c.price == 0.0}">contract</td>
             <td th:if="${c.price != 0.0}">
-                <div th:text="${c.price}+'$'"></div>
+                <div th:text="${c.price}+' $'"></div>
             </td>
             <td>
-                <div th:text="${c.user.status}"></div>
-                <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nickname}"></a>
+                <div th:text="${c.user.activity}"></div>
+                <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
             </td>
         </tr>
     </table>
-    <nav aria-label="Page navigation example">
-        <div th:each="i:${pageList}">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item"><a th:class="${i == pageActive} ? active" th:value="${i}"
-                         th:text="${i}"   th:href="@{/cargo/list(page=${i})}"></a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div th:replace="fragments/footer::footer-fr"></div>
+     <div th:if="${cargoListAsk.totalPages > 0}" class="pagination"
+          th:each="pageNumber : ${pageNumbers}">
+         <a th:href="@{/cargo/list(page=${pageNumber})}"
+            th:text="${pageNumber}"
+            th:class="${pageNumber==cargoListAsk.number + 1} ? active"></a>
+     <div th:replace="fragments/footer::footer-fr"></div>
+ </div>
 </div>
 </body>
 </html>

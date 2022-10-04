@@ -3,12 +3,16 @@ package com.trans.controllers;
 
 import com.trans.model.Cargo;
 import com.trans.model.User;
+import com.trans.model.enums.Roles;
 import com.trans.service.CargoService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/user/{id}/cargo")
@@ -41,7 +45,7 @@ public class CargoController {
     @GetMapping("/add")
     protected ModelAndView addGet(ModelAndView modelAndView, @PathVariable int id) {
 //        User user = userService.findById(id);
-        modelAndView.addObject("user_cargo_id", id);
+        modelAndView.addObject("user_id", id);
         modelAndView.setViewName("pages/cargo/add_cargo");
         return modelAndView;
     }
@@ -49,7 +53,11 @@ public class CargoController {
     @PostMapping("/add")
     protected ModelAndView addPost(@ModelAttribute Cargo cargo, @PathVariable int id, @RequestParam String dateDeadline) {
         ModelAndView modelAndView = new ModelAndView();
-        cargoService.saveWithUserAndDate(cargo,userService.findById(id),dateDeadline);
+//        cargoService.saveWithUserAndDate(cargo,userService.findById(id),dateDeadline);
+        User user = userService.findById(id);
+        cargo.setUser(user);
+        cargo.setLocalDateDeadline(LocalDateTime.parse(dateDeadline));
+        cargoService.save(cargo);
         modelAndView.addObject("isCreateCargo", true);
         modelAndView.setViewName("pages/cargo/success_add_cargo");
         return modelAndView;

@@ -1,8 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
-    <link rel="shortcut icon"
-          th:href="@{https://w7.pngwing.com/pngs/548/737/png-transparent-peterbilt-semi-trailer-truck-truck.png}"
-          type="image/x-icon">
     <title>
         New cargo
     </title>
@@ -12,11 +9,12 @@
 
 </head>
 <body>
+<div th:text="${cargo}"></div>
 <div class="container">
     <div class="row">
 
         <div class="col-md-8 col-md-offset-2">
-            <form th:action="@{/user/{id}/cargo/add (id = ${user_cargo_id})}" th:method="post" th:object="${cargo}">
+            <form th:action="@{/user/{id_user}/cargo/add (id_user = ${user_id})}" th:method="post" th:object="${cargo}">
                 <legend class="text-center">Register</legend>
 
                 <fieldset>
@@ -26,22 +24,37 @@
                         <label>Name Cargo</label>
                         <input type="text" class="form-control" th:field="*{name}" placeholder="First Name">
                     </div>
+                    <label>
+                        Country from
+                        <select class="form-select-sm mb-2" name="country-from"
+                                aria-multiselectable="false" th:field="*{country_from}">
+                            <option th:each="c : ${T(com.trans.model.enums.Countries).values()}"
+                                    th:value="${c}" th:text="${c}"></option>
+                        </select>
+                    </label>
+                    <label>
+                        Country to
+                        <select class="form-select-sm mb-2" name="country-to"
+                                aria-multiselectable="false" th:field="*{country_to}">
+                            <option th:each="c : ${T(com.trans.model.enums.Countries).values()}"
+                                    th:value="${c}" th:text="${c}"></option>
+                        </select>
+                    </label>
 
                     <div class="form-group col-md-6">
-                        <label>Country from</label>
-                        <input type="text" th:field="*{country_from}"
-                               class="form-control" name="country_from" placeholder="country_from">
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label for="">Country to</label>
-                        <input type="text" th:field="*{country_to}"
+                        <label for="">Country from</label>
+                        <input type="text" th:field="*{city_from}"
                                class="form-control" name="country_to" placeholder="country_to">
                     </div>
-                     <div>
-                         <label>Date of birth</label>
-                         <input type="datetime-local" name="dateDeadline"/>
-                     </div>
+                    <div class="form-group col-md-6">
+                        <label for="">Country to</label>
+                        <input type="text" th:field="*{city_to}"
+                               class="form-control" name="country_to" placeholder="country_to">
+                    </div>
+                    <div>
+                        <label>Date of dateline</label>
+                        <input type="datetime-local" name="dateDeadline" th:name="dateDeadline" required/>
+                    </div>
 
                     <div class="form-group col-md-6">
                         <label>Weight</label>
@@ -50,50 +63,31 @@
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label>length</label>
-                        <input type="text" th:field="*{length}"
+                        <label>volume</label>
+                        <input type="text" th:field="*{volume}"
                                class="form-control" placeholder="length">
                     </div>
-
                     <div class="form-group col-md-6">
-                        <label>height</label>
-                        <input type="text" th:field="*{height}"
-                               class="form-control" placeholder="height">
+                        <label>price</label>
+                        <input type="text" th:field="*{price}"
+                               class="form-control" placeholder="length">
                     </div>
-
 
                 </fieldset>
 
                 <fieldset>
-                    <legend>Optional Details</legend>
+                    <legend>Type Transport</legend>
 
                     <div class="form-group col-md-6">
-                        <label for="country">Country of Residence</label>
-                        <select class="form-control" name="" id="country">
-                            <option>Country 1</option>
-                            <option>Country 2</option>
-                            <option>Country 3</option>
-                        </select>
+                        <label>
+                            Type transport
+                            <select class="form-select-sm mb-2" name="country"
+                                    aria-multiselectable="false" th:field="*{typeTransport}">
+                                <option th:each="c : ${T(com.trans.model.enums.TypeTransport).values()}"
+                                        th:value="${c}" th:text="${c.name()}"></option>
+                            </select>
+                        </label>
                     </div>
-
-                    <!-- <div class="form-group col-md-12">
-                         <label for="found_site">How did you find out about the site?</label>
-                         <select class="form-control" name="" id="found_site">
-                             <option>Company</option>
-                             <option>Friend</option>
-                             <option>Colleague</option>
-                             <option>Advertisement</option>
-                             <option>Google Search</option>
-                             <option>Online Article</option>
-                             <option value="other">Other</option>
-                         </select>
-                     </div>
-
-                     <div class="form-group col-md-12 hidden">
-                         <label for="specify">Please Specify</label>
-                         <textarea class="form-control" id="specify" name=""></textarea>
-                     </div>-->
-
                 </fieldset>
 
                 <div class="form-group">
@@ -110,14 +104,12 @@
                 <div class="form-group">
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary">
-                            NEW Cargo
+                            New Cargo
                         </button>
                     </div>
                 </div>
-
             </form>
         </div>
-
     </div>
 </div>
 <div th:replace="fragments/footer::footer-fr"></div>

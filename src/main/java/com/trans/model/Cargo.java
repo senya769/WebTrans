@@ -16,14 +16,20 @@ import java.time.LocalDateTime;
 @Table(name = "cargo")
 @Getter
 @Setter
-public class Cargo extends AbstractEntity{
+public class Cargo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String name;
     @NotNull
     private double price;
     private String weight;
     private String volume;
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Countries country_from;
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Countries country_to;
     @NotNull
     private String city_from;

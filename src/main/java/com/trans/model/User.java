@@ -37,13 +37,6 @@ public class User{
     private String nameCompany;
     @Enumerated(EnumType.STRING)
     private TypeActivity activity;
-    {
-        nameCompany = new StringBuilder("EI \"")
-                .append(firstName)
-                .append(" ")
-                .append(lastName)
-                .append("\"").toString();
-    }
 
     @ElementCollection(targetClass = Roles.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

@@ -5,6 +5,7 @@ import com.trans.model.User;
 import com.trans.repository.CargoRepository;
 import com.trans.service.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -58,11 +59,17 @@ public class CargoServiceImpl implements CargoService {
         cargo.setUser(user);
         return cargoRepository.save(cargo).getId();
     }
+
     @Override
     public int saveWithUserAndDate(Cargo cargo, User user, String dateDeadline) {
-        cargo.setUser(user);
-        cargo.setLocalDateDeadline(LocalDateTime.parse(dateDeadline));
-        return cargoRepository.save(cargo).getId();
+        cargo.setId(0);
+        Cargo save = cargoRepository.save(cargo);
+        return save.getId();
+    }
+
+    @Override
+    public void save(Cargo cargo) {
+        cargoRepository.save(cargo);
     }
 
     @Override
@@ -79,9 +86,8 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public List<Cargo> findAllSortByDateCreated(int page) {
+    public Page<Cargo> findAllSortByDateCreated(int page) {
         return cargoRepository
-                .findAll(PageRequest.of(page - 1, 5, Sort.by("localDateCreated", "price").descending()))
-                .getContent();
+                .findAll(PageRequest.of(page - 1, 5, Sort.by("localDateCreated", "price").descending()));
     }
 }
