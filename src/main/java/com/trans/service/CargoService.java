@@ -1,5 +1,6 @@
 package com.trans.service;
 
+import com.trans.dto.UserDTO;
 import com.trans.model.Cargo;
 import com.trans.model.User;
 import org.springframework.data.domain.Page;
@@ -12,10 +13,10 @@ public interface CargoService {
     Cargo findById(int id);
     boolean deleteById(int id);
     boolean deleteAllByUserId(int user_id);
-    int saveWithUser(Cargo cargo, User user);
+    int saveWithUser(Cargo cargo, UserDTO user);
     List<Cargo> findAllSortByDateCreated();
     List<Cargo> findAll(int page,int count);
-    Page<Cargo> findAllSortByDateCreated(int page);
-    void saveWithUserAndDate(Cargo cargo, User user, String dateDeadline);
+    List<Cargo> findAllSortByDateCreated(int page);
+    void saveWithUserAndDate(Cargo cargo, UserDTO user, String dateDeadline);
     void save(Cargo cargo);
 }

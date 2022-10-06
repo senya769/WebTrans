@@ -44,16 +44,9 @@ public class MainController {
     @PostMapping("/cargo/list")
     protected ModelAndView listCargoAskPost(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
-        Page<Cargo> cargoPage =  cargoService.findAllSortByDateCreated(page);
-
-        modelAndView.addObject("cargoListAsk",cargoPage);
-        int totalPages = cargoPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            modelAndView.addObject("pageNumbers", pageNumbers);
-        }
+      //  Page<Cargo> cargoPage =  cargoService.findAllSortByDateCreated(page);
+      //  modelAndView.addObject("cargoListAsk",cargoPage.getContent());
+        modelAndView.addObject("cargoListAsk",cargoService.findAllSortByDateCreated(page));
         modelAndView.setViewName("pages/cargo/list_all_cargo");
         return modelAndView;
     }
@@ -62,40 +55,8 @@ public class MainController {
     protected ModelAndView listTransportAsk(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("transportList", transportService.findAll());
-        modelAndView.addObject("userTest", userService.findById(1));
         modelAndView.setViewName("pages/transport/list_all_transport");
         return modelAndView;
     }
-
-    @PostMapping("/registration")
-    public ModelAndView add(@ModelAttribute User user,@RequestParam String activity) {
-        ModelAndView modelAndView = new ModelAndView();
-        user.setActivity(TypeActivity.fromString(activity));
-        if (userService.save(user) == 0) {
-            modelAndView.addObject("message", "User exists!");
-            modelAndView.setViewName("pages/registration");
-            return modelAndView;
-        } else {
-            modelAndView.setViewName("redirect:/login}");
-            return modelAndView;
-        }
-    }
-    @GetMapping("/registration")
-    public ModelAndView pageRegister(ModelAndView modelAndView,@RequestParam String activity) {
-        modelAndView.addObject("user",new User());
-        if(TypeActivity.fromString(activity) == TypeActivity.INDIVIDUAL){
-            modelAndView.addObject("activity",TypeActivity.INDIVIDUAL);
-        }
-        modelAndView.setViewName("/pages/registration");
-        return modelAndView;
-    }
-
-
-    @PostMapping("/successLogin")
-    public ModelAndView successLogin(ModelAndView modelAndView) {
-        modelAndView.setViewName("redirect:/");
-        return modelAndView;
-    }
-
 
 }

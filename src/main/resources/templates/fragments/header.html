@@ -42,7 +42,7 @@
                 </a>
                 <div th:each="id_user:${#request.userPrincipal.principal.id}">
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" th:href="@{/user/profile/{id} (id=${id_user})}">Profile</a></li>
+                    <li><a class="dropdown-item" th:href="@{/user/profile/{id} (id=${id_user})}">Profile <i class="bi bi-person-circle"></i></a></li>
                     <li><a class="dropdown-item"  th:href="@{/user/update/{id} (id=${id_user})}">Update</a></li>
                     <li><a class="dropdown-item"  th:href="@{/user/{id}/cargo/list (id =${id_user})}">Your Cargo</a></li>
                     <li><a class="dropdown-item"  th:href="@{/user/{id}/transport/list (id =${id_user})}">Your Transports</a></li>

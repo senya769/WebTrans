@@ -66,5 +66,10 @@
      <div th:replace="fragments/footer::footer-fr"></div>
  </div>
 </div>
+<form th:href="@{/cargo/list}" method="post">
+<input  th:name = "page" type="number">
+<input type="submit">
+</form>
+<div th:text="${pageNumbers}"></div>
 </body>
 </html>

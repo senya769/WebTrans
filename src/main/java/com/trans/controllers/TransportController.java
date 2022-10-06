@@ -1,7 +1,7 @@
 package com.trans.controllers;
 
+import com.trans.dto.UserDTO;
 import com.trans.model.Transport;
-import com.trans.model.User;
 import com.trans.service.TransportService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class TransportController {
 
     @GetMapping("/list")
     protected ModelAndView list(@PathVariable int id,ModelAndView modelAndView) {
-        User user = userService.findById(id);
+        UserDTO user = userService.findDTOById(id);
         if (user.getTransportList().isEmpty()) {
             modelAndView.addObject("notExists", true);
         } else {

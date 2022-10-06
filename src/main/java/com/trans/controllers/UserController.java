@@ -1,16 +1,16 @@
 package com.trans.controllers;
 
+import com.trans.dto.UserDTO;
 import com.trans.model.User;
+import com.trans.model.enums.Countries;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping("/profile/{id}")
     public ModelAndView profileGet(@PathVariable int id, ModelAndView modelAndView) {
-        User user = userService.findById(id);
+        UserDTO user = userService.findDTOById(id);
         modelAndView.addObject("user", user);
         modelAndView.setViewName("pages/user/profile");
         return modelAndView;
@@ -35,28 +35,33 @@ public class UserController {
 
     @GetMapping("update/{id}")
     public ModelAndView updateGet(@PathVariable int id) {
-        User user = userService.findById(id);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", user);
+        modelAndView.addObject("user",  userService.findDTOById(id));
         modelAndView.setViewName("/pages/user/update");
         return modelAndView;
     }
 
     @PostMapping(value = "/update/{id}")
-    public RedirectView test(RedirectView view, RedirectAttributes redirectAttributes, @RequestParam String email, @RequestParam String password,
-                             @RequestParam String numberPhone, @RequestParam String status, @RequestParam String nickname,
+    public RedirectView update(RedirectAttributes redirectAttributes,
+                             @RequestParam String firstName,
+                             @RequestParam String lastName,
+                             @RequestParam String number,
+                             @RequestParam String email,
+                             @RequestParam String country,
+                             @RequestParam String city,
+                             @RequestParam String password,
                              @PathVariable int id) {
-        User user = userService.findById(id);
+       UserDTO user = userService.findDTOById(id);
         user.setEmail(email);
-       // user.setNickname(nickname);
-        user.setNumber(numberPhone);
-        user.setPassword(passwordEncoder.encode(password));
-        //user.setStatus(status);
-        userService.save(user);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setCountry(Countries.fromString(country));
+        user.setCity(city);
+        user.setNumber(number);
+        boolean isUpdate = userService.update(user,password);
+        redirectAttributes.addFlashAttribute("isUpdate",isUpdate);
         redirectAttributes.addAttribute("id", id);
-        view.setContextRelative(true);
-        view.setUrl("/user/profile/{id}");
-        return view;
+        return new RedirectView("/user/profile/{id}",true);
     }
 
     @GetMapping("/delete/{id}")
@@ -75,7 +80,7 @@ public class UserController {
 
     @GetMapping("/list")
     public ModelAndView listUsers(ModelAndView modelAndView) {
-        List<User> users = userService.getAll();
+        List<UserDTO> users = userService.getAll();
         modelAndView.addObject("users", users);
         modelAndView.setViewName("pages/user/list");
         return modelAndView;

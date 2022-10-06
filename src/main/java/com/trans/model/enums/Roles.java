@@ -22,4 +22,7 @@ public enum Roles {
         throw new IllegalArgumentException("No such value");
     }
 
+    public String getValue() {
+        return value;
+    }
 }
