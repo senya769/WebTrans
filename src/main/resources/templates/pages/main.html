@@ -1,9 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
+    <link rel="shorcut icon" th:src="@{//cdn-icons-png.flaticon.com/512/3566/3566665.png}">
     <title>web-trans</title>
     <!-- CSS only -->
     <div th:replace="fragments/header::header-css"></div>
     <div th:replace="fragments/header::header-fr"></div>
+    <link rel="stylesheet" th:href="@{/styles/css/style.css}" media="all" type="text/css">
 </head>
 <body>
 <section class="py-5 text-center container">
@@ -20,82 +22,27 @@
         </div>
     </div>
 </section>
-
-<div class="album py-5 bg-light">
-    <div class="container">
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <div class="col">
-                <div class="card shadow-sm">
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Эскиз"
-                         preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <rect width="100%" height="100%" fill="#55595c"/>
-                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Эскиз</text>
-                    </svg>
-
-                    <div class="card-body">
-                        <p class="card-text">Это более широкая карточка с вспомогательным текстом ниже как естественный
-                            ввод к дополнительному контенту. Этот контент немного длиннее.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Смотреть</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Редактировать</button>
-                            </div>
-                            <small class="text-muted">9 mins</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Эскиз"
-                         preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <rect width="100%" height="100%" fill="#55595c"/>
-                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Эскиз</text>
-                    </svg>
-
-                    <div class="card-body">
-                        <p class="card-text">Это более широкая карточка с вспомогательным текстом ниже как естественный
-                            ввод к дополнительному контенту. Этот контент немного длиннее.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Смотреть</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Редактировать</button>
-                            </div>
-                            <small class="text-muted">9 mins</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Эскиз"
-                         preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <rect width="100%" height="100%" fill="#55595c"/>
-                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Эскиз</text>
-                    </svg>
-
-                    <div class="card-body">
-                        <p class="card-text">Это более широкая карточка с вспомогательным текстом ниже как естественный
-                            ввод к дополнительному контенту. Этот контент немного длиннее.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Смотреть</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Редактировать</button>
-                            </div>
-                            <small class="text-muted">9 mins</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="row">
+    <div class="card ml" style="width:400px">
+        <img class="card-img-top" th:src="@{https://cdn-icons-png.flaticon.com/512/3566/3566665.png}" alt="Card image" style="width:100%">
+        <div class="card-body">
+            <h4 class="card-title">John Doe</h4>
+            <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
+            <a href="#" class="btn btn-primary stretched-link">See Profile</a>
+        </div>
+    </div>
+<!--</div>
+<div class="container">-->
+    <div class="card" style="width:400px">
+        <img class="card-img-top" th:src="@{https://png.pngtree.com/png-vector/20190308/ourlarge/pngtree-cargo-business-shipping-png-image_785606.jpg}"
+             alt="Card image" style="width:100%">
+        <div class="card-body">
+            <h4 class="card-title">John Doe</h4>
+            <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
+            <a href="#" class="btn btn-primary stretched-link">See Profile</a>
         </div>
     </div>
 </div>
-
-
 <div th:replace="fragments/footer::footer-fr"></div>
 </body>
 </html>

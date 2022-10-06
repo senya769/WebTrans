@@ -1,9 +1,11 @@
 package com.trans.service.impl;
 
+import com.trans.dto.UserDTO;
 import com.trans.model.Cargo;
 import com.trans.model.User;
 import com.trans.repository.CargoRepository;
 import com.trans.service.CargoService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,10 +21,12 @@ import java.util.List;
 public class CargoServiceImpl implements CargoService {
 
     private final CargoRepository cargoRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public CargoServiceImpl(CargoRepository cargoRepository) {
+    public CargoServiceImpl(CargoRepository cargoRepository, ModelMapper modelMapper) {
         this.cargoRepository = cargoRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -54,20 +58,25 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public int saveWithUser(Cargo cargo, User user) {
-        cargo.setUser(user);
-        return cargoRepository.save(cargo).getId();
-    }
-    @Override
-    public int saveWithUserAndDate(Cargo cargo, User user, String dateDeadline) {
-        cargo.setUser(user);
-        cargo.setLocalDateDeadline(LocalDateTime.parse(dateDeadline));
+    public int saveWithUser(Cargo cargo, UserDTO user) {
+        cargo.setUser(modelMapper.map(user,User.class));
         return cargoRepository.save(cargo).getId();
     }
 
     @Override
+    public void saveWithUserAndDate(Cargo cargo, UserDTO user, String dateDeadline) {
+        cargo.setUser(modelMapper.map(user,User.class));
+        cargo.setLocalDateDeadline(LocalDateTime.parse(dateDeadline));
+         cargoRepository.save(cargo);
+    }
+
+    @Override
+    public void save(Cargo cargo) {
+        cargoRepository.save(cargo);
+    }
+
+    @Override
     public List<Cargo> findAllSortByDateCreated() {
-//        return repository.findAllAsk();
         return cargoRepository.findAll(Sort.by("localDateCreated", "price").descending());
     }
 
@@ -81,7 +90,6 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public List<Cargo> findAllSortByDateCreated(int page) {
         return cargoRepository
-                .findAll(PageRequest.of(page - 1, 5, Sort.by("localDateCreated", "price").descending()))
-                .getContent();
+                .findAll(PageRequest.of(page - 1, 5, Sort.by("localDateCreated", "price").descending())).getContent();
     }
 }

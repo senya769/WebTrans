@@ -3,7 +3,7 @@
 <head>
     <title>Registration</title>
     <div th:replace="fragments/header::header-css"></div>
-    <script  th:src="@{/styles/js/radioButtonsLogic.js}" type="text/javascript"></script>
+    <script th:src="@{/styles/js/radioButtonsLogic.js}" type="text/javascript"></script>
 
 </head>
 <body>
@@ -15,24 +15,24 @@
     <!-- Jumbotron -->
     <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
         <div class="container">
-            <div class="row gx-lg-5 align-items-center">
-                <div class="col-lg-6 mb-5 mb-lg-0">
-                    <h1 class="my-5 display-3 fw-bold ls-tight">
-                        The best offer <br/>
-                        <span class="text-primary">for your business</span>
-                    </h1>
-                    <p style="color: hsl(217, 10%, 50.8%)">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Eveniet, itaque accusantium odio, soluta, corrupti aliquam
-                        quibusdam tempora at cupiditate quis eum maiores libero
-                        veritatis? Dicta facilis sint aliquid ipsum atque?
-                    </p>
-                </div>
+            <div class="row center-block justify-content-lg-center">
+                <!-- <div class="col-lg-6 mb-5 mb-lg-0">
+                     <h1 class="my-5 display-3 fw-bold ls-tight">
+                         The best offer <br/>
+                         <span class="text-primary">for your business</span>
+                     </h1>
+                     <p style="color: hsl(217, 10%, 50.8%)">
+                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                         Eveniet, itaque accusantium odio, soluta, corrupti aliquam
+                         quibusdam tempora at cupiditate quis eum maiores libero
+                         veritatis? Dicta facilis sint aliquid ipsum atque?
+                     </p>
+                 </div>-->
                 <!--<input type="tel" id="phone" name="phone" placeholder="123-45-678" pattern="^(+375)(29|25|44|33)[0-9]{3}-[0-9]{2}-[0-9]{2}" required> !-->
-                <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="col-lg-5 mb-5 mb-lg-0">
                     <div class="card">
                         <div class="card-body py-5 px-md-5">
-                            <div class="card-body mb-2 text-black">
+                            <div class="row center-block justify-content-lg-center">
                                 <h4 class="text-uppercase">User registration form</h4>
                             </div>
                             <!--custom exception user registration status identifier-->
@@ -42,53 +42,96 @@
                                 </div>
 
                                 <form th:action="@{/registration}" th:object="${user}" th:method="post">
+                                    <!--  <div class="form-floating mb-4">
+                                          <div class="form-group">
+                                              <input type="radio" id="option1" name="activity" class="custom-control-input"
+                                                     value="Individual" th:field="activity">
+                                              <label class="radio-inline ml-4" for="option1">
+                                                  Individual
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                       fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                                      <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                                  </svg>
+                                              </label>
+                                              <input type="radio" id="option2" name="activity" class="custom-control-input"
+                                                     value="Company" th:name="activity">
+                                              <label class="radio-inline ml-4" for="option1">
+                                                  Company
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                       fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                                                      <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                                      <path fill-rule="evenodd"
+                                                            d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+                                                      <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                                                  </svg>
+                                              </label>
+                                          </div>
+                                      </div>-->
+
+                                    <!--<label>
+                                        Activity:
+                                        <select class="form-select-sm" name="color" th:field = "*{activity}">
+                                            <option th:each="act : ${T(com.trans.model.enums.TypeActivity).values()}"
+                                                    th:value="${act}"   th:text="${act.value}"></option>
+                                        </select>
+                                    </label>-->
+
                                     <div class="form-floating mb-4">
-                                        <div class="form-group">
-                                            <input type="radio" id="option1" name="option1" class="custom-control-input"
-                                                   value="Individual" th:field="*{status}">
-                                            <label class="radio-inline ml-4" for="option1">
-                                                Individual
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                                </svg>
-                                            </label>
-                                            <input type="radio" id="option2" name="option1" class="custom-control-input"
-                                                   value="Company" th:field="*{status}">
-                                            <label class="radio-inline ml-4" for="option1">
-                                                Company
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
-                                                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                                    <path fill-rule="evenodd"
-                                                          d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
-                                                    <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
-                                                </svg>
+                                        <input type="text" class="form-control" id="floatingInput1"
+                                               th:field="*{firstName}" placeholder="firstName" required>
+                                        <label for="floatingInput1">First Name
+                                        </label>
+                                    </div>
+                                    <div class="form-floating mb-2">
+                                        <input type="text" class="form-control" id="floatingInput2"
+                                               th:field="*{lastName}" placeholder="lastName" required>
+                                        <label for="floatingInput2">Last Name
+                                        </label>
+                                    </div>
+                                    <label>
+                                        Country
+                                        <select class="form-select-sm mb-2" name="country"
+                                                aria-multiselectable="false" th:field="*{country}">
+                                            <option th:each="c : ${T(com.trans.model.enums.Countries).values()}"
+                                                    th:value="${c}" th:text="${c}"></option>
+                                        </select>
+                                    </label>
+                                    <div class="form-floating mb-4">
+                                        <input type="text" class="form-control" id="floatingInput3"
+                                               th:field="*{city}" placeholder="city" required>
+                                        <label for="floatingInput3">City
+                                        </label>
+                                    </div>
+                                    <div th:if="${activity == null}">
+                                        <div class="form-floating mb-4">
+                                            <input type="text" class="form-control" id="floatingInput4" title="Example: 'Google'"
+                                                   th:field="*{nameCompany}" placeholder="nameCompany" required>
+                                            <label for="floatingInput4">Name Company
                                             </label>
                                         </div>
                                     </div>
-
-                                    <div class="form-floating mb-4">
-                                        <input type="text" class="form-control" id="floatingInput"
-                                               th:field="${user.nickname}" placeholder="nick" required>
-                                        <label for="floatingInput">Nickname
-                                        </label>
+<!--                                    hidden initialization of the activity type-->
+                                    <div th:if="${activity == null}">
+                                            <input type="text" class="form-control" th:value="${T(com.trans.model.enums.TypeActivity).COMPANY}"
+                                                   th:name="activity" placeholder="activity"  hidden>
+                                    </div>
+                                    <div th:unless="${activity == null}">
+                                            <input type="text" class="form-control" th:value="${T(com.trans.model.enums.TypeActivity).INDIVIDUAL}"
+                                                   th:name="activity" placeholder="activity"  hidden>
                                     </div>
                                     <!-- input image in acc profile-->
-
                                     <!-- <div class="form-floating mb-4">
                                          <form>
                                              <div class="form-group">
-                                                 <label for="exampleFormControlFile1">Example file input</label>
-                                                 <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                                 <label th:for="exampleFormControlFile1">Example file input</label>
+                                                 <input th:type="file" th:field = "*{imageURL}" class="form-control-file" th:id="exampleFormControlFile1">
                                              </div>
                                          </form>
                                      </div>-->
-
                                     <div class="form-floating mb-4">
-                                        <input type="tel" class="form-control" id="floatingInput1"
-                                               th:field="${user.numberPhone}" autocomplete="off"
-                                               placeholder="+375(29)-990-99-99"
+                                        <input type="tel" class="form-control" id="floatingInput"
+                                               th:field="${user.number}" autocomplete="off"
+                                               placeholder="+375(29)-990-99-99" title="Example: +375(29)-999-99-99"
                                                pattern="^(+375)(29|25|44|33)[0-9]{3}-[0-9]{2}-[0-9]{2}" required>
                                         <label class="form-label" for="floatingInput">Number Phone</label>
                                     </div>
@@ -108,9 +151,10 @@
                                         <label class="form-label" for="form3Example4">Password</label>
                                     </div>
                                     <!-- Submit button -->
-                                    <div class="form-inline"><input type="submit" class="btn btn-primary btn-block mb-4"
-                                                                    value="Sign In"/>
-                                        <BUTTON th:type="reset" class="btn btn-primary btn-block mb-4" value="Reset">
+                                    <div class="form-inline">
+                                        <button type="submit" class="btn btn-primary btn-block mb-4">Register</button>
+                                        <BUTTON th:type="reset" class="btn btn-outline-secondary btn-block mb-4"
+                                                value="Reset">
                                             Reset
                                         </BUTTON>
                                     </div>

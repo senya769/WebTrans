@@ -1,7 +1,9 @@
 package com.trans.model;
 
 
-import com.sun.istack.NotNull;
+import com.trans.model.enums.Countries;
+import com.trans.model.enums.Roles;
+import com.trans.model.enums.TypeActivity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,29 +18,36 @@ import java.util.Set;
 @ToString
 @Builder
 @Table(name = "users")
-public class User {
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String firstName;
     private String lastName;
-    private String nickname;
-    @Column(name = "number", unique = true)
-    private String numberPhone;
+    @Column(name = "image_url")
+    private String imageURL;
+    @Enumerated(EnumType.STRING)
+    private Countries country;
+    private String city;
+    @Column(unique = true)
+    private String number;
     @Column(unique = true)
     private String email;
     private String password;
-    private String status;
+    private String nameCompany;
+    @Enumerated(EnumType.STRING)
+    private TypeActivity activity;
 
     @ElementCollection(targetClass = Roles.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Roles> roles;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
     @ToString.Exclude
     private List<Cargo> cargoList;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
     @ToString.Exclude
     private List<Transport> transportList;
 

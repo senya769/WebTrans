@@ -1,4 +1,4 @@
-package com.trans.model;
+package com.trans.model.enums;
 
 public enum Roles {
     USER("User"),
@@ -22,4 +22,7 @@ public enum Roles {
         throw new IllegalArgumentException("No such value");
     }
 
+    public String getValue() {
+        return value;
+    }
 }

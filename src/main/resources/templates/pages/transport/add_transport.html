@@ -4,7 +4,7 @@
           th:href="@{https://w7.pngwing.com/pngs/548/737/png-transparent-peterbilt-semi-trailer-truck-truck.png}"
           type="image/x-icon">
     <title>
-        New cargo
+        New transport
     </title>
     <!-- CSS only -->
     <div th:replace="fragments/header::header-css"></div>
@@ -12,7 +12,6 @@
 <body>
 <div class="container">
     <div class="row">
-
         <div class="col-md-8 col-md-offset-2">
             <form th:action="@{/user/{id}/transport/add (id = ${user_transport_id})}" th:method="post"
                   th:object="${transport}">
@@ -20,75 +19,26 @@
 
                 <fieldset>
                     <legend>Account Details</legend>
-
                     <div class="form-group col-md-6">
-                        <label>Name Transport</label>
                         <input type="text" class="form-control" th:field="*{name}" placeholder="Volvo">
+                        <label>Name Transport</label>
                     </div>
-
                     <div class="form-group col-md-6">
                         <label>Max capacity load</label>
-                        <input type="text" th:field="*{maxCapacityLoad}"
+                        <input type="number" th:field="*{maxCapacityLoad}"
                                class="form-control" name="country_from" placeholder="maxCapacityLoad">
                     </div>
-
-                    <!--      <div class="form-group col-md-6">
-                              <label for="">Country to</label>
-                              <input type="text" th:field="*{}"
-                                     class="form-control" name="country_to" placeholder="country_to">
-                          </div>-->
-                    <!--    <div>
-                            <label>Date of birth</label>
-                            <input type="datetime-local" name="local_date_deadline"/>
-                        </div>
-
-                       <div class="form-group col-md-6">
-                           <label>Weight</label>
-                           <input type="text" th:field="*{weight}"
-                                  class="form-control" placeholder="weight">
-                       </div>
-
-                       <div class="form-group col-md-6">
-                           <label>length</label>
-                           <input type="text" th:field="*{length}"
-                                  class="form-control" placeholder="length">
-                       </div>
-
-                       <div class="form-group col-md-6">
-                           <label>height</label>
-                           <input type="text" th:field="*{height}"
-                                  class="form-control" placeholder="height">
-                       </div>
-   -->
-
                 </fieldset>
-
                 <fieldset>
                     <legend>Optional Details</legend>
 
                     <div class="form-group col-md-6">
                         <label for="country">Country of Residence</label>
-                            <select class="form-control" th:field="*{typeTransport}" id="country">
-                                <option th:each="type : ${T(com.trans.model.TypeTransport).values()}"
-                                        th:value="${type}" th:text="${type.getTypeValue()}"></option>
+                            <select class="form-control" th:field="*{type}" id="country">
+                                <option th:each="type : ${T(com.trans.model.enums.TypeTransport).values()}"
+                                        th:value="${type}" th:text="${type.typeValue}"></option>
                             </select>
                     </div>
-
-                 <!--   <div class="form-group col-md-12">
-                        <label for="found_site">How did you find out about the site?</label>
-                        <select class="form-control" name="" id="found_site">
-                            <option>Company</option>
-                            <option>Friend</option>
-                            <option>Colleague</option>
-                            <option>Advertisement</option>
-                            <option>Google Search</option>
-                            <option>Online Article</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
--->
-
-
                 </fieldset>
 
                 <div class="form-group">
@@ -105,7 +55,7 @@
                 <div class="form-group">
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary">
-                            NEW Cargo
+                            Add Transport
                         </button>
                     </div>
                 </div>

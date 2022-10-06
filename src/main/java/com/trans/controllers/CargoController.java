@@ -1,6 +1,7 @@
 package com.trans.controllers;
 
 
+import com.trans.dto.UserDTO;
 import com.trans.model.Cargo;
 import com.trans.model.User;
 import com.trans.service.CargoService;
@@ -27,7 +28,7 @@ public class CargoController {
     @GetMapping("/list")
     protected ModelAndView listCargoFromUser(@PathVariable int id) {
         ModelAndView modelAndView = new ModelAndView();
-        User user = userService.findById(id);
+        UserDTO user = userService.findDTOById(id);
         if (user.getCargoList().isEmpty()) {
             modelAndView.addObject("notExists", true);
         } else {
@@ -40,8 +41,7 @@ public class CargoController {
 
     @GetMapping("/add")
     protected ModelAndView addGet(ModelAndView modelAndView, @PathVariable int id) {
-//        User user = userService.findById(id);
-        modelAndView.addObject("user_cargo_id", id);
+        modelAndView.addObject("user_id", id);
         modelAndView.setViewName("pages/cargo/add_cargo");
         return modelAndView;
     }
@@ -49,7 +49,7 @@ public class CargoController {
     @PostMapping("/add")
     protected ModelAndView addPost(@ModelAttribute Cargo cargo, @PathVariable int id, @RequestParam String dateDeadline) {
         ModelAndView modelAndView = new ModelAndView();
-        cargoService.saveWithUserAndDate(cargo,userService.findById(id),dateDeadline);
+        cargoService.saveWithUserAndDate(cargo, userService.findDTOById(id), dateDeadline);
         modelAndView.addObject("isCreateCargo", true);
         modelAndView.setViewName("pages/cargo/success_add_cargo");
         return modelAndView;

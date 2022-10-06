@@ -1,6 +1,8 @@
 package com.trans.model;
 
 import com.sun.istack.NotNull;
+import com.trans.model.enums.Countries;
+import com.trans.model.enums.TypeTransport;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,20 +12,28 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Entity
-@Table(name = "cargo")
 @Getter
 @Setter
-public class Cargo extends AbstractEntity{
+@Entity
+@Table(name = "cargo")
+public class Cargo extends AbstractEntity {
     @NotNull
     private double price;
-    private String weight;
-    private String length;
-    private String height;
+    private double weight;
+    private double volume;
     @NotNull
-    private String country_from;
+    @Enumerated(EnumType.STRING)
+    private Countries country_from;
     @NotNull
-    private String country_to;
+    @Enumerated(EnumType.STRING)
+    private Countries country_to;
+    @NotNull
+    private String city_from;
+    @NotNull
+    private String city_to;
+    @Enumerated(EnumType.STRING)
+    private TypeTransport typeTransport;
+
     @Column(name = "date_deadline")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime localDateDeadline;

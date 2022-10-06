@@ -1,15 +1,23 @@
 package com.trans.controllers;
 
 
+import com.trans.model.Cargo;
 import com.trans.model.User;
+import com.trans.model.enums.TypeActivity;
 import com.trans.service.CargoService;
 import com.trans.service.TransportService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.awt.print.Book;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class MainController {
@@ -36,9 +44,9 @@ public class MainController {
     @PostMapping("/cargo/list")
     protected ModelAndView listCargoAskPost(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("cargoListAsk", cargoService.findAllSortByDateCreated(page));
-        modelAndView.addObject("pageList", cargoService.findAllSortByDateCreated(page).size());
-        modelAndView.addObject("pageActive", page);
+      //  Page<Cargo> cargoPage =  cargoService.findAllSortByDateCreated(page);
+      //  modelAndView.addObject("cargoListAsk",cargoPage.getContent());
+        modelAndView.addObject("cargoListAsk",cargoService.findAllSortByDateCreated(page));
         modelAndView.setViewName("pages/cargo/list_all_cargo");
         return modelAndView;
     }
@@ -50,32 +58,5 @@ public class MainController {
         modelAndView.setViewName("pages/transport/list_all_transport");
         return modelAndView;
     }
-
-    @PostMapping("/registration")
-    public ModelAndView add(@ModelAttribute User user, RedirectAttributes attributes) {
-        ModelAndView modelAndView = new ModelAndView();
-        if (userService.save(user) == 0) {
-            modelAndView.addObject("message", "User exists!");
-            modelAndView.setViewName("pages/registration");
-            return modelAndView;
-        } else {
-            modelAndView.setViewName("redirect:/login}");
-            return modelAndView;
-        }
-    }
-    @GetMapping("/registration")
-    public ModelAndView pageRegistr(ModelAndView modelAndView) {
-        modelAndView.addObject("user",new User());
-        modelAndView.setViewName("/pages/registration");
-        return modelAndView;
-    }
-
-
-    @PostMapping("/successLogin")
-    public ModelAndView succesLogin(ModelAndView modelAndView) {
-        modelAndView.setViewName("redirect:/");
-        return modelAndView;
-    }
-
 
 }
