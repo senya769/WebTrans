@@ -4,11 +4,14 @@ import com.sun.istack.NotNull;
 import com.trans.model.enums.Countries;
 import com.trans.model.enums.TypeTransport;
 import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-
+import java.util.List;
+import java.util.Objects;
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -16,11 +19,18 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "cargo")
-public class Cargo extends AbstractEntity {
+public class Cargo {
+    @EqualsAndHashCode.Include
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @EqualsAndHashCode.Include
+    private String name;
     @NotNull
     private double price;
     private double weight;
     private double volume;
+    private boolean isFree = true;
     @NotNull
     @Enumerated(EnumType.STRING)
     private Countries country_from;
@@ -42,5 +52,9 @@ public class Cargo extends AbstractEntity {
     private LocalDateTime localDateCreated = LocalDateTime.now();
     @ManyToOne
     private User user;
+
+    @OneToMany(mappedBy = "transport")
+    @ToString.Exclude
+    private List<Order> orderList;
 
 }

@@ -53,7 +53,7 @@
                 <div th:text="${c.price}+' $'"></div>
             </td>
             <td>
-                <div th:text="${c.user.activity}"></div>
+                <div th:text="${c.user.activity.value}"></div>
                 <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
             </td>
         </tr>

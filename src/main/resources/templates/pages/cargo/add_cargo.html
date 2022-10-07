@@ -83,7 +83,7 @@
                             <select class="form-select-sm mb-2" name="country"
                                     aria-multiselectable="false" th:field="*{typeTransport}">
                                 <option th:each="c : ${T(com.trans.model.enums.TypeTransport).values()}"
-                                        th:value="${c}" th:text="${c.name()}"></option>
+                                        th:value="${c}" th:text="${c.getTypeValue()}"></option>
                             </select>
                         </label>
                     </div>
