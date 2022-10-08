@@ -14,15 +14,15 @@ import java.util.Objects;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Setter
 @Table(name = "transport")
 public class Transport{
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @EqualsAndHashCode.Include
     private String name;
     private double maxCapacityLoad;
@@ -30,6 +30,7 @@ public class Transport{
     @Enumerated(EnumType.STRING)
     private TypeTransport type;
     @ManyToOne
+    @EqualsAndHashCode.Exclude
     private User user;
     @OneToMany(mappedBy = "transport")
     @ToString.Exclude

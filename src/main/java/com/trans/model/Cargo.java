@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -23,8 +23,7 @@ public class Cargo {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @EqualsAndHashCode.Include
+    private Integer id;
     private String name;
     @NotNull
     private double price;
@@ -51,10 +50,12 @@ public class Cargo {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime localDateCreated = LocalDateTime.now();
     @ManyToOne
+    @EqualsAndHashCode.Exclude
     private User user;
 
     @OneToMany(mappedBy = "transport")
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Order> orderList;
 
 }

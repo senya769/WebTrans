@@ -11,6 +11,7 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -20,7 +21,9 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
     @ManyToOne
+    @EqualsAndHashCode.Exclude
     private Cargo cargo;
     @ManyToOne
+    @EqualsAndHashCode.Exclude
     private Transport transport;
 }

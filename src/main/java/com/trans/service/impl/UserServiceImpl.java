@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean update(UserDTO userDTO, String password) {
-        User userWithPassword = userRepository.findById(userDTO.getId());
+        User userWithPassword = userRepository.findById(userDTO.getId().intValue());
         User userFromDB = userRepository.findByEmailOrNumber(userDTO.getEmail(), userDTO.getNumber()).orElse(null);
         if ((userFromDB == null || userFromDB.getId() == userWithPassword.getId())&&
                 passwordEncoder.matches(password, userWithPassword.getPassword())) {

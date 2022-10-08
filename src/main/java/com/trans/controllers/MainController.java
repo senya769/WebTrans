@@ -2,6 +2,7 @@ package com.trans.controllers;
 
 
 import com.trans.model.Cargo;
+import com.trans.model.Transport;
 import com.trans.model.User;
 import com.trans.model.enums.TypeActivity;
 import com.trans.service.CargoService;
@@ -41,13 +42,46 @@ public class MainController {
         modelAndView.setViewName("pages/cargo/list_all_cargo");
         return modelAndView;
     }
+
     @PostMapping("/cargo/list")
     protected ModelAndView listCargoAskPost(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
-      //  Page<Cargo> cargoPage =  cargoService.findAllSortByDateCreated(page);
-      //  modelAndView.addObject("cargoListAsk",cargoPage.getContent());
-        modelAndView.addObject("cargoListAsk",cargoService.findAllSortByDateCreated(page));
+        //  Page<Cargo> cargoPage =  cargoService.findAllSortByDateCreated(page);
+        //  modelAndView.addObject("cargoListAsk",cargoPage.getContent());
+        modelAndView.addObject("cargoListAsk", cargoService.findAllSortByDateCreated(page));
         modelAndView.setViewName("pages/cargo/list_all_cargo");
+        return modelAndView;
+    }
+
+    @GetMapping("/test/{id}")
+    protected ModelAndView listTransportAsk(@PathVariable Integer id) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("transport",new Transport());
+        modelAndView.addObject("id",id);
+        modelAndView.setViewName("pages/transport/addTransport");
+        return modelAndView;
+    }
+
+    @PostMapping("/test/{id}")
+    protected ModelAndView listTransportAsk(@ModelAttribute Transport transport,@PathVariable Integer id) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("ts",transport);
+        modelAndView.setViewName("pages/transport/addTransport");
+        return modelAndView;
+    }
+    @GetMapping("/test")
+    protected ModelAndView list1TransportAsk1(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("transport",new Transport());
+        modelAndView.setViewName("pages/transport/addTransport");
+        return modelAndView;
+    }
+
+    @PostMapping("/test")
+    protected ModelAndView list2TransportAsk(@ModelAttribute Transport transport) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("ts",transport);
+        modelAndView.setViewName("pages/transport/addTransport");
         return modelAndView;
     }
 
