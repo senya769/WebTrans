@@ -29,7 +29,7 @@ public class User{
     private String firstName;
     private String lastName;
     @Column(name = "image_url")
-    private String imageURL;
+    private String imageURL = "/img/user/default.jpg";
     @Enumerated(EnumType.STRING)
     private Countries country;
     private String city;

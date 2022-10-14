@@ -5,11 +5,7 @@
     <div th:replace="fragments/header :: header-fr"></div>
 </head>
 <body>
-<div th:each="order:${transportOrdersList}">
-    <span th:text="'Customer - '+${order.cargo.user.nameCompany}"></span>|
-    <span th:text="'Cargo - '+${order.cargo.name}"></span>|
-    <span th:text="'Your Transport -'+${order.transport.name}"></span>|
-</div>
+<div th:text="${orderBuild}"></div>
 
 <div th:replace="fragments/footer :: footer-fr"></div>
 

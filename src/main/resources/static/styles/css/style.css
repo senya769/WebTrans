@@ -1,6 +1,6 @@
 .card-body{
     background: azure;
-    background: url(static/img/user/user1.jpg) no-repeat;
+    background: url(../../img/user/default.jpg) no-repeat;
 
 }
 

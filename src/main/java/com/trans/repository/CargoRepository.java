@@ -4,11 +4,14 @@ package com.trans.repository;
 import com.trans.model.Cargo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
+
 @Repository
 public interface CargoRepository extends JpaRepository<Cargo,Integer> {
     List<Cargo> findAllByUserId(int user_id);
@@ -17,4 +20,5 @@ public interface CargoRepository extends JpaRepository<Cargo,Integer> {
     void deleteAllByUserId(int user_id);
    /* @Query(value = "SELECT * FROM cargo ORDER BY date_created desc",nativeQuery = true)
     List<Cargo> findAllAsk();*/
+    List<Cargo> findAllByCityFromContaining(String cityFrom, Sort sort);
 }

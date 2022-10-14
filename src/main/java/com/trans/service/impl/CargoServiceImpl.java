@@ -7,6 +7,7 @@ import com.trans.repository.CargoRepository;
 import com.trans.service.CargoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -88,8 +89,16 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public List<Cargo> findAllSortByDateCreated(int page) {
+    public List<Cargo> findAllByCityFromContaining(String cityFrom) {
+        if(cityFrom.equals("Any")){
+            return this.findAllSortByDateCreated();
+        }
+        return cargoRepository.findAllByCityFromContaining(cityFrom,Sort.by("localDateCreated").descending());
+    }
+
+    @Override
+    public Page<Cargo> findAllSortByDateCreated(int page) {
         return cargoRepository
-                .findAll(PageRequest.of(page - 1, 5, Sort.by("localDateCreated", "price").descending())).getContent();
+                .findAll(PageRequest.of(page - 1, 8, Sort.by("localDateCreated", "price").descending()));
     }
 }

@@ -3,6 +3,9 @@ package com.trans.controllers;
 import com.trans.dto.UserDTO;
 import com.trans.model.User;
 import com.trans.model.enums.Countries;
+import com.trans.service.CargoService;
+import com.trans.service.OrderService;
+import com.trans.service.TransportService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,17 +21,24 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
    private final UserService userService;
+    private final CargoService cargoService;
+    private final TransportService transportService;
+    private final PasswordEncoder passwordEncoder;
+    private final OrderService orderService;
     @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, CargoService cargoService, TransportService transportService, PasswordEncoder passwordEncoder, OrderService orderService) {
         this.userService = userService;
+        this.cargoService = cargoService;
+        this.transportService = transportService;
+        this.passwordEncoder = passwordEncoder;
+        this.orderService = orderService;
     }
 
     @GetMapping("/profile/{id}")
     public ModelAndView profileGet(@PathVariable int id, ModelAndView modelAndView) {
         UserDTO user = userService.findDTOById(id);
         modelAndView.addObject("user", user);
+        modelAndView.addObject("countOrderByTransports",orderService.findAllByTransportUserId(id).size());
         modelAndView.setViewName("pages/user/profile");
         return modelAndView;
     }

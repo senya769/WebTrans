@@ -1,0 +1,12 @@
+.badge {
+
+    background-color: #a3b710;
+}
+
+.badge-danger {
+    background-color: red;
+}
+
+div .label {
+    font-family: cursive;
+}

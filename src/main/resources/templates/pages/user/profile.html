@@ -66,17 +66,17 @@
                         </div>
                             </label>
                             <p class="fw-bolder mb-0 mx-3"><a href="#" th:text="${user.country}"
-                                                         class="text-muted text-decoration-none"></a></p>
+                                                              class="text-muted text-decoration-none"></a></p>
                         </span>
                         <span class="d-flex justify-content-between align-items-center">
                             <label></label>
-                            <p class="fw-semibold mb-0 mx-1"><a href="#" th:text="${user.city}" class="text-muted text-decoration-none" ></a></p>
+                            <p class="fw-semibold mb-0 mx-1"><a href="#" th:text="${user.city}"
+                                                                class="text-muted text-decoration-none"></a></p>
                         </span>
 
                         <div class="card-body text-center">
 
                             <div class="mt-3 mb-4">
-                                <!--rename field this obj-->
                                 <img th:src="@{${user.imageURL}}"
                                      class="rounded-pill img-fluid" style="width: 160px;" alt=""/>
                             </div>
@@ -112,20 +112,76 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm alert alert-warning alert-dismissible fade show" role="alert"
-                             th:if="${isUpdate}">
-                            User <span th:text="${user.id}"></span> was updated!
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <div class="alert notification">
+                            <div class="col-sm alert alert-success alert-dismissible fade show" role="alert"
+                                 th:if="${isUpdate}">
+                                User <span th:text="${user.id}"></span> was updated!
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="col-sm alert alert-success alert-dismissible fade show" role="alert"
+                                 th:if="${isCreateCargo}">
+                                Cargo was successful to create!
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="col-sm alert alert-success alert-dismissible fade show" role="alert"
+                                 th:if="${isCreateTransport}">
+                                Cargo was successful to create!
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="col-sm alert alert-danger alert-dismissible fade show" role="alert"
+                                 th:if="${isNotFoundTransport}">
+                                Not found transport/cargo!
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="col-sm alert alert-warning alert-dismissible fade show" role="alert"
+                                 th:if="${cargoIsDelete}">
+                                Cargo was deleted!
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="col-sm alert alert-warning alert-dismissible fade show" role="alert"
+                                 th:if="${transportIsDelete}">
+                                Transport was deleted!
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="card w-20">
                         <div class="card-body module-graph">
-                            <h5 class="card-title">Panel management transport</h5>
+                            <h5 class="card-title">Panel management Transport</h5>
                             <div class="card-text">
                                 Count transports this user:
                                 <span th:text="${user.transportList.size()}"></span>
+                            </div>
+                            <a th:if="${user.cargoList.size()} > 0"
+                               th:href="@{/user/{id}/transport/list (id = ${user.id})}"
+                               class="btn btn-outline-info ">Show all</a>
+                            <!--checking, if you will be some amount > 0 cargo - show RUD-operations-->
+                            <div th:if="${user.transportList.size()} >= 0 and ${principal.email == user.email}">
+                                <a th:href="@{/user/{id}/transport/add (id = ${user.id})}"
+                                   class="btn btn-outline-primary my-1">Add</a>
+
+                                <!--   <a th:href="@{/user/{id}/transport/update (id = ${user.id})}"
+                                      class="btn btn-outline-success">Update</a>
+
+                                   <a th:href="@{/user/{id}/transport/delete (id = ${user.id})}"
+                                      class="btn btn-outline-danger">Remove</a>-->
+                            </div>
+                        </div>
+<!--                        Orders panel management-->
+                    </div> <div class="card w-20">
+                        <div class="card-body module-graph">
+                            <h5 class="card-title">Orders</h5>
+                            <div class="card-text">
+                                Count orders from your transport:
+                                <span th:text="${countOrderByTransports}"></span>
                             </div>
                             <a th:if="${user.cargoList.size()} > 0"
                                th:href="@{/user/{id}/transport/list (id = ${user.id})}"

@@ -19,7 +19,7 @@ public class OrderTransportController {
     }
     @GetMapping("/orders")
     public ModelAndView ordersList(@PathVariable("id") int user_id,ModelAndView modelAndView){
-        modelAndView.addObject("transportOrdersList",orderService.findAllByTransportUserId(user_id));
+        modelAndView.addObject("listOrdersTransport",orderService.findAllByTransportUserId(user_id));
         modelAndView.setViewName("/pages/about");
         return modelAndView;
     }

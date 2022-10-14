@@ -2,7 +2,6 @@ package com.trans.service;
 
 import com.trans.dto.UserDTO;
 import com.trans.model.Cargo;
-import com.trans.model.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -16,7 +15,8 @@ public interface CargoService {
     int saveWithUser(Cargo cargo, UserDTO user);
     List<Cargo> findAllSortByDateCreated();
     List<Cargo> findAll(int page,int count);
-    List<Cargo> findAllSortByDateCreated(int page);
+    Page<Cargo> findAllSortByDateCreated(int page);
     void saveWithUserAndDate(Cargo cargo, UserDTO user, String dateDeadline);
     void save(Cargo cargo);
+    List<Cargo> findAllByCityFromContaining(String cityFrom);
 }

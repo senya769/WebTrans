@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/user/{id}/cargo")
@@ -47,24 +49,25 @@ public class CargoController {
     }
 
     @PostMapping("/add")
-    protected ModelAndView addPost(@ModelAttribute Cargo cargo, @PathVariable int id, @RequestParam String dateDeadline) {
-        ModelAndView modelAndView = new ModelAndView();
+    protected RedirectView addPost(@ModelAttribute Cargo cargo, RedirectAttributes attributes,
+                                   @PathVariable int id, @RequestParam String dateDeadline) {
         cargoService.saveWithUserAndDate(cargo, userService.findDTOById(id), dateDeadline);
-        modelAndView.addObject("isCreateCargo", true);
-        modelAndView.setViewName("pages/cargo/success_add_cargo");
-        return modelAndView;
+        attributes.addAttribute("user_id",id);
+        attributes.addFlashAttribute("isCreateCargo", true);
+       return new RedirectView("/user/profile/{user_id}",true);
     }
 
-    @GetMapping("/remove/{cargo_id}")
-    protected ModelAndView removeCargo(@PathVariable("id") int user_id, @PathVariable int cargo_id) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("pages/error/403");
+
+    @GetMapping("/remove/{cargo}")
+    protected RedirectView removeCargo( RedirectAttributes redirectAttributes,
+                                        @PathVariable("id") int id_user, @PathVariable("cargo") int cargo_id) {
         if (cargoService.deleteById(cargo_id)) {
-            modelAndView.setViewName("redirect: /user/" + user_id + "/cargo/list");
+            redirectAttributes.addFlashAttribute("cargoIsDelete", true);
+        } else {
+            redirectAttributes.addFlashAttribute("isNotFoundCargo", true);
         }
-        return modelAndView;
+        return new RedirectView("/user/profile/" + id_user,true);
     }
-
 
     @ModelAttribute("cargo")
     public Cargo newCargo() {

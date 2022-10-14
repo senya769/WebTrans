@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/user/{id}/transport/")
@@ -44,21 +45,6 @@ public class TransportController {
         return modelAndView;
     }
 
-    /*@GetMapping("/test")
-    protected ModelAndView test(ModelAndView modelAndView, @PathVariable int id) {
-        modelAndView.addObject("user_id", id);
-
-        modelAndView.setViewName("pages/transport/addTransport");
-        return modelAndView;
-    }
-
-    @PostMapping("/test")
-    protected ModelAndView post(ModelAndView modelAndView, @PathVariable int id, @ModelAttribute Transport transport) {
-        modelAndView.addObject("user_id", id);
-        modelAndView.addObject("ts", transport);
-        modelAndView.setViewName("pages/transport/addTransport");
-        return modelAndView;
-    }*/
 
     @PostMapping("/add")
     protected ModelAndView addPost(@ModelAttribute Transport transport, @PathVariable int id) {
@@ -71,16 +57,14 @@ public class TransportController {
     }
 
     @GetMapping("/remove/{transport}")
-    protected ModelAndView removeCargo(@PathVariable("id") int id_user, @PathVariable("transport") int transport_id) {
-        ModelAndView modelAndView = new ModelAndView();
+    protected RedirectView removeCargo( RedirectAttributes redirectAttributes,
+            @PathVariable("id") int id_user, @PathVariable("transport") int transport_id) {
         if (transportService.deleteById(transport_id)) {
-            modelAndView.addObject("isDelete", true);
-            modelAndView.setViewName("forward:/user/profile/" + id_user);
+            redirectAttributes.addFlashAttribute("transportIsDelete", true);
         } else {
-            modelAndView.addObject("isDelete", false);
-            modelAndView.setViewName("redirect:/error");
+            redirectAttributes.addFlashAttribute("isNotFoundTransport", true);
         }
-        return modelAndView;
+        return new RedirectView("/user/profile/" + id_user,true);
     }
 
     @ModelAttribute("transport")

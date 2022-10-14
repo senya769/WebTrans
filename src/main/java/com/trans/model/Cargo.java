@@ -32,14 +32,14 @@ public class Cargo {
     private boolean isFree = true;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Countries country_from;
+    private Countries countryFrom;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Countries country_to;
+    private Countries countryTo;
     @NotNull
-    private String city_from;
+    private String cityFrom;
     @NotNull
-    private String city_to;
+    private String cityTo;
     @Enumerated(EnumType.STRING)
     private TypeTransport typeTransport;
 
@@ -53,9 +53,21 @@ public class Cargo {
     @EqualsAndHashCode.Exclude
     private User user;
 
-    @OneToMany(mappedBy = "transport")
+    @OneToMany(mappedBy = "transport",cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Order> orderList;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Cargo cargo = (Cargo) o;
+        return id != null && Objects.equals(id, cargo.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

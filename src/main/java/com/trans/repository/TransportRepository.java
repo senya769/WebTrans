@@ -11,6 +11,6 @@ public interface TransportRepository extends JpaRepository<Transport,Integer> {
     List<Transport> findAll();
     List<Transport> findAllByUserId(int user_id);
     Transport findById(int id);
-    boolean deleteById(int id);
+    void deleteById(int id);
     boolean deleteAllByUserId(int user_id);
 }
