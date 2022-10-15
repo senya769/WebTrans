@@ -22,7 +22,9 @@
         </div>
     </div>
 </section>
-<div class="row">
+<p th:text="${#authentication.getName()}"></p>
+<p th:text="${#request.userPrincipal}"></p>
+<!--<div class="row">
     <div class="card ml" style="width:400px">
         <img class="card-img-top" th:src="@{https://cdn-icons-png.flaticon.com/512/3566/3566665.png}" alt="Card image" style="width:100%">
         <div class="card-body">
@@ -31,8 +33,8 @@
             <a href="#" class="btn btn-primary stretched-link">See Profile</a>
         </div>
     </div>
-<!--</div>
-<div class="container">-->
+&lt;!&ndash;</div>
+<div class="container">&ndash;&gt;
     <div class="card" style="width:400px">
         <img class="card-img-top" th:src="@{https://png.pngtree.com/png-vector/20190308/ourlarge/pngtree-cargo-business-shipping-png-image_785606.jpg}"
              alt="Card image" style="width:100%">
@@ -42,7 +44,7 @@
             <a href="#" class="btn btn-primary stretched-link">See Profile</a>
         </div>
     </div>
-</div>
+</div>-->
 <div th:replace="fragments/footer::footer-fr"></div>
 </body>
 </html>

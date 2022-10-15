@@ -8,6 +8,7 @@ import com.trans.service.OrderService;
 import com.trans.service.TransportService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,15 +16,15 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/order/cargo/{cargo_id}")
-public class OrderCargoController {
+@RequestMapping("/order")
+public class OrderController{
     private final OrderService orderService;
     private final UserService userService;
     private final CargoService cargoService;
     private final TransportService transportService;
 
     @Autowired
-    public OrderCargoController(OrderService orderService, UserService userService, CargoService cargoService, TransportService transportService) {
+    public OrderController(OrderService orderService, UserService userService, CargoService cargoService, TransportService transportService) {
         this.orderService = orderService;
         this.userService = userService;
         this.cargoService = cargoService;
@@ -36,7 +37,7 @@ public class OrderCargoController {
             modelAndView.setViewName("/pages/about");
             return modelAndView;
         }*/
-    @GetMapping("/book")
+    @GetMapping("/cargo/{cargo_id}/book")
     public ModelAndView model(ModelAndView modelAndView, @PathVariable int cargo_id, @RequestParam int customer_id) {
         Cargo cargo = cargoService.findById(cargo_id);
         modelAndView.addObject("cargo", cargo);
@@ -51,12 +52,13 @@ public class OrderCargoController {
         return modelAndView;
     }
 
-    @PostMapping("/book")
+    @PostMapping("/cargo/{cargo_id}/book")
     public ModelAndView model(ModelAndView modelAndView, @RequestParam Integer transport,
                               @PathVariable Integer cargo_id, @RequestParam Integer customer_id) {
         Order order = new Order();
         order.setTransport(transportService.findById(transport));
         order.setCargo(cargoService.findById(cargo_id));
+        order.setCustomerId(customer_id);
         modelAndView.addObject("cargoOwner", cargoService.findById(cargo_id));
         modelAndView.addObject("orderBuild", order);
         if (orderService.save(order) != 0) {
@@ -72,15 +74,4 @@ public class OrderCargoController {
     public Order order() {
         return new Order();
     }
-
-    @ModelAttribute("cargoOwner")
-    public Cargo cargo() {
-        return new Cargo();
-    }
-
-    @ModelAttribute("transportCustomer")
-    public Transport transport() {
-        return new Transport();
-    }
-
 }

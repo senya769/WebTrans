@@ -180,11 +180,11 @@
                         <div class="card-body module-graph">
                             <h5 class="card-title">Orders</h5>
                             <div class="card-text">
-                                Count orders from your transport:
+                                My send orders :
                                 <span th:text="${countOrderByTransports}"></span>
                             </div>
-                            <a th:if="${user.cargoList.size()} > 0"
-                               th:href="@{/user/{id}/transport/list (id = ${user.id})}"
+                            <a th:if="${countOrderByTransports} > 0"
+                               th:href="@{/order/transport/{} (id = ${user.id})}"
                                class="btn btn-outline-info ">Show all</a>
                             <!--checking, if you will be some amount > 0 cargo - show RUD-operations-->
                             <div th:if="${user.transportList.size()} >= 0 and ${principal.email == user.email}">
