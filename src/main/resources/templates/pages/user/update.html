@@ -20,7 +20,7 @@
                             <img th:src="@{${user.imageURL}}"
                                  class="rounded-circle img-fluid" style="width: 100px;" alt="avatar"/>
                         </div>
-                    <form th:href="@{user/update/{id}(id = user.id)}"  method="post">
+                    <form th:href="@{users/update/{id}(id = user.id)}"  method="post">
 
                             <div class="form-text mb-4">
                                 <p class="mb-2 h5">First Name</p>

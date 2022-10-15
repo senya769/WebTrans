@@ -42,7 +42,7 @@ public class MainController {
         return modelAndView;
     }*/
 
-    @GetMapping("/cargo/list")
+    @GetMapping("/cargo")
     protected ModelAndView listCargoAskPost(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
         Page<Cargo> cargoPage = cargoService.findAllSortByDateCreated(page);
@@ -109,7 +109,7 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping("/transport/list")
+    @GetMapping("/transports")
     protected ModelAndView listTransportAsk(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("transportList", transportService.findAll());

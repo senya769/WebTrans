@@ -1,6 +1,7 @@
 package com.trans.service.impl;
 
 import com.trans.model.Order;
+import com.trans.model.enums.OrderStatus;
 import com.trans.repository.OrderRepository;
 import com.trans.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,31 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Integer accept(Order order) {
+        order.setStatus(OrderStatus.ACTIVE);
+        order.getCargo().setFree(false);
+        order.getTransport().setFree(false);
+        Order save = orderRepository.save(order);
+        return save.getId();
+    }
+
+    @Override
+    public Integer cancel(Order order) {
+        order.setStatus(OrderStatus.REJECTED);
+        Order save = orderRepository.save(order);
+        return save.getId();
+    }
+
+    @Override
+    public Integer complete(Order order) {
+        order.setStatus(OrderStatus.COMPLETED);
+        order.getTransport().setFree(true);
+        Order save = orderRepository.save(order);
+        return save.getId();
+    }
+
+
+    @Override
     public boolean removeById(Integer id) {
         Order orderForDelete = orderRepository.findById(id).orElse(null);
         if (orderForDelete != null) {
@@ -46,24 +72,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getTransportReceivedOrders(Integer transport_user_id, Integer customerId) {
-        return orderRepository.findByTransport_User_IdAndCustomerIdNot(transport_user_id, customerId);
+    public List<Order> getTransportReceivedOrdersById(Integer customerId) {
+        return orderRepository.findByTransport_User_IdAndCustomerIdNot(customerId, customerId);
     }
 
     @Override
-    public List<Order> getTransportSentOrders(Integer transport_user_id, Integer customerId) {
-        return orderRepository.findByTransport_User_IdAndCustomerId(transport_user_id, customerId);
+    public List<Order> getTransportSentOrdersById( Integer customerId) {
+        return orderRepository.findByTransport_User_IdAndCustomerId(customerId, customerId);
     }
 
     @Override
-    public List<Order> getCargoReceivedOrders(Integer cargo_user_id, Integer customerId) {
-        return orderRepository.findByCargo_User_IdAndCustomerIdNot(cargo_user_id, customerId);
+    public List<Order> getCargoReceivedOrdersById(Integer customerId) {
+        return orderRepository.findByCargo_User_IdAndCustomerIdNot(customerId, customerId);
 
     }
 
     @Override
-    public List<Order> getCargoSentOrders(Integer cargo_user_id, Integer customerId) {
-        return orderRepository.findByCargo_User_IdAndCustomerId(cargo_user_id, customerId);
+    public List<Order> getCargoSentOrdersById(Integer customerId) {
+        return orderRepository.findByCargo_User_IdAndCustomerId(customerId, customerId);
 
+    }
+
+    @Override
+    public Order findById(Integer id) {
+        return orderRepository.findById(id).orElse(null);
     }
 }

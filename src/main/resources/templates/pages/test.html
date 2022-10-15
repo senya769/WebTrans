@@ -7,10 +7,10 @@
 </head>
 <body>
 TEST
-<form   th:method="post" th:href="@{/order/cargo/{cargo_id}/book(cargo_id = ${cargo.id})}">
+<form   th:method="post" th:href="@{/orders/cargo/{cargo_id}/book(cargo_id = ${cargo.id})}">
     <div class="form-group col-md-6">
         <label for="country">Your Available transport</label>
-        <select class="form-control" th:name="transport" id="country">
+        <select class="form-control" th:name="transport_id" id="country">
             <option th:each="ts:${transportListCustomer}"
                     th:value="${ts.id}" th:text="${'id: '+ts.id +' name: '+ ts.name + ' type: '+ ts.type}"></option>
         </select>
@@ -62,7 +62,7 @@ TEST
             </td>
             <td>
                 <div th:text="${c.user.activity.value}"></div>
-                <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
+                <a th:href="@{/users/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
             </td>
         </tr>
     </table>

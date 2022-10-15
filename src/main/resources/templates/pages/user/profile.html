@@ -28,11 +28,11 @@
                                 Count cargo this user:
                                 <span th:text="${user.cargoList.size()}"></span>
                             </div>
-                            <a th:if="${user.cargoList.size()} > 0" th:href="@{/user/{id}/cargo/list (id = ${user.id})}"
+                            <a th:if="${user.cargoList.size()} > 0" th:href="@{/users/{id}/cargo(id = ${user.id})}"
                                class="btn btn-outline-info">Show all</a>
 
                             <div th:if="${user.cargoList.size()} >= 0 and  ${principal.email == user.email}">
-                                <a th:href="@{/user/{id}/cargo/add (id = ${user.id})}"
+                                <a th:href="@{/users/{id}/cargo/add (id = ${user.id})}"
                                    class="btn btn-outline-primary my-1">Add</a>
 
                                 <!--<a th:href="@{/user/{id}/cargo/update (id = ${user.id})}"
@@ -40,6 +40,29 @@
 
                                 <a th:href="@{/user/{id}/cargo/delete (id = ${user.id})}"
                                    class="btn btn-outline-danger">Remove</a>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card w-20">
+                        <div class="card-body module-graph">
+                            <h5 class="card-title">Transport Orders</h5>
+                            <div class="card-text">
+                                My send orders :
+                                <span th:text="${countOrderByCargo}"></span>
+                            </div>
+                            <a th:if="${principal.email == user.email}"
+                               th:href="@{/users/{user_id}/cargo/sent/orders (user_id = ${user.id})}"
+                               class="btn btn-outline-info ">Sent Cargo Orders</a>
+                            <!--checking, if you will be some amount > 0 cargo - show RUD-operations-->
+                            <div th:if="${principal.email == user.email}">
+                                <a th:href="@{/users/{user_id}/cargo/received/orders (user_id = ${user.id})}"
+                                   class="btn btn-outline-primary my-1">Received Cargo Orders</a>
+
+                                <!--   <a th:href="@{/user/{id}/transport/update (id = ${user.id})}"
+                                      class="btn btn-outline-success">Update</a>
+
+                                   <a th:href="@{/user/{id}/transport/delete (id = ${user.id})}"
+                                      class="btn btn-outline-danger">Remove</a>-->
                             </div>
                         </div>
                     </div>
@@ -52,14 +75,14 @@
 
                                  <div th:if="${{principal.email == user.email} or #request.isUserInRole('ROLE_ADMIN')}"
                                       class="text-lg-start">
-                            <a type="button" th:href="@{/user/update/{id}(id = ${user.id})}" class="btn btn-primary">
+                            <a type="button" th:href="@{/users/update/{id}(id = ${user.id})}" class="btn btn-primary">
                                 Edit acc
                             </a>
-                            <a type="button" th:href="@{/user/delete/{id}(id = ${user.id})}"
+                            <a type="button" th:href="@{/users/delete/{id}(id = ${user.id})}"
                                class="btn btn-danger btn-rounded ">
                                 Remove Account
                             </a>
-                            <a type="button" th:href="@{/user/list}" class="btn btn-primary btn-rounded ">
+                            <a type="button" th:href="@{/users}" class="btn btn-primary btn-rounded ">
                                 Show All Users
                             </a>
 
@@ -105,13 +128,14 @@
                                     <p class="text-muted mb-0" th:text="${user.nameCompany}">
                                     </p>
                                 </div>
-                                <div>
-                                    <p class="mb-2 h5">ID</p>
-                                    <p class="text-muted mb-0" th:text="${user.id}">
-                                    </p>
-                                </div>
+                                <!--  <div>
+                                      <p class="mb-2 h5">ID</p>
+                                      <p class="text-muted mb-0" th:text="${user.id}">
+                                      </p>
+                                  </div>-->
                             </div>
                         </div>
+                        <!--                        alerts-->
                         <div class="alert notification">
                             <div class="col-sm alert alert-success alert-dismissible fade show" role="alert"
                                  th:if="${isUpdate}">
@@ -160,12 +184,12 @@
                                 Count transports this user:
                                 <span th:text="${user.transportList.size()}"></span>
                             </div>
-                            <a th:if="${user.cargoList.size()} > 0"
-                               th:href="@{/user/{id}/transport/list (id = ${user.id})}"
+                            <a th:if="${user.transportList.size()} > 0"
+                               th:href="@{/users/{id}/transports (id = ${user.id})}"
                                class="btn btn-outline-info ">Show all</a>
                             <!--checking, if you will be some amount > 0 cargo - show RUD-operations-->
                             <div th:if="${user.transportList.size()} >= 0 and ${principal.email == user.email}">
-                                <a th:href="@{/user/{id}/transport/add (id = ${user.id})}"
+                                <a th:href="@{/users/{id}/transports/add (id = ${user.id})}"
                                    class="btn btn-outline-primary my-1">Add</a>
 
                                 <!--   <a th:href="@{/user/{id}/transport/update (id = ${user.id})}"
@@ -175,21 +199,22 @@
                                       class="btn btn-outline-danger">Remove</a>-->
                             </div>
                         </div>
-<!--                        Orders panel management-->
-                    </div> <div class="card w-20">
+                    </div>
+                    <!--                        Orders panel management-->
+                    <div class="card w-20">
                         <div class="card-body module-graph">
-                            <h5 class="card-title">Orders</h5>
+                            <h5 class="card-title">Transport Orders</h5>
                             <div class="card-text">
                                 My send orders :
                                 <span th:text="${countOrderByTransports}"></span>
                             </div>
-                            <a th:if="${countOrderByTransports} > 0"
-                               th:href="@{/order/transport/{} (id = ${user.id})}"
-                               class="btn btn-outline-info ">Show all</a>
+                            <a th:if="${principal.email == user.email}"
+                               th:href="@{/users/{user_id}/transports/sent/orders (user_id = ${user.id})}"
+                               class="btn btn-outline-info ">Sent Transport Orders</a>
                             <!--checking, if you will be some amount > 0 cargo - show RUD-operations-->
-                            <div th:if="${user.transportList.size()} >= 0 and ${principal.email == user.email}">
-                                <a th:href="@{/user/{id}/transport/add (id = ${user.id})}"
-                                   class="btn btn-outline-primary my-1">Add</a>
+                            <div th:if="${principal.email == user.email}">
+                                <a th:href="@{/users/{user_id}/transports/received/orders (user_id = ${user.id})}"
+                                   class="btn btn-outline-primary my-1">Received Transport Orders</a>
 
                                 <!--   <a th:href="@{/user/{id}/transport/update (id = ${user.id})}"
                                       class="btn btn-outline-success">Update</a>

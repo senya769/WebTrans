@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/user/{id}/")
+@RequestMapping("/users/{user_Id}/")
 public class UserOrderController {
     private final OrderService orderService;
     private final UserService userService;
@@ -27,30 +27,30 @@ public class UserOrderController {
         this.transportService = transportService;
     }
 
-    @GetMapping("/transport/received/orders")
-    public ModelAndView getTransportReceivedOrders(ModelAndView modelAndView, @PathVariable Integer id) {
-        modelAndView.addObject("orders",orderService.getTransportReceivedOrders(id,id));
+    @GetMapping("/transports/received/orders")
+    public ModelAndView getTransportReceivedOrders(ModelAndView modelAndView, @PathVariable Integer user_Id) {
+        modelAndView.addObject("orders",orderService.getTransportReceivedOrdersById(user_Id));
         modelAndView.setViewName("pages/orders");
         return modelAndView;
     }
 
     @GetMapping("/cargo/received/orders")
-    public ModelAndView getCargoReceivedOrders(ModelAndView modelAndView, @PathVariable Integer id) {
-        modelAndView.addObject("orders",orderService.getCargoReceivedOrders(id,id));
+    public ModelAndView getCargoReceivedOrders(ModelAndView modelAndView, @PathVariable Integer user_Id) {
+        modelAndView.addObject("orders",orderService.getCargoReceivedOrdersById(user_Id));
         modelAndView.setViewName("pages/orders");
         return modelAndView;
     }
 
-    @GetMapping("/transport/sent/orders")
-    public ModelAndView getTransportSentOrders(ModelAndView modelAndView, @PathVariable Integer id) {
-        modelAndView.addObject("orders",orderService.getTransportSentOrders(id,id));
+    @GetMapping("/transports/sent/orders")
+    public ModelAndView getTransportSentOrders(ModelAndView modelAndView, @PathVariable Integer user_Id) {
+        modelAndView.addObject("orders",orderService.getTransportSentOrdersById(user_Id));
         modelAndView.setViewName("pages/orders");
         return modelAndView;
     }
 
     @GetMapping("/cargo/sent/orders")
-    public ModelAndView getCargoSentOrders(ModelAndView modelAndView, @PathVariable Integer id) {
-        modelAndView.addObject("orders",orderService.getCargoSentOrders(id,id));
+    public ModelAndView getCargoSentOrders(ModelAndView modelAndView, @PathVariable Integer user_Id) {
+        modelAndView.addObject("orders",orderService.getCargoSentOrdersById(user_Id));
         modelAndView.setViewName("pages/orders");
         return modelAndView;
     }

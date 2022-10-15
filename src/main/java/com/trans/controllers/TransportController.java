@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping("/user/{user_id}/transport/")
+@RequestMapping("/users/{user_id}/transports")
 public class TransportController {
 
     private final TransportService transportService;
@@ -24,7 +24,7 @@ public class TransportController {
         this.userService = userService;
     }
 
-    @GetMapping("/list")
+    @GetMapping()
     protected ModelAndView list(@PathVariable int user_id, ModelAndView modelAndView) {
         UserDTO user = userService.findDTOById(user_id);
         if (user.getTransportList().isEmpty()) {
@@ -64,7 +64,7 @@ public class TransportController {
         } else {
             redirectAttributes.addFlashAttribute("isNotFoundTransport", true);
         }
-        return new RedirectView("/user/profile/" + id_user,true);
+        return new RedirectView("/users/profile/" + id_user,true);
     }
 
     @ModelAttribute("transport")

@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
    private final UserService userService;
     private final CargoService cargoService;
@@ -39,6 +39,7 @@ public class UserController {
         UserDTO user = userService.findDTOById(user_id);
         modelAndView.addObject("user", user);
         modelAndView.addObject("countOrderByTransports",orderService.findAllByTransportUserId(user_id).size());
+        modelAndView.addObject("countOrderByCargo",orderService.findAllByCargoUserId(user_id).size());
         modelAndView.setViewName("pages/user/profile");
         return modelAndView;
     }
@@ -71,7 +72,7 @@ public class UserController {
         boolean isUpdate = userService.update(user,password);
         redirectAttributes.addFlashAttribute("isUpdate",isUpdate);
         redirectAttributes.addAttribute("id", user_id);
-        return new RedirectView("/user/profile/{id}",true);
+        return new RedirectView("/users/profile/{id}",true);
     }
 
     @GetMapping("/delete/{user_id}")
@@ -84,11 +85,11 @@ public class UserController {
     @PostMapping("/delete/{user_id}")
     public ModelAndView deletePost(ModelAndView modelAndView, @PathVariable int user_id) {
         userService.deleteById(user_id);
-        modelAndView.setViewName("redirect:/user/list");
+        modelAndView.setViewName("redirect:/users/list");
         return modelAndView;
     }
 
-    @GetMapping("/list")
+    @GetMapping("/")
     public ModelAndView listUsers(ModelAndView modelAndView) {
         List<UserDTO> users = userService.getAll();
         modelAndView.addObject("users", users);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>list all cargo</title>
     <div th:replace="fragments/header::header-css"></div>
@@ -66,53 +66,58 @@
                 <div th:text="${c.price}+' $'"></div>
             </td>
             <td>
-                <div th:text="${c.user.activity.value}"></div>
-                <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
+
+                <div sec:authorize="isAuthenticated()">
+                    <div th:text="${c.user.activity.value}"></div>
+                    <a th:href="@{/users/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
+                </div>
+                <div sec:authorize="!isAuthenticated()">
+                    <a th:href="@{/login}">Information Owner</a>
+                </div>
             </td>
             <td>
                 <div class="align-items-center">
                     <div th:if="${#authentication.getName()== c.user.email}">
-                    Your cargo!
-                </div>
-                <div th:unless="${#authentication.getName() == c.user.email}">
-                    <div th:if="${#authentication.authenticated}">
-                        <form th:action="@{/order/cargo/{cargo_id}/book(cargo_id = ${c.id})}" th:method="get">
-                            <input type="hidden" th:value="${#authentication.getPrincipal().id}"
-                                   th:name="customer_id">
-                            <button type="submit" class="badge btn-primary">send offer</button>
-                        </form>
+                        Your cargo!
                     </div>
-                </div>
-</div>
-</td>
-</tr>
-</table>
+                    <div th:unless="${#authentication.getName() == c.user.email}">
+                        <div th:if="${#authentication.authenticated}">
+                            <form th:action="@{/orders/cargo/{cargo_id}/book(cargo_id = ${c.id})}" th:method="get">
 
-<div class="row" th:fragment="pagination">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <nav aria-label="Pagination">
-            <ul class="pagination justify-content-center">
-                <li class="page-item" th:each="pageNumber : ${pageNumbers}">
-                    <div th:if="${pageNumber} == ${cargoPage}">
-                        <!--                            <li class="page-item active">-->
-                        <a class="page-link active" th:href="@{/cargo/list(page=${pageNumber})}"
-                           th:text="${pageNumber}"></a>
-                        <!--                            </li>-->
+                                <button type="submit" class="badge btn-primary">send offer</button>
+                            </form>
+                        </div>
                     </div>
-                    <div th:unless="${pageNumber} == ${cargoPage}">
-                        <!--                            <li th:class="page-item">-->
-                        <a class="page-link" th:href="@{/cargo/list(page=${pageNumber})}"
-                           th:text="${pageNumber}"></a>
-                        <!--                            </li>-->
-                    </div>
-                </li>
-            </ul>
-        </nav>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="row" th:fragment="pagination">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                        <div th:if="${pageNumber} == ${cargoPage}">
+                            <!--                            <li class="page-item active">-->
+                            <a class="page-link active" th:href="@{/cargo/list(page=${pageNumber})}"
+                               th:text="${pageNumber}"></a>
+                            <!--                            </li>-->
+                        </div>
+                        <div th:unless="${pageNumber} == ${cargoPage}">
+                            <!--                            <li th:class="page-item">-->
+                            <a class="page-link" th:href="@{/cargo/list(page=${pageNumber})}"
+                               th:text="${pageNumber}"></a>
+                            <!--                            </li>-->
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-2"></div>
     </div>
-    <div class="col-md-2"></div>
-</div>
-<div th:replace="fragments/footer::footer-fr"></div>
+    <div th:replace="fragments/footer::footer-fr"></div>
 </div>
 
 </body>

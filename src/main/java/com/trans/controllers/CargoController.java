@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping("/user/{user_id}/cargo")
+@RequestMapping("/users/{user_id}/cargo")
 public class CargoController {
 
     private final CargoService cargoService;
@@ -26,7 +26,7 @@ public class CargoController {
     }
 
 
-    @GetMapping("/list")
+    @GetMapping()
     protected ModelAndView listCargoFromUser(@PathVariable int user_id) {
         ModelAndView modelAndView = new ModelAndView();
         UserDTO user = userService.findDTOById(user_id);
@@ -53,7 +53,7 @@ public class CargoController {
         cargoService.saveWithUserAndDate(cargo, userService.findDTOById(user_id), dateDeadline);
         attributes.addAttribute("user_id", user_id);
         attributes.addFlashAttribute("isCreateCargo", true);
-       return new RedirectView("/user/profile/{user_id}",true);
+       return new RedirectView("/users/profile/{user_id}",true);
     }
 
 
@@ -65,7 +65,7 @@ public class CargoController {
         } else {
             redirectAttributes.addFlashAttribute("isNotFoundCargo", true);
         }
-        return new RedirectView("/user/profile/" + id_user,true);
+        return new RedirectView("/users/profile/" + id_user,true);
     }
 
     @ModelAttribute("cargo")

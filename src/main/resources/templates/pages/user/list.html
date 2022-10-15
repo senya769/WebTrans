@@ -33,7 +33,7 @@
         <td th:text="${u.status}">
         <td>
         <div th:if="${u.status != 'Admin'}">
-            <form th:action="@{/user/delete/{id}(id = ${u.id})}" method="post">
+            <form th:action="@{/users/delete/{id}(id = ${u.id})}" method="post">
                 <button type="submit" class="badge badge-danger">delete</button>
             </form>
         </div>
