@@ -55,7 +55,7 @@ public class MainController {
             List<Integer> pageNumbers = IntStream.rangeClosed(1,totalPages).boxed().collect(Collectors.toList());
             modelAndView.addObject("pageNumbers", pageNumbers);
         }
-        modelAndView.setViewName("pages/cargo/list_all_cargo");
+        modelAndView.setViewName("pages/cargo/list_all");
         return modelAndView;
     }
     @GetMapping("/cargo/list1")
@@ -73,7 +73,7 @@ public class MainController {
             List<Integer> pageNumbers = IntStream.rangeClosed(1,totalPages).boxed().collect(Collectors.toList());
             modelAndView.addObject("pageNumbers", pageNumbers);
         }*/
-        modelAndView.setViewName("pages/cargo/list_all_cargo");
+        modelAndView.setViewName("pages/cargo/list_all");
         return modelAndView;
     }
 
@@ -82,7 +82,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("transport",new Transport());
         modelAndView.addObject("id",ts);
-        modelAndView.setViewName("pages/transport/addTransport");
+        modelAndView.setViewName("pages/transport/add-test");
         return modelAndView;
     }
 
@@ -90,14 +90,14 @@ public class MainController {
     protected ModelAndView listTransportAsk(@ModelAttribute Transport transport,@PathVariable Integer ts) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("ts",transport);
-        modelAndView.setViewName("pages/transport/addTransport");
+        modelAndView.setViewName("pages/transport/add-test");
         return modelAndView;
     }
     @GetMapping("/test")
     protected ModelAndView list1TransportAsk1(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("transport",new Transport());
-        modelAndView.setViewName("pages/transport/addTransport");
+        modelAndView.setViewName("pages/transport/add-test");
         return modelAndView;
     }
 
@@ -105,7 +105,7 @@ public class MainController {
     protected ModelAndView list2TransportAsk(@ModelAttribute Transport transport) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("ts",transport);
-        modelAndView.setViewName("pages/transport/addTransport");
+        modelAndView.setViewName("pages/transport/add-test");
         return modelAndView;
     }
 
@@ -113,7 +113,7 @@ public class MainController {
     protected ModelAndView listTransportAsk(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("transportList", transportService.findAll());
-        modelAndView.setViewName("pages/transport/list_all_transport");
+        modelAndView.setViewName("pages/transport/list_all");
         return modelAndView;
     }
 

@@ -36,14 +36,14 @@ public class CargoController {
             modelAndView.addObject("notExists", false);
         }
         modelAndView.addObject("user", user);
-        modelAndView.setViewName("pages/cargo/list_cargo");
+        modelAndView.setViewName("pages/cargo/list");
         return modelAndView;
     }
 
     @GetMapping("/add")
     protected ModelAndView addGet(ModelAndView modelAndView, @PathVariable int user_id) {
         modelAndView.addObject("user_id", user_id);
-        modelAndView.setViewName("pages/cargo/add_cargo");
+        modelAndView.setViewName("pages/cargo/add");
         return modelAndView;
     }
 

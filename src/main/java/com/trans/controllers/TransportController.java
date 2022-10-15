@@ -33,7 +33,7 @@ public class TransportController {
             modelAndView.addObject("notExists", false);
         }
         modelAndView.addObject("user", user);
-        modelAndView.setViewName("pages/transport/list_transport");
+        modelAndView.setViewName("pages/transport/list");
         return modelAndView;
     }
 
@@ -41,7 +41,7 @@ public class TransportController {
     protected ModelAndView addGet(ModelAndView modelAndView, @PathVariable int user_id) {
         modelAndView.addObject("user_id", user_id);
         modelAndView.addObject("tr",new Transport());
-        modelAndView.setViewName("pages/transport/add_transport");
+        modelAndView.setViewName("pages/transport/add");
         return modelAndView;
     }
 
@@ -52,7 +52,7 @@ public class TransportController {
         transportService.saveWithUser(transport, userService.findById(user_id));
         modelAndView.addObject("isCreateTransport", true);
         //кидать уведомление на гл
-        modelAndView.setViewName("pages/transport/success_add_transport");
+        modelAndView.setViewName("pages/transport/success_add");
         return modelAndView;
     }
 
