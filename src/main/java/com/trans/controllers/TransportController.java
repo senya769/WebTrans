@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping("/user/{id}/transport/")
+@RequestMapping("/user/{user_id}/transport/")
 public class TransportController {
 
     private final TransportService transportService;
@@ -25,8 +25,8 @@ public class TransportController {
     }
 
     @GetMapping("/list")
-    protected ModelAndView list(@PathVariable int id, ModelAndView modelAndView) {
-        UserDTO user = userService.findDTOById(id);
+    protected ModelAndView list(@PathVariable int user_id, ModelAndView modelAndView) {
+        UserDTO user = userService.findDTOById(user_id);
         if (user.getTransportList().isEmpty()) {
             modelAndView.addObject("notExists", true);
         } else {
@@ -38,8 +38,8 @@ public class TransportController {
     }
 
     @GetMapping("/add")
-    protected ModelAndView addGet(ModelAndView modelAndView, @PathVariable int id) {
-        modelAndView.addObject("user_id", id);
+    protected ModelAndView addGet(ModelAndView modelAndView, @PathVariable int user_id) {
+        modelAndView.addObject("user_id", user_id);
         modelAndView.addObject("tr",new Transport());
         modelAndView.setViewName("pages/transport/add_transport");
         return modelAndView;
@@ -47,9 +47,9 @@ public class TransportController {
 
 
     @PostMapping("/add")
-    protected ModelAndView addPost(@ModelAttribute Transport transport, @PathVariable int id) {
+    protected ModelAndView addPost(@ModelAttribute Transport transport, @PathVariable int user_id) {
         ModelAndView modelAndView = new ModelAndView();
-        transportService.saveWithUser(transport, userService.findById(id));
+        transportService.saveWithUser(transport, userService.findById(user_id));
         modelAndView.addObject("isCreateTransport", true);
         //кидать уведомление на гл
         modelAndView.setViewName("pages/transport/success_add_transport");
@@ -57,8 +57,8 @@ public class TransportController {
     }
 
     @GetMapping("/remove/{transport}")
-    protected RedirectView removeCargo( RedirectAttributes redirectAttributes,
-            @PathVariable("id") int id_user, @PathVariable("transport") int transport_id) {
+    protected RedirectView removeCargo(RedirectAttributes redirectAttributes,
+                                       @PathVariable("user_id") int id_user, @PathVariable("transport") int transport_id) {
         if (transportService.deleteById(transport_id)) {
             redirectAttributes.addFlashAttribute("transportIsDelete", true);
         } else {

@@ -44,4 +44,26 @@ public class OrderServiceImpl implements OrderService {
             return false;
         }
     }
+
+    @Override
+    public List<Order> getTransportReceivedOrders(Integer transport_user_id, Integer customerId) {
+        return orderRepository.findByTransport_User_IdAndCustomerIdNot(transport_user_id, customerId);
+    }
+
+    @Override
+    public List<Order> getTransportSentOrders(Integer transport_user_id, Integer customerId) {
+        return orderRepository.findByTransport_User_IdAndCustomerId(transport_user_id, customerId);
+    }
+
+    @Override
+    public List<Order> getCargoReceivedOrders(Integer cargo_user_id, Integer customerId) {
+        return orderRepository.findByCargo_User_IdAndCustomerIdNot(cargo_user_id, customerId);
+
+    }
+
+    @Override
+    public List<Order> getCargoSentOrders(Integer cargo_user_id, Integer customerId) {
+        return orderRepository.findByCargo_User_IdAndCustomerId(cargo_user_id, customerId);
+
+    }
 }

@@ -71,45 +71,48 @@
             </td>
             <td>
                 <div class="align-items-center">
-                    <div  th:if="${#request.userPrincipal.principal.id == c.user.id}">
-                        Your cargo!
-                    </div>
-                    <div  th:if="${#request.userPrincipal.principal.id != c.user.id}">
-                    <form th:action="@{/order/cargo/{cargo_id}/book(cargo_id = ${c.id})}" th:method="get">
-                        <input type="hidden" th:value="${#request.userPrincipal.principal.id}" th:name="customer_id">
-                        <button type="submit" class="badge btn-primary">send offer</button>
-                    </form>
+                    <div th:if="${#authentication.getName()== c.user.email}">
+                    Your cargo!
+                </div>
+                <div th:unless="${#authentication.getName() == c.user.email}">
+                    <div th:if="${#authentication.authenticated}">
+                        <form th:action="@{/order/cargo/{cargo_id}/book(cargo_id = ${c.id})}" th:method="get">
+                            <input type="hidden" th:value="${#authentication.getPrincipal().id}"
+                                   th:name="customer_id">
+                            <button type="submit" class="badge btn-primary">send offer</button>
+                        </form>
                     </div>
                 </div>
-            </td>
-        </tr>
-    </table>
+</div>
+</td>
+</tr>
+</table>
 
-    <div class="row" th:fragment="pagination">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <nav aria-label="Pagination">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item" th:each="pageNumber : ${pageNumbers}">
-                        <div th:if="${pageNumber} == ${cargoPage}">
-                            <!--                            <li class="page-item active">-->
-                            <a class="page-link active" th:href="@{/cargo/list(page=${pageNumber})}"
-                               th:text="${pageNumber}"></a>
-                            <!--                            </li>-->
-                        </div>
-                        <div th:unless="${pageNumber} == ${cargoPage}">
-                            <!--                            <li th:class="page-item">-->
-                            <a class="page-link" th:href="@{/cargo/list(page=${pageNumber})}"
-                               th:text="${pageNumber}"></a>
-                            <!--                            </li>-->
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        <div class="col-md-2"></div>
+<div class="row" th:fragment="pagination">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <nav aria-label="Pagination">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                    <div th:if="${pageNumber} == ${cargoPage}">
+                        <!--                            <li class="page-item active">-->
+                        <a class="page-link active" th:href="@{/cargo/list(page=${pageNumber})}"
+                           th:text="${pageNumber}"></a>
+                        <!--                            </li>-->
+                    </div>
+                    <div th:unless="${pageNumber} == ${cargoPage}">
+                        <!--                            <li th:class="page-item">-->
+                        <a class="page-link" th:href="@{/cargo/list(page=${pageNumber})}"
+                           th:text="${pageNumber}"></a>
+                        <!--                            </li>-->
+                    </div>
+                </li>
+            </ul>
+        </nav>
     </div>
-    <div th:replace="fragments/footer::footer-fr"></div>
+    <div class="col-md-2"></div>
+</div>
+<div th:replace="fragments/footer::footer-fr"></div>
 </div>
 
 </body>

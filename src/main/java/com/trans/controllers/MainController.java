@@ -77,17 +77,17 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping("/test/{id}")
-    protected ModelAndView listTransportAsk(@PathVariable Integer id) {
+    @GetMapping("/test/{ts}")
+    protected ModelAndView listTransportAsk(@PathVariable Integer ts) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("transport",new Transport());
-        modelAndView.addObject("id",id);
+        modelAndView.addObject("id",ts);
         modelAndView.setViewName("pages/transport/addTransport");
         return modelAndView;
     }
 
-    @PostMapping("/test/{id}")
-    protected ModelAndView listTransportAsk(@ModelAttribute Transport transport,@PathVariable Integer id) {
+    @PostMapping("/test/{ts}")
+    protected ModelAndView listTransportAsk(@ModelAttribute Transport transport,@PathVariable Integer ts) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("ts",transport);
         modelAndView.setViewName("pages/transport/addTransport");
