@@ -4,7 +4,7 @@
     <title>list transport</title>
     <div th:replace="fragments/header::header-css"></div>
     <div th:replace="fragments/header::header-fr"></div>
-    <link rel="stylesheet" th:href="@{/styles/css/profile.css}" media="all" type="text/css">
+    <link rel="stylesheet" th:href="@{/styles/css/lists.css}" media="all" type="text/css">
 
 </head>
 <body>
@@ -22,29 +22,35 @@
             <thead class="table-group-divider table-light">
             <tr>
                 <div class="head-table">
-                    <th scope="col">ID</th>
-                    <th scope="col">name</th>
+                    <th scope="col">Name</th>
                     <th scope="col">Type</th>
+                    <th scope="col">Capacity Load (Max)</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Owner</th>
-                    <th scope="col">PANEL</th>
+                    <th scope="col">Panel</th>
                 </div>
             </tr>
             </thead>
             <tbody>
             <tr th:each="t:${user.transportList}">
-                <th th:text="${t.id}">
                 <td th:text="${t.name}">
+                <td th:text="${t.type}">
                 <td th:text="${t.maxCapacityLoad}">
-                <td th:text="${t.typeTransport}">
-
+                <td th:if="${t.isFree}">
+                Free
                 </td>
-
-                <td>
-                    <div th:text="${t.user.status}"></div>
-                    <a th:href="@{/user/profile/{id_user}(id_user = ${t.user.id})}" th:text="${t.user.nickname}"></a>
+                <td th:unless="${t.isFree}">
+                Busy
                 </td>
                 <td>
-                    <div th:if="${user.email == #request.userPrincipal.getName()}">
+                    <div th:text="${t.user.activity}"></div>
+                    <a th:href="@{/user/profile/{id_user}(id_user = ${t.user.id})}" th:text="${t.user.nameCompany}"></a>
+                </td>
+                <td>
+                    <form th:action="@{#}" th:method="post">
+                        <button type="submit" class="badge btn-primary">send offer</button>
+                    </form>
+                    <div th:if="${user.email == #request.userPrincipal.getName()} or ${#request.isUserInRole('ADMIN')}">
                         <form th:action="@{/user/{user_id}/transport/remove/{transport_id} (transport_id = ${t.id},user_id = ${user.id})}"
                               method="get">
                             <button type="submit" class="badge badge-danger">delete</button>

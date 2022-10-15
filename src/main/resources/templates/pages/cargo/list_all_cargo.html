@@ -3,11 +3,24 @@
 <head>
     <title>list all cargo</title>
     <div th:replace="fragments/header::header-css"></div>
+    <link rel="stylesheet" th:href="@{/styles/css/lists.css}" media="all" type="text/css">
 </head>
 <body>
 <div class="page">
     <div th:replace="fragments/header::header-fr"></div>
 
+    <form th:href="@{cargo/list1}">
+        <div class="form-group col-md-6">
+            <label for="country">Cities from:</label>
+            <select class="form-control" id="country" th:name="cityFrom">
+                <option>Any</option>
+                <option th:each="city : ${citiesFrom}"
+                        th:value="${city}" th:text="${city}"></option>
+            </select>
+            <button type="submit">Filter</button>
+            <button type="reset"><a th:href="@{list1}">reset</a></button>
+        </div>
+    </form>
     <table class="table table-hover table-info table-bordered table-sm">
         <thead class="table-group-divider table-light">
         <thead>
@@ -20,7 +33,7 @@
                 <th scope="col">Characteristics</th>
                 <th scope="col">Price</th>
                 <th scope="col">Owner</th>
-                <!--                <th scope="col">Book</th>-->
+                <th scope="col">Panel</th>
             </div>
         </tr>
         </thead>
@@ -32,14 +45,14 @@
                 <span th:text="${#temporals.format(c.localDateDeadline,'dd-MMM-yy HH:mm')}"></span>
             </td>
             <td>
-                <span th:text="${c.country_from}"></span>
+                <span th:text="${c.countryFrom}"></span>
                 ->
-                <span th:text="${c.country_to}"></span>
+                <span th:text="${c.countryTo}"></span>
             </td>
             <td>
-                <span th:text="${c.city_from}"></span>
+                <span th:text="${c.cityFrom}"></span>
                 ->
-                <span th:text="${c.city_to}"></span>
+                <span th:text="${c.cityTo}"></span>
             </td>
             <td th:text="${c.name}">
             <td>
@@ -53,23 +66,54 @@
                 <div th:text="${c.price}+' $'"></div>
             </td>
             <td>
-                <div th:text="${c.user.activity}"></div>
+                <div th:text="${c.user.activity.value}"></div>
                 <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
             </td>
-        </tr>
-    </table>
-     <div th:if="${cargoListAsk.totalPages > 0}" class="pagination"
-          th:each="pageNumber : ${pageNumbers}">
-         <a th:href="@{/cargo/list(page=${pageNumber})}"
-            th:text="${pageNumber}"
-            th:class="${pageNumber==cargoListAsk.number + 1} ? active"></a>
-     <div th:replace="fragments/footer::footer-fr"></div>
- </div>
+            <td>
+                <div class="align-items-center">
+                    <div th:if="${#authentication.getName()== c.user.email}">
+                    Your cargo!
+                </div>
+                <div th:unless="${#authentication.getName() == c.user.email}">
+                    <div th:if="${#authentication.authenticated}">
+                        <form th:action="@{/order/cargo/{cargo_id}/book(cargo_id = ${c.id})}" th:method="get">
+                            <input type="hidden" th:value="${#authentication.getPrincipal().id}"
+                                   th:name="customer_id">
+                            <button type="submit" class="badge btn-primary">send offer</button>
+                        </form>
+                    </div>
+                </div>
 </div>
-<form th:href="@{/cargo/list}" method="post">
-<input  th:name = "page" type="number">
-<input type="submit">
-</form>
-<div th:text="${pageNumbers}"></div>
+</td>
+</tr>
+</table>
+
+<div class="row" th:fragment="pagination">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <nav aria-label="Pagination">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                    <div th:if="${pageNumber} == ${cargoPage}">
+                        <!--                            <li class="page-item active">-->
+                        <a class="page-link active" th:href="@{/cargo/list(page=${pageNumber})}"
+                           th:text="${pageNumber}"></a>
+                        <!--                            </li>-->
+                    </div>
+                    <div th:unless="${pageNumber} == ${cargoPage}">
+                        <!--                            <li th:class="page-item">-->
+                        <a class="page-link" th:href="@{/cargo/list(page=${pageNumber})}"
+                           th:text="${pageNumber}"></a>
+                        <!--                            </li>-->
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<div th:replace="fragments/footer::footer-fr"></div>
+</div>
+
 </body>
 </html>

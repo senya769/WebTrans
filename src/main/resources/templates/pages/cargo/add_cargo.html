@@ -13,7 +13,7 @@
     <div class="row">
 
         <div class="col-md-8 col-md-offset-2">
-            <form th:action="@{/user/{id_user}/cargo/add (id_user = ${user_id})}" th:method="post" th:object="${cargo}">
+            <form th:action="@{/user/{user_id}/cargo/add (user_id = ${user_id})}" th:method="post" th:object="${cargo}">
                 <legend class="text-center">Register</legend>
 
                 <fieldset>
@@ -26,7 +26,7 @@
                     <label>
                         Country from
                         <select class="form-select-sm mb-2" name="country-from"
-                                aria-multiselectable="false" th:field="*{country_from}">
+                                aria-multiselectable="false" th:field="*{countryFrom}">
                             <option th:each="c : ${T(com.trans.model.enums.Countries).values()}"
                                     th:value="${c}" th:text="${c}"></option>
                         </select>
@@ -34,7 +34,7 @@
                     <label>
                         Country to
                         <select class="form-select-sm mb-2" name="country-to"
-                                aria-multiselectable="false" th:field="*{country_to}">
+                                aria-multiselectable="false" th:field="*{countryTo}">
                             <option th:each="c : ${T(com.trans.model.enums.Countries).values()}"
                                     th:value="${c}" th:text="${c}"></option>
                         </select>
@@ -42,12 +42,12 @@
 
                     <div class="form-group col-md-6">
                         <label for="">Country from</label>
-                        <input type="text" th:field="*{city_from}"
+                        <input type="text" th:field="*{cityFrom}"
                                class="form-control" name="country_to" placeholder="country_to">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="">Country to</label>
-                        <input type="text" th:field="*{city_to}"
+                        <input type="text" th:field="*{cityTo}"
                                class="form-control" name="country_to" placeholder="country_to">
                     </div>
                     <div>
@@ -83,7 +83,7 @@
                             <select class="form-select-sm mb-2" name="country"
                                     aria-multiselectable="false" th:field="*{typeTransport}">
                                 <option th:each="c : ${T(com.trans.model.enums.TypeTransport).values()}"
-                                        th:value="${c}" th:text="${c.name()}"></option>
+                                        th:value="${c}" th:text="${c.getTypeValue()}"></option>
                             </select>
                         </label>
                     </div>

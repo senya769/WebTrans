@@ -2,8 +2,7 @@ package com.trans.controllers;
 
 
 import com.trans.model.Cargo;
-import com.trans.model.User;
-import com.trans.model.enums.TypeActivity;
+import com.trans.model.Transport;
 import com.trans.service.CargoService;
 import com.trans.service.TransportService;
 import com.trans.service.UserService;
@@ -12,10 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.awt.print.Book;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -34,20 +32,80 @@ public class MainController {
         this.transportService = transportService;
     }
 
-    @GetMapping("/cargo/list")
-    protected ModelAndView listCargoAsk() {
+/*    @GetMapping("/cargo/list")
+    protected ModelAndView listCargoAsk(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("cargoList", cargoService.findAllSortByDateCreated());
+        Page<Cargo> cargoPage = cargoService.findAllSortByDateCreated(page);
+//        modelAndView.addObject("cargoList", cargoService.findAllSortByDateCreated());
+        modelAndView.addObject("cargoList", cargoPage.getContent());
+        modelAndView.setViewName("pages/cargo/list_all_cargo");
+        return modelAndView;
+    }*/
+
+    @GetMapping("/cargo/list")
+    protected ModelAndView listCargoAskPost(@RequestParam(defaultValue = "1") int page) {
+        ModelAndView modelAndView = new ModelAndView();
+        Page<Cargo> cargoPage = cargoService.findAllSortByDateCreated(page);
+        Set<String> citiesFromValues = cargoService.findAll().stream().map(Cargo::getCityFrom).collect(Collectors.toSet());
+        modelAndView.addObject("citiesFrom",citiesFromValues);
+        modelAndView.addObject("cargoList", cargoPage.getContent());
+        modelAndView.addObject("cargoPage", cargoPage.getNumber()+1);
+        int totalPages = cargoPage.getTotalPages();
+        if(totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1,totalPages).boxed().collect(Collectors.toList());
+            modelAndView.addObject("pageNumbers", pageNumbers);
+        }
         modelAndView.setViewName("pages/cargo/list_all_cargo");
         return modelAndView;
     }
-    @PostMapping("/cargo/list")
-    protected ModelAndView listCargoAskPost(@RequestParam(defaultValue = "1") int page) {
+    @GetMapping("/cargo/list1")
+    protected ModelAndView listCargoAsktest(@RequestParam(defaultValue = "1") int page,
+                                            @RequestParam(defaultValue = "") String cityFrom) {
         ModelAndView modelAndView = new ModelAndView();
-      //  Page<Cargo> cargoPage =  cargoService.findAllSortByDateCreated(page);
-      //  modelAndView.addObject("cargoListAsk",cargoPage.getContent());
-        modelAndView.addObject("cargoListAsk",cargoService.findAllSortByDateCreated(page));
+        Set<String> citiesFromValues = cargoService.findAll().stream().map(Cargo::getCityFrom).collect(Collectors.toSet());
+        modelAndView.addObject("citiesFrom",citiesFromValues);
+        modelAndView.addObject("cargoList",cargoService.findAllByCityFromContaining(cityFrom));
+//        Page<Cargo> cargoPage = cargoService.findAllSortByDateCreated(page);
+       /* modelAndView.addObject("cargoList", cargoPage.getContent());
+        modelAndView.addObject("cargoPage", cargoPage.getNumber()+1);*/
+       /* int totalPages = cargoPage.getTotalPages();
+        if(totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1,totalPages).boxed().collect(Collectors.toList());
+            modelAndView.addObject("pageNumbers", pageNumbers);
+        }*/
         modelAndView.setViewName("pages/cargo/list_all_cargo");
+        return modelAndView;
+    }
+
+    @GetMapping("/test/{ts}")
+    protected ModelAndView listTransportAsk(@PathVariable Integer ts) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("transport",new Transport());
+        modelAndView.addObject("id",ts);
+        modelAndView.setViewName("pages/transport/addTransport");
+        return modelAndView;
+    }
+
+    @PostMapping("/test/{ts}")
+    protected ModelAndView listTransportAsk(@ModelAttribute Transport transport,@PathVariable Integer ts) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("ts",transport);
+        modelAndView.setViewName("pages/transport/addTransport");
+        return modelAndView;
+    }
+    @GetMapping("/test")
+    protected ModelAndView list1TransportAsk1(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("transport",new Transport());
+        modelAndView.setViewName("pages/transport/addTransport");
+        return modelAndView;
+    }
+
+    @PostMapping("/test")
+    protected ModelAndView list2TransportAsk(@ModelAttribute Transport transport) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("ts",transport);
+        modelAndView.setViewName("pages/transport/addTransport");
         return modelAndView;
     }
 
@@ -59,4 +117,11 @@ public class MainController {
         return modelAndView;
     }
 
+    @GetMapping("/testSet")
+    public ModelAndView test131(ModelAndView modelAndView){
+        Set<String> citiesFromValues = cargoService.findAll().stream().map(Cargo::getCityFrom).collect(Collectors.toSet());
+        modelAndView.setViewName("pages/test");
+        modelAndView.addObject("citiesFrom",citiesFromValues);
+        return modelAndView;
+    }
 }

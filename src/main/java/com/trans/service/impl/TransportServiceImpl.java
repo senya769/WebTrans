@@ -14,40 +14,46 @@ import java.util.List;
 @Transactional
 public class TransportServiceImpl implements TransportService {
 
-    private final TransportRepository repository;
+    private final TransportRepository transportRepository;
+
     @Autowired
     public TransportServiceImpl(TransportRepository repository) {
-        this.repository = repository;
+        this.transportRepository = repository;
     }
 
     @Override
     public List<Transport> findAll() {
-        return repository.findAll();
+        return transportRepository.findAll();
     }
 
     @Override
     public List<Transport> findAllByUserId(int user_id) {
-        return repository.findAllByUserId(user_id);
+        return transportRepository.findAllByUserId(user_id);
     }
 
     @Override
     public Transport findById(int id) {
-        return repository.findById(id);
+        return transportRepository.findById(id);
     }
 
     @Override
     public boolean deleteById(int id) {
-        return repository.deleteById(id);
+        if (transportRepository.findById(id) == null) {
+            return false;
+        } else {
+            transportRepository.deleteById(id);
+            return true;
+        }
     }
 
     @Override
     public boolean deleteAllByUserId(int user_id) {
-        return repository.deleteAllByUserId(user_id);
+        return transportRepository.deleteAllByUserId(user_id);
     }
 
     @Override
     public void save(Transport transport) {
-        repository.save(transport);
+        transportRepository.save(transport);
     }
 
     @Override

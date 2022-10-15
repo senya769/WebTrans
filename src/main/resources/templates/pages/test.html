@@ -7,9 +7,70 @@
 </head>
 <body>
 TEST
+<form   th:method="post" th:href="@{/order/cargo/{cargo_id}/book(cargo_id = ${cargo.id})}">
+    <div class="form-group col-md-6">
+        <label for="country">Your Available transport</label>
+        <select class="form-control" th:name="transport" id="country">
+            <option th:each="ts:${transportListCustomer}"
+                    th:value="${ts.id}" th:text="${'id: '+ts.id +' name: '+ ts.name + ' type: '+ ts.type}"></option>
+        </select>
+    </div>
+    <label>Cargo Order</label>
+    <table class="table table-hover table-info table-bordered table-sm">
+        <thead class="table-group-divider table-light">
+        <tr>
+            <div class="head-table">
+                <th scope="col">ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Countries</th>
+                <th scope="col">Cities</th>
+                <th scope="col">Name</th>
+                <th scope="col">Characteristics</th>
+                <th scope="col">Price</th>
+                <th scope="col">Owner</th>
+            </div>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="c:${cargo}">
+            <td th:text="${c.id}"></td>
+            <td>
+                <div th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}"></div>
+                -
+                <span th:text="${#temporals.format(c.localDateDeadline,'dd-MMM-yy HH:mm')}"></span>
+            </td>
+            <td>
+                <span th:text="${c.countryFrom}"></span>
+                ->
+                <span th:text="${c.countryTo}"></span>
+            </td>
+            <td>
+                <span th:text="${c.cityFrom}"></span>
+                ->
+                <span th:text="${c.cityTo}"></span>
+            </td>
+            <td th:text="${c.name}">
+            <td>
+                Weight:<span th:text="${c.weight} + 't'"></span>
+                <br>
+                Volume:<span th:text="${c.volume} + 'm3'"></span>
 
-<p th:text="${#temporals.format(cargo_user.localDateDeadline,'dd/MM/yyyy HH:mm')}"></p>
-<p th:text="${cargo_user.localDateDeadline}"></p>
+            </td>
+            <td th:if="${c.price == 0.0}">contract</td>
+            <td th:if="${c.price != 0.0}">
+                <div th:text="${c.price}+' $'"></div>
+            </td>
+            <td>
+                <div th:text="${c.user.activity.value}"></div>
+                <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
+            </td>
+        </tr>
+    </table>
+    <button type="submit">Submit</button>
+</form>
+
+<div th:text="${#request.userPrincipal.principal.id}"></div>
+
 <div th:replace="fragments/footer::footer-fr"></div>
 </body>
 </html>
