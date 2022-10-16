@@ -69,7 +69,7 @@
 
                 <div sec:authorize="isAuthenticated()">
                     <div th:text="${c.user.activity.value}"></div>
-                    <a th:href="@{/users/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
+                    <a th:href="@{/users/{user_id}/profile(user_id = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
                 </div>
                 <div sec:authorize="!isAuthenticated()">
                     <a th:href="@{/login}">Information Owner</a>

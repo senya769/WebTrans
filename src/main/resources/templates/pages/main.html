@@ -9,22 +9,32 @@
 </head>
 <body>
 <section class="py-5 text-center container">
-    <div class="row py-lg-5">
-        <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">WEB-Trans</h1>
-            <p class="lead text-muted">Что-то краткое и ведущее о коллекции ниже - ее содержание, создатель и т.д.
-                Сделайте ее короткой и интересной, но не слишком короткой, чтобы люди просто не пропустили ее
-                полностью.</p>
+    <div class="row py-lg-3">
+        <div class="col-lg-7 col-md-8 mx-auto">
+            <a  class="btn btn-outline-secondary disabled mb-5 py-2 px-3  btn-lg text-capitalize text-black font-monospace" >Total cargo:
+                <span  th:text="${countAllCargo}"></span>
+            </a>
+            <a class="mx-4 btn btn-outline-secondary disabled mb-5 py-2 px-3  btn-lg text-capitalize text-black font-monospace">Total transport:
+                <span  th:text="${countAllTransport}"> Successful work!</span>
+            </a>
+            <h1 class="fw-light mt-5">WEB-Trans</h1>
+            <div class="lead text-muted">A web-trans site that helps us track and book cargo and transport.
+                You can post your vehicles and cargo for more convenient work with customers and contractors.<br>
+            </div>
+            <p class="glyphicon-bold text-capitalize"> Successful work!</p>
             <p>
                 <a th:href="@{/cargo/list}" type="button" class="btn btn-outline-info">Find cargo</a>
                 <a th:href="@{/transport/list}" type="button" class="btn btn-outline-info">Find transport</a>
             </p>
+
         </div>
     </div>
+
 </section>
 
-<!--<div class="row">
-    <div class="card ml" style="width:400px">
+<div class="container marketing">
+<div class="row">
+    <div class="card ml mx-4" style="width:400px">
         <img class="card-img-top" th:src="@{https://cdn-icons-png.flaticon.com/512/3566/3566665.png}" alt="Card image" style="width:100%">
         <div class="card-body">
             <h4 class="card-title">John Doe</h4>
@@ -32,9 +42,9 @@
             <a href="#" class="btn btn-primary stretched-link">See Profile</a>
         </div>
     </div>
-&lt;!&ndash;</div>
-<div class="container">&ndash;&gt;
-    <div class="card" style="width:400px">
+<!--</div>
+<div class="container">-->
+    <div class="card " style="width:400px">
         <img class="card-img-top" th:src="@{https://png.pngtree.com/png-vector/20190308/ourlarge/pngtree-cargo-business-shipping-png-image_785606.jpg}"
              alt="Card image" style="width:100%">
         <div class="card-body">
@@ -43,43 +53,47 @@
             <a href="#" class="btn btn-primary stretched-link">See Profile</a>
         </div>
     </div>
-</div>-->
-
-<div class="container marketing">
-    <div class="row">
-        <div class="col-lg-4">
-            <img class="rounded-circle"
-                 src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                 alt="Generic placeholder image" width="140" height="140">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies
-                vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo
-                cursus magna.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <img class="rounded-circle"
-                 src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                 alt="Generic placeholder image" width="140" height="140">
-            <h2>Heading</h2>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras
-                matt3
-                is consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <img class="rounded-circle"
-                 src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
-                 alt="Generic placeholder image" width="140" height="140">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
-                porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-                fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-    </div><!-- /.row -->
+    <div class="card mx-4" style="width:400px">
+        <img class="card-img-top" th:src="@{https://png.pngtree.com/png-vector/20190308/ourlarge/pngtree-cargo-business-shipping-png-image_785606.jpg}"
+             alt="Card image" style="width:100%">
+        <div class="card-body">
+            <h4 class="card-title">John Doe</h4>
+            <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
+            <a href="#" class="btn btn-primary stretched-link">See Profile</a>
+        </div>
+    </div>
 </div>
+</div>
+<div class="col-lg-6 col-lg-offset-3">
+
+    <div class="text-center">
+        <h1 id="myCounter" th:name="cargo"  th:value="${countAllTransport}">0</h1>
+        <h2 id="myCounters" th:name="ts" th:value="${countAllTransport}">0</h2>
+    </div>
+
+
+</div></div>
+
+<script type="text/javascript" src="https://bootstraptema.ru/plugins/2015/countup/countUp.min.js"></script>
+
+<script>
+    let auction_id = document.getElementById('myCounter').innerHTML;
+    let auction = Number.parseInt(auction_id);
+    let cargo = document.getElementsByName("cargo");
+    let ts = document.getElementsByName("ts");
+    var options = {
+        useEasing : true,
+        useGrouping : true,
+        separator : ',',
+        decimal : '.',
+        prefix : '',
+        suffix : ''
+    };
+    var counter = new CountUp("myCounter", 0, 1597, 0, 3.5, options);
+    counter.start();
+    var counters = new CountUp("myCounters", 0, 1000, 0, 3.5, options);
+    counters.start();
+</script>
 <div th:replace="fragments/footer::footer-fr"></div>
 </body>
 </html>

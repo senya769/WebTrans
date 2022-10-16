@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>400</title>
+    <div th:replace="fragments/header::header-fr"></div>
+    <div th:replace="fragments/header::header-css"></div>
+</head>
+<body>
+<div class= "pb-3 alert alert-secondary center-block pb-3" type="alert">
+    <h1>Error 400</h1>
+    <h1>Dont exist on the DB
+    <span th:class="text-black" th:text="${id}"></span>
+    </h1>
+
+</div>
+<div th:replace="fragments/footer::footer-fr"></div>
+</body>
+</html>

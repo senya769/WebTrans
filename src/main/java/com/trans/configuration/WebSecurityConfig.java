@@ -46,7 +46,8 @@ class WebSecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers("/", "/login", "/registration","/add",
-                        "/monitor/**", "/sec/*", "/cargo/list", "/transport/list","/test").permitAll()
+                        "/monitor/**", "/sec/*", "/cargo", "/transports","/test").permitAll()
+                .antMatchers("/testSet").denyAll()
                     .anyRequest().authenticated()
                 .and()
                 .formLogin()

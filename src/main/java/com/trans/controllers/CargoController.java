@@ -3,9 +3,11 @@ package com.trans.controllers;
 
 import com.trans.dto.UserDTO;
 import com.trans.model.Cargo;
+import com.trans.model.util.CustomUserDetails;
 import com.trans.service.CargoService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -53,19 +55,21 @@ public class CargoController {
         cargoService.saveWithUserAndDate(cargo, userService.findDTOById(user_id), dateDeadline);
         attributes.addAttribute("user_id", user_id);
         attributes.addFlashAttribute("isCreateCargo", true);
-       return new RedirectView("/users/profile/{user_id}",true);
+       return new RedirectView("/users/{user_id}/profile",true);
     }
 
 
     @GetMapping("/remove/{cargo}")
-    protected RedirectView removeCargo(RedirectAttributes redirectAttributes,
-                                       @PathVariable("user_id") int id_user, @PathVariable("cargo") int cargo_id) {
-        if (cargoService.deleteById(cargo_id)) {
+    protected RedirectView removeCargo(RedirectAttributes redirectAttributes, @AuthenticationPrincipal CustomUserDetails userDetails,
+                                       @PathVariable("user_id") int user_id, @PathVariable("cargo") int cargo_id) {
+        redirectAttributes.addAttribute("user_id", user_id);
+        if (cargoService.deleteById(cargo_id) && user_id == userDetails.getId()) {
             redirectAttributes.addFlashAttribute("cargoIsDelete", true);
         } else {
             redirectAttributes.addFlashAttribute("isNotFoundCargo", true);
         }
-        return new RedirectView("/users/profile/" + id_user,true);
+        return new RedirectView("/users/{user_id}/profile",true);
+
     }
 
     @ModelAttribute("cargo")

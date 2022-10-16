@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html"
+      lang="en">
+<head>
+    <title>send cargo order</title>
+    <!-- CSS only -->
+    <div th:replace="fragments/header::header-css"></div>
+    <div th:replace="fragments/header::header-fr"></div>
+</head>
+<body>
+<form   th:method="post" th:href="@{/orders/transports/{transport_id}/book(transport_id = ${transport.id})}">
+    <div class="form-group col-md-6">
+        <label for="country">Your Available cargo</label>
+        <select class="form-control" th:name="transport_id" id="country">
+                <option th:each="c:${cargoListCustomer}"  th:value="${c.id}"
+                th:text="${'id: ' + c.id + ' name: ' + c.name + ' type: ' +c.typeTransport+' price: '+ c.price
+                 + ' id owner ' + c.user.id}"></option>
+        </select>
+    </div>
+    <label>Transport Order</label>
+    <div th:each="t:${transport}"
+            th:value="${t.id}" th:text="${'id: '+t.id +' name: '+ t.name + ' type: '+ t.type + ' owner ' + t.user.id}"></div>
+    <button type="submit">Send order</button>
+</form>
+<div th:replace="fragments/footer::footer-fr"></div>
+</body>
+</html>

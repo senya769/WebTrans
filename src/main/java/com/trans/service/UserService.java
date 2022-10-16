@@ -12,6 +12,7 @@ public interface UserService {
   int save(UserDTO user);
   void deleteById(int id);
   void update(int id);
+  boolean update(UserDTO userDTO);
   boolean update(UserDTO userDTO,String password);
   UserDTO findDTOById(int id);
   User findById(int id);

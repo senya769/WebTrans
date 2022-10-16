@@ -2,9 +2,11 @@ package com.trans.controllers;
 
 import com.trans.dto.UserDTO;
 import com.trans.model.Transport;
+import com.trans.model.util.CustomUserDetails;
 import com.trans.service.TransportService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -47,24 +49,26 @@ public class TransportController {
 
 
     @PostMapping("/add")
-    protected ModelAndView addPost(@ModelAttribute Transport transport, @PathVariable int user_id) {
-        ModelAndView modelAndView = new ModelAndView();
+    protected RedirectView addPost(RedirectAttributes attributes,
+            @ModelAttribute Transport transport, @PathVariable int user_id) {
         transportService.saveWithUser(transport, userService.findById(user_id));
-        modelAndView.addObject("isCreateTransport", true);
+        attributes.addFlashAttribute("isCreateTransport", true);
+        attributes.addAttribute("user_id", user_id);
         //кидать уведомление на гл
-        modelAndView.setViewName("pages/transport/success_add");
-        return modelAndView;
+        return new RedirectView("/users/{user_id}/profile",true);
     }
 
     @GetMapping("/remove/{transport}")
-    protected RedirectView removeCargo(RedirectAttributes redirectAttributes,
-                                       @PathVariable("user_id") int id_user, @PathVariable("transport") int transport_id) {
-        if (transportService.deleteById(transport_id)) {
+    protected RedirectView removeCargo(RedirectAttributes redirectAttributes,@AuthenticationPrincipal CustomUserDetails userDetails,
+                                       @PathVariable("user_id") int user_id, @PathVariable("transport") int transport_id) {
+        redirectAttributes.addAttribute("user_id",user_id);
+        if (transportService.deleteById(transport_id)&& userDetails.getId() == user_id) {
             redirectAttributes.addFlashAttribute("transportIsDelete", true);
         } else {
             redirectAttributes.addFlashAttribute("isNotFoundTransport", true);
         }
-        return new RedirectView("/users/profile/" + id_user,true);
+        return new RedirectView("/users/{user_id}/profile",true);
+
     }
 
     @ModelAttribute("transport")

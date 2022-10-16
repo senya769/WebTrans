@@ -1,6 +1,7 @@
 package com.trans.model.enums;
 
 public enum TypeTransport {
+    ANY("Any"),
     AUTO("Auto"),
     CARGO("Cargo"),
     CITY_TAXI("City taxi"),

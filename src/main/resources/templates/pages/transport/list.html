@@ -44,7 +44,7 @@
                 </td>
                 <td>
                     <div th:text="${t.user.activity}"></div>
-                    <a th:href="@{/users/profile/{id_user}(id_user = ${t.user.id})}" th:text="${t.user.nameCompany}"></a>
+                    <a th:href="@{/users/{user_id}/profile(user_id = ${t.user.id})}" th:text="${t.user.nameCompany}"></a>
                 </td>
                 <td>
                     <form th:action="@{#}" th:method="post">

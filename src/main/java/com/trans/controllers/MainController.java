@@ -32,15 +32,13 @@ public class MainController {
         this.transportService = transportService;
     }
 
-/*    @GetMapping("/cargo/list")
-    protected ModelAndView listCargoAsk(@RequestParam(defaultValue = "1") int page) {
-        ModelAndView modelAndView = new ModelAndView();
-        Page<Cargo> cargoPage = cargoService.findAllSortByDateCreated(page);
-//        modelAndView.addObject("cargoList", cargoService.findAllSortByDateCreated());
-        modelAndView.addObject("cargoList", cargoPage.getContent());
-        modelAndView.setViewName("pages/cargo/list_all_cargo");
+    @GetMapping("/")
+    protected ModelAndView listCargoAsk(ModelAndView modelAndView) {
+        modelAndView.addObject("countAllCargo", cargoService.findAll().size());
+        modelAndView.addObject("countAllTransport",transportService.findAll().size());
+        modelAndView.setViewName("pages/main");
         return modelAndView;
-    }*/
+    }
 
     @GetMapping("/cargo")
     protected ModelAndView listCargoAskPost(@RequestParam(defaultValue = "1") int page) {

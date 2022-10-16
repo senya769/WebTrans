@@ -1,0 +1,76 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <title>cargo orders sent</title>
+    <!-- CSS only -->
+    <div th:replace="fragments/header::header-css"></div>
+    <div th:replace="fragments/header::header-fr"></div>
+</head>
+<body>
+TEST
+
+<label>Cargo Order</label>
+<table class="table table-hover table-info table-bordered table-sm">
+    <thead class="table-group-divider table-light">
+    <tr>
+        <div class="head-table">
+            <th scope="col">ID</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Transport</th>
+            <th scope="col">Cargo</th>
+            <th scope="col">status</th>
+            <th scope="col">panel</th>
+        </div>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c:${orders}">
+        <td th:text="${c.id}"></td>
+        <td>
+            <div th:if="${c.customerId ==c.transport.user.id }">
+                <div th:text="${c.transport.user.email}"></div>
+            </div>
+            <div th:unless="${c.customerId ==c.transport.user.id }">
+                <span th:text="${c.cargo.user.email}"></span>
+            </div>
+        </td>
+        <td>
+            <div th:if="${c.customerId != c.transport.user.id }">
+                <div th:text="${c.transport.user.email}"></div>
+            </div>
+            <div th:unless="${c.customerId != c.transport.user.id }">
+                <span th:text="${c.cargo.user.email}"></span>
+            </div>
+        </td>
+        <td>
+            <label>id ts: </label>
+            <span th:text="${c.transport.id}"></span>
+            <label>name: </label>
+            <span th:text="${c.transport.name}"></span>
+            <label>name: </label>
+            <span th:text="${c.transport.type}"></span>
+        </td>
+        <td>
+            <label>id cargo: </label>
+            <span th:text="${c.cargo.id}"></span>
+            <label>name: </label>
+            <span th:text="${c.cargo.name}"></span>
+            <label>Cities: </label>
+            <span th:text="${c.cargo.cityFrom}"></span>
+            ->
+            <span th:text="${c.cargo.cityTo}"></span>
+        </td>
+        <td th:text="${c.status}">
+        <td>
+            <button th:href="@{/orders/{order_id}/accept(order_id = ${c.id})}">accept</button>
+            <button th:href="@{/orders/{order_id}/cancel(order_id = ${c.id})}">cancel</button>
+            <div th:if="${c.status == T(com.trans.model.enums.OrderStatus).ACTIVE}">
+                <button th:href="@{/orders/{order_id}/complete(order_id = ${c.id})}">complete</button>
+            </div>
+        </td>
+    </tr>
+</table>
+<div th:replace="fragments/footer::footer-fr"></div>
+</body>
+</html>
