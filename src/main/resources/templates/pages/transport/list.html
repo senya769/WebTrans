@@ -37,19 +37,26 @@
                 <td th:text="${t.type}">
                 <td th:text="${t.maxCapacityLoad}">
                 <td th:if="${t.isFree}">
-                Free
+                    Free
                 </td>
                 <td th:unless="${t.isFree}">
-                Busy
+                    Busy
                 </td>
                 <td>
-                    <div th:text="${t.user.activity}"></div>
-                    <a th:href="@{/users/{user_id}/profile(user_id = ${t.user.id})}" th:text="${t.user.nameCompany}"></a>
+                    <div th:text="${t.user.activity.value}"></div>
+                    <a th:href="@{/users/{user_id}/profile(user_id = ${t.user.id})}"
+                       th:text="${t.user.nameCompany}"></a>
                 </td>
                 <td>
-                    <form th:action="@{#}" th:method="post">
-                        <button type="submit" class="badge btn-primary">send offer</button>
-                    </form>
+                    <div th:unless="${#authentication.getName() == t.user.email}">
+                        <form th:action="@{/orders/transports/{ts_id}/book(ts_id = ${t.id})}" th:method="post">
+                            <button type="submit" class="badge btn-primary">send offer</button>
+                        </form>
+                    </div>
+                    <div th:if="${#authentication.getName()== t.user.email}">
+                        Your transport!
+                    </div>
+
                     <div th:if="${user.email == #request.userPrincipal.getName()} or ${#request.isUserInRole('ADMIN')}">
                         <form th:action="@{/users/{user_id}/transports/remove/{transport_id} (transport_id = ${t.id},user_id = ${user.id})}"
                               method="get">

@@ -59,7 +59,7 @@ public class OrderController {
 
     @PostMapping("/cargo/{cargo_id}/book")
     public ModelAndView model(ModelAndView modelAndView, @RequestParam Integer transport_id,
-                              @PathVariable Integer cargo_id,@AuthenticationPrincipal CustomUserDetails userDetails) {
+                              @PathVariable Integer cargo_id, @AuthenticationPrincipal CustomUserDetails userDetails) {
         Order order = new Order();
         order.setTransport(transportService.findById(transport_id));
         order.setCargo(cargoService.findById(cargo_id));
@@ -82,7 +82,7 @@ public class OrderController {
         List<Cargo> cargoListOfCustomer = userService.findById(userDetails.getId()).getCargoList();
         if (cargoListOfCustomer == null) {
             modelAndView.addObject("NotFoundCargoOfCustomer", true);
-            modelAndView.setViewName("redirect:/transport/list");
+            modelAndView.setViewName("redirect:/transports");
         } else {
             modelAndView.addObject("cargoListCustomer", cargoListOfCustomer);
             modelAndView.setViewName("pages/cargo/send");
@@ -90,7 +90,7 @@ public class OrderController {
         return modelAndView;
     }
 
-    @GetMapping("/transports/{cargo_id}/book")
+    @PostMapping("/transports/{cargo_id}/book")
     public ModelAndView bookCargo(ModelAndView modelAndView, @RequestParam Integer transport_id,
                                   @PathVariable Integer cargo_id, @AuthenticationPrincipal CustomUserDetails userDetails) {
         Order order = Order.builder()
@@ -116,7 +116,7 @@ public class OrderController {
         Order order = orderService.findById(order_id);
         if (orderService.accept(order) != 0) {
             attributes.addFlashAttribute("acceptOrder", true);
-            modelAndView.setViewName("redirect:/users/"+userDetails.getId()+"/profile");
+            modelAndView.setViewName("redirect:/users/" + userDetails.getId() + "/profile");
         } else {
             modelAndView.addObject("");
             modelAndView.setViewName("pages/error/400");
@@ -130,7 +130,7 @@ public class OrderController {
         Order order = orderService.findById(order_id);
         if (orderService.cancel(order) != 0) {
             modelAndView.addObject("");
-            modelAndView.setViewName("redirect:/users/"+userDetails.getId()+"/profile");
+            modelAndView.setViewName("redirect:/users/" + userDetails.getId() + "/profile");
 
 
         } else {
@@ -146,7 +146,7 @@ public class OrderController {
         Order order = orderService.findById(order_id);
         if (orderService.complete(order) != 0) {
             modelAndView.addObject("");
-            modelAndView.setViewName("redirect:/users/"+userDetails.getId()+"/profile");
+            modelAndView.setViewName("redirect:/users/" + userDetails.getId() + "/profile");
 
 
         } else {

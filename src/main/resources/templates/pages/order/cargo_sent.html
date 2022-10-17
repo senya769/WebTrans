@@ -7,7 +7,6 @@
 </head>
 <body>
 TEST
-
 <label>Cargo Order</label>
 <table class="table table-hover table-info table-bordered table-sm">
     <thead class="table-group-divider table-light">
@@ -36,12 +35,12 @@ TEST
             </div>
         </td>
         <td>
-            <div th:if="${c.customerId != c.transport.user.id }">
-                <div th:text="${c.transport.user.email}"></div>
-            </div>
-            <div th:unless="${c.customerId != c.transport.user.id }">
-                <span th:text="${c.cargo.user.email}"></span>
-            </div>
+                <div th:if="${c.customerId != c.transport.user.id }">
+                    <div th:text="${c.transport.user.email}"></div>
+                </div>
+                <div th:unless="${c.customerId != c.transport.user.id }">
+                    <span th:text="${c.cargo.user.email}"></span>
+                </div>
         </td>
         <td>
             <label>id ts: </label>
@@ -63,11 +62,9 @@ TEST
         </td>
         <td th:text="${c.status}">
         <td>
-            <button th:href="@{/orders/{order_id}/accept(order_id = ${c.id})}">accept</button>
-            <button th:href="@{/orders/{order_id}/cancel(order_id = ${c.id})}">cancel</button>
-            <div th:if="${c.status == T(com.trans.model.enums.OrderStatus).ACTIVE}">
-                <button th:href="@{/orders/{order_id}/complete(order_id = ${c.id})}">complete</button>
-            </div>
+            <a th:href="@{/orders/{order_id}/cancel (order_id = ${c.id})}" class="badge bg-danger">
+                cancel
+            </a>
         </td>
     </tr>
 </table>

@@ -63,10 +63,19 @@ TEST
         </td>
         <td th:text="${c.status}">
         <td>
-            <button th:href="@{/orders/{order_id}/accept(order_id = ${c.id})}">accept</button>
-            <button th:href="@{/orders/{order_id}/cancel(order_id = ${c.id})}">cancel</button>
+            <div th:if="${c.status != T(com.trans.model.enums.OrderStatus).ACTIVE}">
+                <a th:href="@{/orders/{order_id}/accept (order_id = ${c.id})}" class="badge bg-success">
+                    accept
+                </a>
+                <a th:href="@{/orders/{order_id}/cancel (order_id = ${c.id})}" class="badge bg-danger">
+                    cancel
+                </a>
+            </div>
             <div th:if="${c.status == T(com.trans.model.enums.OrderStatus).ACTIVE}">
-                <button th:href="@{/orders/{order_id}/complete(order_id = ${c.id})}">complete</button>
+                <a th:href="@{/orders/{order_id}/complete (order_id = ${c.id})}"
+                   class="badge bg-info">
+                    complete
+                </a>
             </div>
         </td>
     </tr>

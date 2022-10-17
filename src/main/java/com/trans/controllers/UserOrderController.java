@@ -1,5 +1,6 @@
 package com.trans.controllers;
 
+import com.trans.model.Order;
 import com.trans.model.util.CustomUserDetails;
 import com.trans.service.CargoService;
 import com.trans.service.OrderService;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/users/{user_id}/")
@@ -45,8 +48,9 @@ public class UserOrderController {
     @GetMapping("/cargo/received/orders")
     public ModelAndView getCargoReceivedOrders(ModelAndView modelAndView, @PathVariable Integer user_id,
                                                @AuthenticationPrincipal CustomUserDetails userDetails) {
-        if (userDetails.getId() == user_id) {
-            modelAndView.addObject("orders", orderService.getCargoReceivedOrdersById(user_id));
+        List<Order> cargoOrders = orderService.getCargoReceivedOrdersById(user_id);
+        if (userDetails.getId() == user_id && !cargoOrders.isEmpty()) {
+            modelAndView.addObject("orders", cargoOrders);
             modelAndView.setViewName("pages/order/cargo_received");
         }else {
             modelAndView.addObject("id", user_id);
@@ -72,7 +76,6 @@ public class UserOrderController {
     public ModelAndView getCargoSentOrders(ModelAndView modelAndView, @PathVariable Integer user_id,
                                            @AuthenticationPrincipal CustomUserDetails userDetails) {
         if (userDetails.getId() == user_id) {
-
             modelAndView.addObject("orders", orderService.getCargoSentOrdersById(user_id));
             modelAndView.setViewName("pages/order/cargo_sent");
         }else {
