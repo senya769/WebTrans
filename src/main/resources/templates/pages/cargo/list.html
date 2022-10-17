@@ -14,7 +14,7 @@
     <h4 class="alert-heading">You dont have cargo!</h4>
     <p>You can add cargo right now!</p>
     <hr>
-    <p class="mb-0"><a th:href="@{/user/{id}/cargo/add (id = ${user.id})}"
+    <p class="mb-0"><a th:href="@{/users/{id}/cargo/add (id = ${user.id})}"
                        class="btn btn-outline-primary my-1">Add</a></p>
 </div>
 <div class="page">
@@ -66,14 +66,20 @@
                 </td>
                 <td>
                     <div th:text="${c.user.activity.value}"></div>
-                    <a th:href="@{/user/profile/{id_user}(id_user = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
+                    <a th:href="@{/users/{user_id}/profile(user_id = ${c.user.id})}"
+                       th:text="${c.user.nameCompany}"></a>
                 </td>
                 <td>
-                    <form th:action="@{#}" th:method="post">
-                        <button type="submit" class="badge btn-primary">send offer</button>
-                    </form>
+                    <div th:if="${#authentication.getName()== c.user.email}">
+                        Your cargo!
+                    </div>
+                    <div th:unless="${#authentication.getName() == c.user.email}">
+                        <form th:action="@{/orders/cargo/{cargo_id}/book(cargo_id = ${c.id})}" th:method="get">
+                            <button type="submit" class="badge btn-primary">send offer</button>
+                        </form>
+                    </div>
                     <div th:if="${user.email == #request.userPrincipal.getName()} or ${#request.isUserInRole('ADMIN')}">
-                        <form th:action="@{/user/{user_id}/cargo/remove/{cargo_id} (cargo_id = ${c.id},user_id = ${user.id})}"
+                        <form th:action="@{/users/{user_id}/cargo/remove/{cargo_id} (cargo_id = ${c.id},user_id = ${user.id})}"
                               method="get">
                             <button type="submit" class="badge badge-danger">delete</button>
                         </form>

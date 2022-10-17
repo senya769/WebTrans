@@ -5,7 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-
+@Builder(access = AccessLevel.PUBLIC)
 @Getter
 @Setter
 @ToString

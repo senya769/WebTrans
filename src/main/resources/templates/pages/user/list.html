@@ -26,14 +26,18 @@
     <tbody>
     <tr th:each="u:${users}">
         <th th:text="${u.id}">
-        <td th:text="${u.nickname}">
-        <td th:text="${u.email}">
-        <td th:text="${u.numberPhone}">
+        <td th:text="${u.firstName}">
+        <td th:text="${u.lastName}">
+        <td th:text="${u.number}">
         <td th:text="${u.roles}">
-        <td th:text="${u.status}">
+        <td th:text="${u.email}">
+        <td th:text="${u.activity}">
+        <td th:text="${u.city}">
+        <td th:text="${u.country}">
+        <td th:text="${u.type}">
         <td>
         <div th:if="${u.status != 'Admin'}">
-            <form th:action="@{/user/delete/{id}(id = ${u.id})}" method="post">
+            <form th:action="@{/users/{id}/delete(id = ${u.id})}" method="post">
                 <button type="submit" class="badge badge-danger">delete</button>
             </form>
         </div>

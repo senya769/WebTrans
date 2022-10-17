@@ -13,7 +13,7 @@
     <div class="row">
 
         <div class="col-md-8 col-md-offset-2">
-            <form th:action="@{/user/{user_id}/cargo/add (user_id = ${user_id})}" th:method="post" th:object="${cargo}">
+            <form th:action="@{/users/{user_id}/cargo/add (user_id = ${user_id})}" th:method="post" th:object="${cargo}">
                 <legend class="text-center">Register</legend>
 
                 <fieldset>

@@ -32,17 +32,15 @@ public class MainController {
         this.transportService = transportService;
     }
 
-/*    @GetMapping("/cargo/list")
-    protected ModelAndView listCargoAsk(@RequestParam(defaultValue = "1") int page) {
-        ModelAndView modelAndView = new ModelAndView();
-        Page<Cargo> cargoPage = cargoService.findAllSortByDateCreated(page);
-//        modelAndView.addObject("cargoList", cargoService.findAllSortByDateCreated());
-        modelAndView.addObject("cargoList", cargoPage.getContent());
-        modelAndView.setViewName("pages/cargo/list_all_cargo");
+    @GetMapping("/")
+    protected ModelAndView listCargoAsk(ModelAndView modelAndView) {
+        modelAndView.addObject("countAllCargo", cargoService.findAll().size());
+        modelAndView.addObject("countAllTransport",transportService.findAll().size());
+        modelAndView.setViewName("pages/main");
         return modelAndView;
-    }*/
+    }
 
-    @GetMapping("/cargo/list")
+    @GetMapping("/cargo")
     protected ModelAndView listCargoAskPost(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
         Page<Cargo> cargoPage = cargoService.findAllSortByDateCreated(page);
@@ -55,7 +53,7 @@ public class MainController {
             List<Integer> pageNumbers = IntStream.rangeClosed(1,totalPages).boxed().collect(Collectors.toList());
             modelAndView.addObject("pageNumbers", pageNumbers);
         }
-        modelAndView.setViewName("pages/cargo/list_all_cargo");
+        modelAndView.setViewName("pages/cargo/list_all");
         return modelAndView;
     }
     @GetMapping("/cargo/list1")
@@ -73,7 +71,7 @@ public class MainController {
             List<Integer> pageNumbers = IntStream.rangeClosed(1,totalPages).boxed().collect(Collectors.toList());
             modelAndView.addObject("pageNumbers", pageNumbers);
         }*/
-        modelAndView.setViewName("pages/cargo/list_all_cargo");
+        modelAndView.setViewName("pages/cargo/list_all");
         return modelAndView;
     }
 
@@ -82,7 +80,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("transport",new Transport());
         modelAndView.addObject("id",ts);
-        modelAndView.setViewName("pages/transport/addTransport");
+        modelAndView.setViewName("pages/transport/add-test");
         return modelAndView;
     }
 
@@ -90,14 +88,14 @@ public class MainController {
     protected ModelAndView listTransportAsk(@ModelAttribute Transport transport,@PathVariable Integer ts) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("ts",transport);
-        modelAndView.setViewName("pages/transport/addTransport");
+        modelAndView.setViewName("pages/transport/add-test");
         return modelAndView;
     }
     @GetMapping("/test")
     protected ModelAndView list1TransportAsk1(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("transport",new Transport());
-        modelAndView.setViewName("pages/transport/addTransport");
+        modelAndView.setViewName("pages/transport/add-test");
         return modelAndView;
     }
 
@@ -105,15 +103,15 @@ public class MainController {
     protected ModelAndView list2TransportAsk(@ModelAttribute Transport transport) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("ts",transport);
-        modelAndView.setViewName("pages/transport/addTransport");
+        modelAndView.setViewName("pages/transport/add-test");
         return modelAndView;
     }
 
-    @GetMapping("/transport/list")
+    @GetMapping("/transports")
     protected ModelAndView listTransportAsk(@RequestParam(defaultValue = "1") int page) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("transportList", transportService.findAll());
-        modelAndView.setViewName("pages/transport/list_all_transport");
+        modelAndView.setViewName("pages/transport/list_all");
         return modelAndView;
     }
 

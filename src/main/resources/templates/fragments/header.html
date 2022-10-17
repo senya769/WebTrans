@@ -24,8 +24,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/cargo/list}">Cargo</a>
-                <a class="nav-item nav-link" th:href="@{/transport/list}">Transport</a>
+                <a class="nav-item nav-link" th:href="@{/cargo}">Cargo</a>
+                <a class="nav-item nav-link" th:href="@{/transports}">Transport</a>
             </div>
         </div>
 
@@ -42,10 +42,10 @@
                 </a>
                 <div th:each="id_user:${#request.userPrincipal.principal.id}">
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" th:href="@{/user/profile/{id} (id=${id_user})}">Profile <i class="bi bi-person-circle"></i></a></li>
-                    <li><a class="dropdown-item"  th:href="@{/user/update/{id} (id=${id_user})}">Update</a></li>
-                    <li><a class="dropdown-item"  th:href="@{/user/{id}/cargo/list (id =${id_user})}">Your Cargo</a></li>
-                    <li><a class="dropdown-item"  th:href="@{/user/{id}/transport/list (id =${id_user})}">Your Transports</a></li>
+                    <li><a class="dropdown-item" th:href="@{/users/{id}/profile (id=${id_user})}">Profile <i class="bi bi-person-circle"></i></a></li>
+                    <li><a class="dropdown-item"  th:href="@{/users/{id}/update (id=${id_user})}">Update</a></li>
+                    <li><a class="dropdown-item"  th:href="@{/users/{id}/cargo (id =${id_user})}">Your Cargo</a></li>
+                    <li><a class="dropdown-item"  th:href="@{/users/{id}/transports (id =${id_user})}">Your Transports</a></li>
                     <li><a class="dropdown-item"  th:href="@{/logout}">Log out</a></li>
 
                     <!--  <li><a class="dropdown-item" th:href="@{/logout}" th:name="${_csrf.parameterName}"

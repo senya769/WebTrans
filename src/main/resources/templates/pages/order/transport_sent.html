@@ -15,6 +15,7 @@ TEST
         <div class="head-table">
             <th scope="col">ID</th>
             <th scope="col">Customer</th>
+            <th scope="col">Owner</th>
             <th scope="col">Transport</th>
             <th scope="col">Cargo</th>
             <th scope="col">status</th>
@@ -27,32 +28,47 @@ TEST
     <tr th:each="c:${orders}">
         <td th:text="${c.id}"></td>
         <td>
-            <div th:text="${c.transport.user.email}"></div>
-            -
-            <span th:text="${c.cargo.user.email}"></span>
+            <div th:if="${c.customerId ==c.transport.user.id }">
+                <div th:text="${c.transport.user.email}"></div>
+            </div>
+            <div th:unless="${c.customerId ==c.transport.user.id }">
+                <span th:text="${c.cargo.user.email}"></span>
+            </div>
         </td>
         <td>
+            <div th:if="${c.customerId !=c.transport.user.id }">
+                <div th:text="${c.transport.user.email}"></div>
+            </div>
+            <div th:unless="${c.customerId !=c.transport.user.id }">
+                <span th:text="${c.cargo.user.email}"></span>
+            </div>
+        </td>
+        <td>
+            <label>id ts: </label>
             <span th:text="${c.transport.id}"></span>
-            ->
+            <label>name: </label>
             <span th:text="${c.transport.name}"></span>
+            <label>name: </label>
+            <span th:text="${c.transport.type}"></span>
         </td>
         <td>
+            <label>id cargo: </label>
             <span th:text="${c.cargo.id}"></span>
-            ->
+            <label>name: </label>
             <span th:text="${c.cargo.name}"></span>
+            <label>Cities: </label>
+            <span th:text="${c.cargo.cityFrom}"></span>
+            ->
+            <span th:text="${c.cargo.cityTo}"></span>
         </td>
         <td th:text="${c.status}">
         <td>
-            <a>accept</a>
-            <a>cancel</a>
+            <a th:href="@{/orders/{order_id}/cancel (order_id = ${c.id})}" class="badge bg-danger">
+                cancel
+            </a>
         </td>
     </tr>
 </table>
-
-
-
-<div th:text="${#request.userPrincipal.principal.id}"></div>
-
 <div th:replace="fragments/footer::footer-fr"></div>
 </body>
 </html>

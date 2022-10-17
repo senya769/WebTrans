@@ -92,6 +92,17 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+    public boolean update(UserDTO userDTO) {
+        User userFromDB = userRepository.findById(userDTO.getId()).orElse(null);
+        if (userFromDB != null) {
+            User user = modelMapper.map(userDTO, User.class);
+            user.setPassword(userFromDB.getPassword());
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     @Override
     public UserDTO findDTOById(int id) {

@@ -2,9 +2,11 @@ package com.trans.controllers;
 
 import com.trans.dto.UserDTO;
 import com.trans.model.Transport;
+import com.trans.model.util.CustomUserDetails;
 import com.trans.service.TransportService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-@RequestMapping("/user/{user_id}/transport/")
+@RequestMapping("/users/{user_id}/transports")
 public class TransportController {
 
     private final TransportService transportService;
@@ -24,7 +26,7 @@ public class TransportController {
         this.userService = userService;
     }
 
-    @GetMapping("/list")
+    @GetMapping()
     protected ModelAndView list(@PathVariable int user_id, ModelAndView modelAndView) {
         UserDTO user = userService.findDTOById(user_id);
         if (user.getTransportList().isEmpty()) {
@@ -33,7 +35,7 @@ public class TransportController {
             modelAndView.addObject("notExists", false);
         }
         modelAndView.addObject("user", user);
-        modelAndView.setViewName("pages/transport/list_transport");
+        modelAndView.setViewName("pages/transport/list");
         return modelAndView;
     }
 
@@ -41,30 +43,32 @@ public class TransportController {
     protected ModelAndView addGet(ModelAndView modelAndView, @PathVariable int user_id) {
         modelAndView.addObject("user_id", user_id);
         modelAndView.addObject("tr",new Transport());
-        modelAndView.setViewName("pages/transport/add_transport");
+        modelAndView.setViewName("pages/transport/add");
         return modelAndView;
     }
 
 
     @PostMapping("/add")
-    protected ModelAndView addPost(@ModelAttribute Transport transport, @PathVariable int user_id) {
-        ModelAndView modelAndView = new ModelAndView();
+    protected RedirectView addPost(RedirectAttributes attributes,
+            @ModelAttribute Transport transport, @PathVariable int user_id) {
         transportService.saveWithUser(transport, userService.findById(user_id));
-        modelAndView.addObject("isCreateTransport", true);
+        attributes.addFlashAttribute("isCreateTransport", true);
+        attributes.addAttribute("user_id", user_id);
         //кидать уведомление на гл
-        modelAndView.setViewName("pages/transport/success_add_transport");
-        return modelAndView;
+        return new RedirectView("/users/{user_id}/profile",true);
     }
 
     @GetMapping("/remove/{transport}")
-    protected RedirectView removeCargo(RedirectAttributes redirectAttributes,
-                                       @PathVariable("user_id") int id_user, @PathVariable("transport") int transport_id) {
-        if (transportService.deleteById(transport_id)) {
+    protected RedirectView removeCargo(RedirectAttributes redirectAttributes,@AuthenticationPrincipal CustomUserDetails userDetails,
+                                       @PathVariable("user_id") int user_id, @PathVariable("transport") int transport_id) {
+        redirectAttributes.addAttribute("user_id",user_id);
+        if (transportService.deleteById(transport_id)&& userDetails.getId() == user_id) {
             redirectAttributes.addFlashAttribute("transportIsDelete", true);
         } else {
             redirectAttributes.addFlashAttribute("isNotFoundTransport", true);
         }
-        return new RedirectView("/user/profile/" + id_user,true);
+        return new RedirectView("/users/{user_id}/profile",true);
+
     }
 
     @ModelAttribute("transport")

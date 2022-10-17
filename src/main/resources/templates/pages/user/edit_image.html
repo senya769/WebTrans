@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>update</title>
+    <!-- CSS only -->
+    <div th:replace="fragments/header::header-css"></div>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header-fr"></div>
+<section class="vh-100" style="background-color: #eee;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-12 col-xl-6">
+
+                <div class="card" style="border-radius: 15px;">
+                    <div class="card-body text-center">
+                        <div class="row center-block justify-content-lg-center">
+                            <h4 class="text-uppercase">Image Editor</h4>
+                        </div>
+                        <div class="mt-3 mb-4">
+                            <img th:src="@{${user.imageURL}}"
+                                 class="rounded-circle img-fluid" style="width: 100px;" alt="avatar"/>
+                        </div>
+                        <form th:href="@{users/{id}/update/image(id = user.id)}" method="post">
+                            <div class="form-floating mb-2">
+                                <input th:type="text" th:name="imageURL" class="form-control" id="floatingInput2"
+                                       placeholder="lastName" required>
+                                <label for="floatingInput2">Enter new URL image</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block mb-4">
+                                Change image
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div th:replace="fragments/footer :: footer-fr"></div>
+</body>
+</html>
