@@ -8,6 +8,22 @@
     <link rel="stylesheet" th:href="@{/styles/css/lists.css}" media="all" type="text/css">
 </head>
 <body>
+<h3>
+    Filter: type -
+    <span th:text="${typeTransport}"></span>
+</h3>
+<form th:href="@{/transports}">
+    <div class="form-group col-md-1">
+        <label for="country">Type:</label>
+        <select class="form-control" id="country" th:name="typeTransport">
+        <option>All</option>
+                <option th:each="city : ${T(com.trans.model.enums.TypeTransport).values()}"
+                        th:value="${city}" th:text="${city.typeValue}"></option>
+        </select>
+        <button type="submit">Filter</button>
+        <button type="reset"><a th:href="@{list1}">reset</a></button>
+    </div>
+</form>
 <div class="page">
     <table class="table table-hover table-info table-bordered table-sm">
         <thead class="table-group-divider table-light">
@@ -42,14 +58,36 @@
                         Your transport!
                     </div>
                     <div th:unless="${#authentication.getName() == t.user.email}">
-                            <form th:action="@{/orders/transports/{ts_id}/book(ts_id = ${t.id})}" th:method="get">
-                                <button type="submit" class="badge btn-primary">send offer</button>
-                            </form>
+                        <form th:action="@{/orders/transports/{ts_id}/book(ts_id = ${t.id})}" th:method="get">
+                            <button type="submit" class="badge btn-primary">send offer</button>
+                        </form>
                     </div>
                 </div>
             </td>
         </tr>
     </table>
+    <div class="row" th:fragment="pagination">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                        <div th:if="${pageNumber} == ${transportPage}">
+                            <a class="page-link active"
+                               th:text="${pageNumber}"></a>
+                        </div>
+                        <div th:unless="${pageNumber} == ${transportPage}">
+                            <!--                            <li th:class="page-item">-->
+                            <a class="page-link" th:href="@{/transports(page=${pageNumber},typeTransport =${typeTransport})}"
+                               th:text="${pageNumber}"></a>
+                            <!--                            </li>-->
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
     <div th:replace="fragments/footer::footer-fr"></div>
 </div>
 </body>

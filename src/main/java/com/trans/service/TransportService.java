@@ -1,8 +1,8 @@
 package com.trans.service;
 
-import com.trans.dto.UserDTO;
 import com.trans.model.Transport;
 import com.trans.model.User;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -14,6 +14,8 @@ public interface TransportService {
     boolean deleteAllByUserId(int user_id);
     void save(Transport transport);
     void saveWithUser(Transport transport, User user);
+    Page<Transport> findAll(int page);
+    Page<Transport> findAllByType(String type, Integer page);
    /* List<Cargo> findAllSortByDateCreated();
     List<Cargo> findAll(int page,int count);
     List<Cargo> findAllSortByDateCreated(int page);*/

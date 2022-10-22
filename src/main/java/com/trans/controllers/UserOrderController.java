@@ -49,7 +49,7 @@ public class UserOrderController {
     public ModelAndView getCargoReceivedOrders(ModelAndView modelAndView, @PathVariable Integer user_id,
                                                @AuthenticationPrincipal CustomUserDetails userDetails) {
         List<Order> cargoOrders = orderService.getCargoReceivedOrdersById(user_id);
-        if (userDetails.getId() == user_id && !cargoOrders.isEmpty()) {
+        if (userDetails.getId() == user_id) {
             modelAndView.addObject("orders", cargoOrders);
             modelAndView.setViewName("pages/order/cargo_received");
         }else {
@@ -84,13 +84,4 @@ public class UserOrderController {
         }
         return modelAndView;
     }
-
-  /*  @GetMapping("/transport/order")
-    public ModelAndView getTransportOrder(ModelAndView modelAndView, @PathVariable Integer id){
-        return modelAndView;
-    }
-    @GetMapping("/cargo/order")
-    public ModelAndView getCargoOrder(ModelAndView modelAndView, @PathVariable Integer id){
-        return modelAndView;
-    }*/
 }
