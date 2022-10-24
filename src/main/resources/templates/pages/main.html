@@ -6,26 +6,16 @@
     <div th:replace="fragments/header::header-css"></div>
     <div th:replace="fragments/header::header-fr"></div>
     <link rel="stylesheet" th:href="@{/styles/css/style.css}" media="all" type="text/css">
-    <script type="text/javascript" src="/static/styles/js/countUp.js"></script>
-
 </head>
 <body>
-<div class="page">
-
 <section class="py-5 text-center container">
     <div class="row py-lg-3">
         <div class="col-lg-7 col-md-8 mx-auto">
-            <a  class="btn btn-outline-secondary disabled mb-5 py-2   btn-lg text-capitalize text-black font-monospace"
-                >Total cargo:
-                <span  id="cargo" th:text="${countAllCargo}"></span>
+            <a  class="btn btn-outline-secondary disabled mb-5 py-2 px-3  btn-lg text-capitalize text-black font-monospace" >Total cargo:
+                <span  th:text="${countAllCargo}"></span>
             </a>
-            <a class="mx-4 btn btn-outline-secondary disabled mb-5 py-2   btn-lg text-capitalize text-black font-monospace"
-               >Total transport:
-                <span  id="ts"th:text="${countAllTransport}"> </span>
-            </a>
-            <a class="btn btn-outline-secondary disabled mb-5 py-2 px-3  btn-lg text-capitalize text-black font-monospace"
-               >Total Users:
-                <span  id="user"th:text="${countAllUser}"> </span>
+            <a class="mx-4 btn btn-outline-secondary disabled mb-5 py-2 px-3  btn-lg text-capitalize text-black font-monospace">Total transport:
+                <span  th:text="${countAllTransport}"> Successful work!</span>
             </a>
             <h1 class="fw-light mt-5">WEB-Trans</h1>
             <div class="lead text-muted">A web-trans site that helps us track and book cargo and transport.
@@ -33,69 +23,77 @@
             </div>
             <p class="glyphicon-bold text-capitalize"> Successful work!</p>
             <p>
-                <a th:href="@{/cargo}" type="button" class="btn btn-outline-info">Find cargo</a>
-                <a th:href="@{/transport}" type="button" class="btn btn-outline-info">Find transport</a>
+                <a th:href="@{/cargo/list}" type="button" class="btn btn-outline-info">Find cargo</a>
+                <a th:href="@{/transport/list}" type="button" class="btn btn-outline-info">Find transport</a>
             </p>
 
         </div>
     </div>
-</section>
-<!--
-<div class="container marketing center-block">
-<div class="row">
-    <div class="card mx-3 mb-3" style="height: 100%">
-        <img   class="rounded-pill img-fluid" style="width: 160px;" th:src="@{${userMaxTransport.imageURL}}" alt="Card image" >
-        <div class="card-body">
-            <h4 class="card-title" th:text="${userMaxTransport.firstName +' '+ userMaxTransport.lastName}">John Doe</h4>
-            <p class="card-text text-uppercase">TOP 1 by quantity TRANSPORT</p>
-            <a th:href="@{/users/{user_id}/profile(user_id = ${userMaxTransport.id})}"
-               class="btn btn-primary stretched-link">See Profile</a>
-        </div>
-    </div>
-&lt;!&ndash;</div>
 
-<div class="container">&ndash;&gt;
-    <div class="card mx-4 mb-3" style="width:400px">
-        <img class="card-img-top rounded-pill img-fluid"  th:src="@{${userMaxCargo.imageURL}}"
-             alt="Card image" style="width: 160px;">
+</section>
+
+<div class="container marketing">
+<div class="row">
+    <div class="card ml mx-4" style="width:400px">
+        <img class="card-img-top" th:src="@{https://cdn-icons-png.flaticon.com/512/3566/3566665.png}" alt="Card image" style="width:100%">
         <div class="card-body">
-            <h4 class="card-title" th:text="${userMaxCargo.firstName +' '+ userMaxCargo.lastName}">John Doe</h4>
-            <p class="card-text text-uppercase">TOP 1 by quantity CARGO</p>
+            <h4 class="card-title">John Doe</h4>
+            <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
             <a href="#" class="btn btn-primary stretched-link">See Profile</a>
         </div>
     </div>
-    <div class="card mx-3 mb-3" style="width:400px">
+<!--</div>
+<div class="container">-->
+    <div class="card " style="width:400px">
         <img class="card-img-top" th:src="@{https://png.pngtree.com/png-vector/20190308/ourlarge/pngtree-cargo-business-shipping-png-image_785606.jpg}"
-             alt="Card image" style="width:300px">
+             alt="Card image" style="width:100%">
         <div class="card-body">
-            <h4 class="card-title" th:text="${userMaxTransport.firstName +' '+ userMaxTransport.lastName}">John Doe</h4>
+            <h4 class="card-title">John Doe</h4>
+            <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
+            <a href="#" class="btn btn-primary stretched-link">See Profile</a>
+        </div>
+    </div>
+    <div class="card mx-4" style="width:400px">
+        <img class="card-img-top" th:src="@{https://png.pngtree.com/png-vector/20190308/ourlarge/pngtree-cargo-business-shipping-png-image_785606.jpg}"
+             alt="Card image" style="width:100%">
+        <div class="card-body">
+            <h4 class="card-title">John Doe</h4>
             <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
             <a href="#" class="btn btn-primary stretched-link">See Profile</a>
         </div>
     </div>
 </div>
-</div>-->
-<script type="text/javascript" src="https://bootstraptema.ru/plugins/2015/countup/countUp.min.js"></script>
-<div th:replace="fragments/footer::footer-fr"></div>
 </div>
-</body>
+<div class="col-lg-6 col-lg-offset-3">
+
+    <div class="text-center">
+        <h1 id="myCounter" th:name="cargo"  th:value="${countAllTransport}">0</h1>
+        <h2 id="myCounters" th:name="ts" th:value="${countAllTransport}">0</h2>
+    </div>
+
+
+</div></div>
+
+<script type="text/javascript" src="https://bootstraptema.ru/plugins/2015/countup/countUp.min.js"></script>
+
 <script>
-    var cargo = [[${countAllTransport}]];
-var ts = [[${countAllCargo}]];
-var user = [[${countAllUser}]];
-var options = {
-    useEasing : true,
-    useGrouping : true,
-    separator : ',',
-    decimal : '.',
-    prefix : '',
-    suffix : ''
-};
-var counter = new CountUp("cargo", 0, cargo, 0, 4.5, options);
-counter.start();
-var counters = new CountUp("ts", 0, ts, 0, 4.5, options);
-counters.start();
-var countUser = new CountUp("user", 0, user, 0, 4.5, options);
-countUser.start();
+    let auction_id = document.getElementById('myCounter').innerHTML;
+    let auction = Number.parseInt(auction_id);
+    let cargo = document.getElementsByName("cargo");
+    let ts = document.getElementsByName("ts");
+    var options = {
+        useEasing : true,
+        useGrouping : true,
+        separator : ',',
+        decimal : '.',
+        prefix : '',
+        suffix : ''
+    };
+    var counter = new CountUp("myCounter", 0, 1597, 0, 3.5, options);
+    counter.start();
+    var counters = new CountUp("myCounters", 0, 1000, 0, 3.5, options);
+    counters.start();
 </script>
+<div th:replace="fragments/footer::footer-fr"></div>
+</body>
 </html>

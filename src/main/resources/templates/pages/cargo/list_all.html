@@ -4,16 +4,13 @@
     <title>list all cargo</title>
     <div th:replace="fragments/header::header-css"></div>
     <link rel="stylesheet" th:href="@{/styles/css/lists.css}" media="all" type="text/css">
-    <div th:replace="fragments/header::header-fr"></div>
 </head>
 <body>
 <div class="page">
-<h3>
-    Filter: City -
-    <span th:text="${cityFrom}"></span>
-</h3>
-    <form th:href="@{cargo}">
-        <div class="form-group col-md-1">
+    <div th:replace="fragments/header::header-fr"></div>
+
+    <form th:href="@{cargo/list1}">
+        <div class="form-group col-md-6">
             <label for="country">Cities from:</label>
             <select class="form-control" id="country" th:name="cityFrom">
                 <option>Any</option>
@@ -34,7 +31,7 @@
                 <th scope="col">Cities</th>
                 <th scope="col">Name</th>
                 <th scope="col">Characteristics</th>
-                <th scope="col"><a th:href="@{/}">Price</a></th>
+                <th scope="col">Price</th>
                 <th scope="col">Owner</th>
                 <th scope="col">Panel</th>
             </div>
@@ -104,12 +101,13 @@
                     <li class="page-item" th:each="pageNumber : ${pageNumbers}">
                         <div th:if="${pageNumber} == ${cargoPage}">
                             <!--                            <li class="page-item active">-->
-                            <a class="page-link active" th:text="${pageNumber}" ></a>
+                            <a class="page-link active" th:href="@{/cargo/list(page=${pageNumber})}"
+                               th:text="${pageNumber}"></a>
                             <!--                            </li>-->
                         </div>
                         <div th:unless="${pageNumber} == ${cargoPage}">
                             <!--                            <li th:class="page-item">-->
-                            <a class="page-link" th:href="@{/cargo(page=${pageNumber},cityFrom = ${cityFrom})}"
+                            <a class="page-link" th:href="@{/cargo/list(page=${pageNumber})}"
                                th:text="${pageNumber}"></a>
                             <!--                            </li>-->
                         </div>

@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel="shortcut icon"
+          th:href="@{https://w7.pngwing.com/pngs/548/737/png-transparent-peterbilt-semi-trailer-truck-truck.png}"
+          type="image/x-icon">
+    <title>
+        New transport
+    </title>
+    <!-- CSS only -->
+    <div th:replace="fragments/header::header-css"></div>
+</head>
+<body>
+<div th:text="${ts}"></div>
+<form th:object="${transport}"
+      th:action="@{/test/{id}(id = ${id})}"
+      th:method="post">
+    <div class="form-group col-md-6">
+        <input type="text" class="form-control" th:field="*{name}" placeholder="Volvo">
+        <label>Name Transport</label>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        Add Transport
+    </button>
+</form>
+
+</body>
+</html>

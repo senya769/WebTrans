@@ -138,9 +138,4 @@ public class UserServiceImpl implements UserService {
         UserDTO map = modelMapper.map(userFromDB, UserDTO.class);
         return map;
     }
-
-    @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
 }

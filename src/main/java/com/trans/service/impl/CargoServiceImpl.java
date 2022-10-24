@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -91,16 +89,11 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public Page<Cargo> findAllByCityFromContaining(String cityFrom, Integer page) {
+    public List<Cargo> findAllByCityFromContaining(String cityFrom) {
         if(cityFrom.equals("Any")){
-            return findAllSortByDateCreated(page);
+            return this.findAllSortByDateCreated();
         }
-        return cargoRepository.findAllByCityFromContaining(cityFrom,PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
-    }
-
-    @Override
-    public Set<String> getDistinctCityFromCargo() {
-       return cargoRepository.findAll().stream().map(Cargo::getCityFrom).collect(Collectors.toSet());
+        return cargoRepository.findAllByCityFromContaining(cityFrom,Sort.by("localDateCreated").descending());
     }
 
     @Override
