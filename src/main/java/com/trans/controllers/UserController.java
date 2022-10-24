@@ -44,6 +44,10 @@ public class UserController {
         modelAndView.addObject("user", user);
         modelAndView.addObject("countOrderByTransports", orderService.findAllByTransportUserId(user_id).size());
         modelAndView.addObject("countOrderByCargo", orderService.findAllByCargoUserId(user_id).size());
+        modelAndView.addObject("transportSentOrders", orderService.getTransportSentOrdersById(user_id));
+        modelAndView.addObject("cargoSentOrders", orderService.getCargoSentOrdersById(user_id));
+        modelAndView.addObject("transportReceivedOrders", orderService.getTransportReceivedOrdersById(user_id));
+        modelAndView.addObject("cargoReceivedOrders", orderService.getCargoReceivedOrdersById(user_id));
         modelAndView.setViewName("pages/user/profile");
         return modelAndView;
     }
@@ -53,7 +57,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         if (userDetails.getId() == user_id) {
             modelAndView.addObject("user", userService.findDTOById(user_id));
-            modelAndView.setViewName("/pages/user/update");
+            modelAndView.setViewName("pages/user/update");
         } else {
             modelAndView.setViewName("pages/error/405");
         }
@@ -95,12 +99,14 @@ public class UserController {
         return modelAndView;
     }
 
+/*
     @PostMapping("/{user_id}/delete")
     public ModelAndView deletePost(ModelAndView modelAndView, @PathVariable int user_id) {
         userService.deleteById(user_id);
         modelAndView.setViewName("redirect:/users/list");
         return modelAndView;
     }
+*/
 
     @GetMapping()
     public ModelAndView listUsers(ModelAndView modelAndView) {

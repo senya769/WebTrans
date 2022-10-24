@@ -17,8 +17,8 @@
 <body>
 
 <div th:each="principal:${#request.userPrincipal.principal}">
-    <section class="vh-100 " style="background-color: #eee;">
-        <div class="container py-5 h-100 ">
+    <section class="vh-120 " style="background-color: #eee;">
+        <div class="container py-5 h-120 ">
             <div class="row ">
                 <div class="col-3">
                     <div class="card w-20">
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card w-20">
+                    <div class="card w-20 mt-3">
                         <div class="card-body module-graph">
                             <h5 class="card-title">Cargo Orders</h5>
                             <div class="card-text">
@@ -206,17 +206,20 @@
                         </div>
                     </div>
                     <!--                        Orders panel management-->
-                    <div class="card w-20">
+                    <div class="card w-20 mt-3">
                         <div class="card-body module-graph">
                             <h5 class="card-title">Transport Orders</h5>
                             <div class="card-text">
                                 My send orders :
-                                <span th:text="${countOrderByTransports}"></span>
+                                <span th:text="${transportSentOrders.size()}"></span>
                             </div>
                             <a th:if="${principal.email == user.email}"
                                th:href="@{/users/{user_id}/transports/sent/orders (user_id = ${user.id})}"
-                               class="btn btn-outline-info ">Sent Transport Orders</a>
-                            <!--checking, if you will be some amount > 0 cargo - show RUD-operations-->
+                               class="btn btn-outline-info ">Send Transport Orders</a>
+                            <div class="card-text">
+                                My received orders :
+                                <span th:text="${transportReceivedOrders.size()}"></span>
+                            </div>
                             <div th:if="${principal.email == user.email}">
                                 <a th:href="@{/users/{user_id}/transports/received/orders (user_id = ${user.id})}"
                                    class="btn btn-outline-primary my-1">Received Transport Orders</a>

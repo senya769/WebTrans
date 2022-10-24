@@ -2,13 +2,18 @@ package com.trans.service.impl;
 
 import com.trans.model.Transport;
 import com.trans.model.User;
+import com.trans.model.enums.TypeTransport;
 import com.trans.repository.TransportRepository;
 import com.trans.service.TransportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -60,5 +65,18 @@ public class TransportServiceImpl implements TransportService {
     public void saveWithUser(Transport transport, User user) {
         transport.setUser(user);
         this.save(transport);
+    }
+    @Override
+    public Page<Transport> findAll(int page) {
+        return transportRepository.findAll(PageRequest.of(page - 1, 8));
+    }
+
+    @Override
+    public Page<Transport> findAllByType(String type, Integer page) {
+        if(Objects.equals(type, "All")){
+         return this.findAll(page);
+        }
+            return transportRepository.findAllByType(TypeTransport.fromString(type),
+                    PageRequest.of(page - 1,8));
     }
 }
