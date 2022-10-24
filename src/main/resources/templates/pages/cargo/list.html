@@ -70,6 +70,9 @@
                        th:text="${c.user.nameCompany}"></a>
                 </td>
                 <td>
+                    <div th:if="${#authentication.getName()== c.user.email}">
+                        Your cargo!
+                    </div>
                     <div th:unless="${#authentication.getName() == c.user.email}">
                         <form th:action="@{/orders/cargo/{cargo_id}/book(cargo_id = ${c.id})}" th:method="get">
                             <button type="submit" class="badge btn-primary">send offer</button>

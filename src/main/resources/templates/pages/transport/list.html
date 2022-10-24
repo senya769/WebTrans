@@ -53,6 +53,9 @@
                             <button type="submit" class="badge btn-primary">send offer</button>
                         </form>
                     </div>
+                    <div th:if="${#authentication.getName()== t.user.email}">
+                        Your transport!
+                    </div>
 
                     <div th:if="${user.email == #request.userPrincipal.getName()} or ${#request.isUserInRole('ADMIN')}">
                         <form th:action="@{/users/{user_id}/transports/remove/{transport_id} (transport_id = ${t.id},user_id = ${user.id})}"

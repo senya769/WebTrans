@@ -5,7 +5,6 @@ import com.trans.model.Cargo;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Set;
 
 public interface CargoService {
     List<Cargo> findAll();
@@ -19,6 +18,5 @@ public interface CargoService {
     Page<Cargo> findAllSortByDateCreated(int page);
     void saveWithUserAndDate(Cargo cargo, UserDTO user, String dateDeadline);
     void save(Cargo cargo);
-    Page<Cargo> findAllByCityFromContaining(String cityFrom,Integer page);
-    Set<String> getDistinctCityFromCargo();
+    List<Cargo> findAllByCityFromContaining(String cityFrom);
 }
