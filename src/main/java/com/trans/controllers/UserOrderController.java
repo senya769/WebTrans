@@ -85,12 +85,4 @@ public class UserOrderController {
         return modelAndView;
     }
 
-  /*  @GetMapping("/transport/order")
-    public ModelAndView getTransportOrder(ModelAndView modelAndView, @PathVariable Integer id){
-        return modelAndView;
-    }
-    @GetMapping("/cargo/order")
-    public ModelAndView getCargoOrder(ModelAndView modelAndView, @PathVariable Integer id){
-        return modelAndView;
-    }*/
 }

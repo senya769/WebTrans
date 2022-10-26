@@ -35,12 +35,6 @@ public class OrderController {
         this.transportService = transportService;
     }
 
-    /*    @GetMapping("/orders")
-        public ModelAndView getOrderList(ModelAndView modelAndView, @PathVariable int user_id){
-            modelAndView.addObject("listOrdersCargo",orderService.findAllByCargoUserId(user_id));
-            modelAndView.setViewName("/pages/about");
-            return modelAndView;
-        }*/
     @GetMapping("/cargo/{cargo_id}/book")
     public ModelAndView model(ModelAndView modelAndView, @PathVariable int cargo_id,
                               @AuthenticationPrincipal CustomUserDetails userDetails) {
