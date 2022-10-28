@@ -42,8 +42,8 @@ public class UserController {
     public ModelAndView profileGet(@PathVariable int user_id, ModelAndView modelAndView) {
         UserDTO user = userService.findDTOById(user_id);
         modelAndView.addObject("user", user);
-        modelAndView.addObject("countOrderByTransports", orderService.findAllByTransportUserId(user_id).size());
-        modelAndView.addObject("countOrderByCargo", orderService.findAllByCargoUserId(user_id).size());
+//        modelAndView.addObject("countOrderByTransports", orderService.findAllByTransportUserId(user_id).size());
+//        modelAndView.addObject("countOrderByCargo", orderService.findAllByCargoUserId(user_id).size());
         modelAndView.addObject("transportSentOrders", orderService.getTransportSentOrdersById(user_id));
         modelAndView.addObject("cargoSentOrders", orderService.getCargoSentOrdersById(user_id));
         modelAndView.addObject("transportReceivedOrders", orderService.getTransportReceivedOrdersById(user_id));
@@ -98,15 +98,6 @@ public class UserController {
 
         return modelAndView;
     }
-
-/*
-    @PostMapping("/{user_id}/delete")
-    public ModelAndView deletePost(ModelAndView modelAndView, @PathVariable int user_id) {
-        userService.deleteById(user_id);
-        modelAndView.setViewName("redirect:/users/list");
-        return modelAndView;
-    }
-*/
 
     @GetMapping()
     public ModelAndView listUsers(ModelAndView modelAndView) {

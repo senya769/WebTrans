@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/orders")
@@ -46,7 +47,9 @@ public class OrderController {
                               @AuthenticationPrincipal CustomUserDetails userDetails) {
         Cargo cargo = cargoService.findById(cargo_id);
         modelAndView.addObject("cargo", cargo);
-        List<Transport> transportListOfCustomer = userService.findById(userDetails.getId()).getTransportList();
+       // List<Transport> transportListOfCustomer = userService.findById(userDetails.getId()).getTransportList();
+        List<Transport> transportListOfCustomer = userService.findById(userDetails.getId()).getTransportList().stream()
+                .filter(ts -> ts.getType() == cargo.getTypeTransport()).toList();
         if (transportListOfCustomer == null) {
             modelAndView.addObject("NotFoundTransportOfCustomer", true);
             modelAndView.setViewName("redirect:/cargo/list");

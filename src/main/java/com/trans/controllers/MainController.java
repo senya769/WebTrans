@@ -38,20 +38,20 @@ public class MainController {
         modelAndView.addObject("countAllTransport", transportService.findAll().size());
         modelAndView.addObject("countAllUser", userService.findAll().size());
         modelAndView.setViewName("pages/main");
-
-        List<User> allUsers = userService.findAll();
+        /*List<User> allUsers = userService.findAll();
         int maxTransport = allUsers.stream().map(p -> p.getTransportList().size()).max(Comparator.naturalOrder()).orElse(0);
         int maxCargo = allUsers.stream().map(p -> p.getCargoList().size()).max(Comparator.naturalOrder()).orElse(0);
         User userMaxTransport = allUsers.stream().filter(user -> user.getTransportList().size()==maxTransport).findFirst().orElse(null);
         User userMaxCargo = allUsers.stream().filter(user -> user.getCargoList().size()==maxCargo).findFirst().orElse(null);
         modelAndView.addObject("userMaxTransport",userMaxTransport);
-        modelAndView.addObject("userMaxCargo",userMaxCargo);
+        modelAndView.addObject("userMaxCargo",userMaxCargo);*/
         return modelAndView;
     }
 
     @GetMapping("/cargo")
     protected ModelAndView listCargoAsktest(@RequestParam(defaultValue = "1") int page,
-                                            @RequestParam(defaultValue = "Any") String cityFrom) {
+                                            @RequestParam(defaultValue = "Any") String cityFrom,
+                                            @RequestParam(defaultValue = "") String name) {
         ModelAndView modelAndView = new ModelAndView();
         Set<String> uniqueCityFromCargo = cargoService.getDistinctCityFromCargo();
         Page<Cargo> cargoPage = cargoService.findAllByCityFromContaining(cityFrom, page);

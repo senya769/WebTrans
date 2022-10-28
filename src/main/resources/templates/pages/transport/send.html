@@ -25,6 +25,7 @@ TEST
                 <th scope="col">Countries</th>
                 <th scope="col">Cities</th>
                 <th scope="col">Name</th>
+                <th scope="col">Type TS</th>
                 <th scope="col">Characteristics</th>
                 <th scope="col">Price</th>
                 <th scope="col">Owner</th>
@@ -50,6 +51,7 @@ TEST
                 <span th:text="${c.cityTo}"></span>
             </td>
             <td th:text="${c.name}">
+            <td th:text="${c.typeTransport.typeValue}">
             <td>
                 Weight:<span th:text="${c.weight} + 't'"></span>
                 <br>

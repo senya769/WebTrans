@@ -46,23 +46,19 @@
                     <div class="card w-20 mt-3">
                         <div class="card-body module-graph">
                             <h5 class="card-title">Cargo Orders</h5>
-                            <div class="card-text">
-                                My send orders :
-                                <span th:text="${countOrderByCargo}"></span>
-                            </div>
                             <a th:if="${principal.email == user.email}"
                                th:href="@{/users/{user_id}/cargo/sent/orders (user_id = ${user.id})}"
-                               class="btn btn-outline-info ">Sent Cargo Orders</a>
-                            <!--checking, if you will be some amount > 0 cargo - show RUD-operations-->
+                               class="btn btn-outline-success ">
+                                Sent Cargo Orders:
+                                <span th:text="${cargoSentOrders.size()}"></span>
+                            </a>
+
                             <div th:if="${principal.email == user.email}">
                                 <a th:href="@{/users/{user_id}/cargo/received/orders (user_id = ${user.id})}"
-                                   class="btn btn-outline-primary my-1">Received Cargo Orders</a>
-
-                                <!--   <a th:href="@{/user/{id}/transport/update (id = ${user.id})}"
-                                      class="btn btn-outline-success">Update</a>
-
-                                   <a th:href="@{/user/{id}/transport/delete (id = ${user.id})}"
-                                      class="btn btn-outline-danger">Remove</a>-->
+                                   class="btn btn-outline-primary my-1">
+                                    Received Cargo Orders:
+                                    <span th:text="${cargoReceivedOrders.size()}"></span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -82,7 +78,7 @@
                                class="btn btn-danger btn-rounded ">
                                 Remove Account
                             </a>
-                            <a type="button" th:href="@{/users}" class="btn btn-primary btn-rounded ">
+                            <a type="button" th:href="@{/users}" th:if="${#request.isUserInRole('ADMIN')}" class="btn btn-primary btn-rounded ">
                                 Show All Users
                             </a>
 
@@ -209,20 +205,19 @@
                     <div class="card w-20 mt-3">
                         <div class="card-body module-graph">
                             <h5 class="card-title">Transport Orders</h5>
-                            <div class="card-text">
-                                My send orders :
-                                <span th:text="${transportSentOrders.size()}"></span>
-                            </div>
                             <a th:if="${principal.email == user.email}"
                                th:href="@{/users/{user_id}/transports/sent/orders (user_id = ${user.id})}"
-                               class="btn btn-outline-info ">Send Transport Orders</a>
-                            <div class="card-text">
-                                My received orders :
-                                <span th:text="${transportReceivedOrders.size()}"></span>
-                            </div>
+                               class="btn btn-outline-success ">
+                                Send Transport Orders:
+                                <span th:text="${transportSentOrders.size()}"></span>
+                            </a>
+
                             <div th:if="${principal.email == user.email}">
                                 <a th:href="@{/users/{user_id}/transports/received/orders (user_id = ${user.id})}"
-                                   class="btn btn-outline-primary my-1">Received Transport Orders</a>
+                                   class="btn btn-outline-primary my-1">
+                                    Received Transport Orders:
+                                    <span th:text="${transportReceivedOrders.size()}"></span>
+                                </a>
 
                                 <!--   <a th:href="@{/user/{id}/transport/update (id = ${user.id})}"
                                       class="btn btn-outline-success">Update</a>

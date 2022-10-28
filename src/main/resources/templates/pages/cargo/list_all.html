@@ -12,7 +12,7 @@
     Filter: City -
     <span th:text="${cityFrom}"></span>
 </h3>
-    <form th:href="@{cargo}">
+    <form th:href="@{/cargo}">
         <div class="form-group col-md-1">
             <label for="country">Cities from:</label>
             <select class="form-control" id="country" th:name="cityFrom">
@@ -20,8 +20,9 @@
                 <option th:each="city : ${citiesFrom}"
                         th:value="${city}" th:text="${city}"></option>
             </select>
+            <input th:name="name" th:class="input-group">
             <button type="submit">Filter</button>
-            <button type="reset"><a th:href="@{list1}">reset</a></button>
+            <button type="reset"><a th:href="@{/cargo}">reset</a></button>
         </div>
     </form>
     <table class="table table-hover table-info table-bordered table-sm">
@@ -33,6 +34,7 @@
                 <th scope="col">Countries</th>
                 <th scope="col">Cities</th>
                 <th scope="col">Name</th>
+                <th scope="col">Type TS</th>
                 <th scope="col">Characteristics</th>
                 <th scope="col"><a th:href="@{/}">Price</a></th>
                 <th scope="col">Owner</th>
@@ -58,6 +60,7 @@
                 <span th:text="${c.cityTo}"></span>
             </td>
             <td th:text="${c.name}">
+            <td th:text="${c.typeTransport.typeValue}">
             <td>
                 Weight:<span th:text="${c.weight} + 't'"></span>
                 <br>
@@ -90,6 +93,12 @@
                                 <button type="submit" class="badge btn-primary">send offer</button>
                             </form>
                         </div>
+                    </div>
+                    <div th:if="${#request.isUserInRole('ADMIN')}">
+                        <form th:action="@{/users/{user_id}/cargo/remove/{cargo_id} (cargo_id = ${c.id},user_id = ${c.user.id})}"
+                              method="get">
+                            <button type="submit" class="badge badge-danger">delete</button>
+                        </form>
                     </div>
                 </div>
             </td>

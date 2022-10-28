@@ -95,7 +95,7 @@ public class CargoServiceImpl implements CargoService {
         if(cityFrom.equals("Any")){
             return findAllSortByDateCreated(page);
         }
-        return cargoRepository.findAllByCityFromContaining(cityFrom,PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
+        return cargoRepository.findAllByCityFromContaining(cityFrom,true, PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
     }
 
     @Override
