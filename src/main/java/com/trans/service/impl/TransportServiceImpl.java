@@ -8,7 +8,6 @@ import com.trans.service.TransportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -78,5 +77,15 @@ public class TransportServiceImpl implements TransportService {
         }
             return transportRepository.findAllByType(TypeTransport.fromString(type),
                     PageRequest.of(page - 1,8));
+    }
+
+    @Override
+    public List<Transport> search(String s) {
+        if(s != null) {
+            return transportRepository.searchAllByKeyword(s);
+        }
+        else {
+            return transportRepository.findAllByIsFreeIsTrue();
+        }
     }
 }

@@ -9,6 +9,7 @@ import com.trans.service.TransportService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -70,10 +71,12 @@ public class MainController {
 
     @GetMapping("/transports")
     protected ModelAndView listTransportAsk(@RequestParam(defaultValue = "1") int page,
-                                            @RequestParam(defaultValue = "All") String typeTransport) {
+                                            @RequestParam(defaultValue = "All") String typeTransport,
+                                            @RequestParam(required = false) String keyword) {
         ModelAndView modelAndView = new ModelAndView();
         Page<Transport> transportPage = transportService.findAllByType(typeTransport, page);
-        modelAndView.addObject("transportList", transportPage.getContent());
+//        modelAndView.addObject("transportList", transportPage.getContent());
+        modelAndView.addObject("transportList", transportService.search(keyword));
         modelAndView.addObject("transportPage", page);
         modelAndView.addObject("typeTransport", typeTransport);
         int totalPages = transportPage.getTotalPages();
@@ -83,5 +86,9 @@ public class MainController {
         }
         modelAndView.setViewName("pages/transport/list_all");
         return modelAndView;
+    }
+    @ModelAttribute("cargo")
+    public Cargo newCargo(){
+        return new Cargo();
     }
 }

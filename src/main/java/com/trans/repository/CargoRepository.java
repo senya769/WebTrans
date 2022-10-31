@@ -22,5 +22,5 @@ public interface CargoRepository extends JpaRepository<Cargo, Integer> {
     /* @Query(value = "SELECT * FROM cargo ORDER BY date_created desc",nativeQuery = true)
      List<Cargo> findAllAsk();*/
 
-    Page<Cargo> findAllByCityFromContaining(String cityFrom, boolean free, Pageable pageable);
+    Page<Cargo> findAllByCityFromContaining(String cityFrom, Pageable pageable);
 }

@@ -44,15 +44,15 @@ public class OrderController {
         }*/
     @GetMapping("/cargo/{cargo_id}/book")
     public ModelAndView model(ModelAndView modelAndView, @PathVariable int cargo_id,
-                              @AuthenticationPrincipal CustomUserDetails userDetails) {
+                              @AuthenticationPrincipal CustomUserDetails userDetails,RedirectAttributes attributes) {
         Cargo cargo = cargoService.findById(cargo_id);
         modelAndView.addObject("cargo", cargo);
        // List<Transport> transportListOfCustomer = userService.findById(userDetails.getId()).getTransportList();
         List<Transport> transportListOfCustomer = userService.findById(userDetails.getId()).getTransportList().stream()
                 .filter(ts -> ts.getType() == cargo.getTypeTransport()).toList();
-        if (transportListOfCustomer == null) {
+        if (transportListOfCustomer.size() == 0 ) {
             modelAndView.addObject("NotFoundTransportOfCustomer", true);
-            modelAndView.setViewName("redirect:/cargo/list");
+            modelAndView.setViewName("forward:/cargo");
         } else {
             modelAndView.addObject("transportListCustomer", transportListOfCustomer);
             modelAndView.setViewName("pages/transport/send");

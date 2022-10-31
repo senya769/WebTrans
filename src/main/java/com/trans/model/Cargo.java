@@ -53,7 +53,7 @@ public class Cargo {
     @EqualsAndHashCode.Exclude
     private User user;
 
-    @OneToMany(mappedBy = "transport",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "transport",cascade = CascadeType.PERSIST)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Order> orderList;

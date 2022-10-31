@@ -47,6 +47,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Integer cancel(Order order) {
         order.setStatus(OrderStatus.REJECTED);
+        order.getCargo().setFree(true);
+        order.getTransport().setFree(true);
         Order save = orderRepository.save(order);
         return save.getId();
     }
@@ -55,6 +57,7 @@ public class OrderServiceImpl implements OrderService {
     public Integer complete(Order order) {
         order.setStatus(OrderStatus.COMPLETED);
         order.getTransport().setFree(true);
+
         Order save = orderRepository.save(order);
         return save.getId();
     }

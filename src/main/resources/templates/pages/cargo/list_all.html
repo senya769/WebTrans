@@ -8,6 +8,14 @@
 </head>
 <body>
 <div class="page">
+      <span class="d-flex justify-content-between align-items-center">
+    <div class="alert alert-success alert-dismissible fade show" role="alert"
+         th:if="${NotFoundTransportOfCustomer == true}">
+       You don't have this type of transport
+        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
+    </div>
+      </span>
 <h3>
     Filter: City -
     <span th:text="${cityFrom}"></span>
@@ -17,7 +25,7 @@
             <label for="country">Cities from:</label>
             <select class="form-control" id="country" th:name="cityFrom">
                 <option>Any</option>
-                <option th:each="city : ${citiesFrom}"
+                <option  th:each="city : ${citiesFrom}"
                         th:value="${city}" th:text="${city}"></option>
             </select>
             <input th:name="name" th:class="input-group">
@@ -45,8 +53,8 @@
         <tbody>
         <tr th:each="c:${cargoList}">
             <td>
-                <div th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}"></div>
-                -
+                <div th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}+' -->'"></div>
+
                 <span th:text="${#temporals.format(c.localDateDeadline,'dd-MMM-yy HH:mm')}"></span>
             </td>
             <td>
@@ -74,7 +82,8 @@
             <td>
 
                 <div sec:authorize="isAuthenticated()">
-                    <div th:text="${c.user.activity.value}"></div>
+                    <span th:text="${c.user.activity.value}"></span>
+                    <span th:text="${c.user.type.value + ', number - ' + c.user.number}"></span><br>
                     <a th:href="@{/users/{user_id}/profile(user_id = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
                 </div>
                 <div sec:authorize="!isAuthenticated()">

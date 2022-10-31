@@ -24,7 +24,20 @@
         <button type="reset"><a th:href="@{/transport}">reset</a></button>
     </div>
 </form>
+<form th:href="@{/transports}">
+<div class="input-group">
+    <div class="form-outline">
+        <input type="search" th:name="keyword" id="form1" class="form-control" />
+        <label class="form-label" for="form1">Search</label>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-search"></i>
+    </button>
+</div>
+</form>
+
 <div class="page">
+
     <table class="table table-hover table-info table-bordered table-sm">
         <thead class="table-group-divider table-light">
         <thead>
