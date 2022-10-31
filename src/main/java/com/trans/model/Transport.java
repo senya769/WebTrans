@@ -32,7 +32,7 @@ public class Transport{
     @ManyToOne
     @EqualsAndHashCode.Exclude
     private User user;
-    @OneToMany(mappedBy = "transport",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "transport",cascade = CascadeType.MERGE)
     @ToString.Exclude
     private List<Order> orderList;
 

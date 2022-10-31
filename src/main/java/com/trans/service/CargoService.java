@@ -3,12 +3,14 @@ package com.trans.service;
 import com.trans.dto.UserDTO;
 import com.trans.model.Cargo;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Set;
 
 public interface CargoService {
     List<Cargo> findAll();
+    List<Cargo> findAll(Cargo cargo);
     List<Cargo> findAllByUserId(int user_id);
     Cargo findById(int id);
     boolean deleteById(int id);

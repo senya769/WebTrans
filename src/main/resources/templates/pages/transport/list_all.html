@@ -21,10 +21,23 @@
                         th:value="${city}" th:text="${city.typeValue}"></option>
         </select>
         <button type="submit">Filter</button>
-        <button type="reset"><a th:href="@{list1}">reset</a></button>
+        <button type="reset"><a th:href="@{/transport}">reset</a></button>
     </div>
 </form>
+<form th:href="@{/transports}">
+<div class="input-group">
+    <div class="form-outline">
+        <input type="search" th:name="keyword" id="form1" class="form-control" />
+        <label class="form-label" for="form1">Search</label>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-search"></i>
+    </button>
+</div>
+</form>
+
 <div class="page">
+
     <table class="table table-hover table-info table-bordered table-sm">
         <thead class="table-group-divider table-light">
         <thead>
@@ -42,7 +55,7 @@
         <tbody>
         <tr th:each="t:${transportList}">
             <td th:text="${t.name}">
-            <td th:text="${t.type}">
+            <td th:text="${t.type.typeValue}">
             <td th:text="${t.maxCapacityLoad}">
             <td th:text="${t.isFree}">
             <td>
@@ -50,9 +63,6 @@
                 <a th:href="@{/users/{user_id}/profile(user_id = ${t.user.id})}" th:text="${t.user.nameCompany}"></a>
             </td>
             <td>
-                <div th:if="${#request.isUserInRole('ADMIN')}">
-                    <a th:href="@{#}">d</a>
-                </div>
                 <div class="align-items-center">
                     <div th:if="${#authentication.getName()== t.user.email}">
                         Your transport!
@@ -62,6 +72,12 @@
                             <button type="submit" class="badge btn-primary">send offer</button>
                         </form>
                     </div>
+                <div th:if="${#request.isUserInRole('ADMIN')}">
+                    <form th:action="@{/users/{user_id}/transport/remove/{ts_id} (user_id = ${t.user.id},ts_id = ${t.id})}"
+                          method="get">
+                        <button type="submit" class="badge badge-danger">delete</button>
+                    </form>
+                </div>
                 </div>
             </td>
         </tr>

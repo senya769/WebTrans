@@ -41,7 +41,7 @@
         <td th:text="${u.activity}">
         <td th:text="${u.city}">
         <td th:text="${u.country}">
-        <td th:text="${u.type}">
+        <td th:text="${u.type.value}">
         <td>
         <div th:if="${#request.isUserInRole('ADMIN')}">
             <form th:action="@{/users/{id}/delete(id = ${u.id})}" method="post">

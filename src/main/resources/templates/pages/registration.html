@@ -32,30 +32,38 @@
                                 </div>
                             </div>
 
-                                    <div th:if="${activity == null}">
-                                        <label >Owner:</label>
+                            <div th:if="${activity == null}">
+                                <label >Owner:</label>
+                            </div>
+                            <form th:action="@{/registration}" th:object="${user}" th:method="post">
+                                <label class="mb-2">
+                                    Type
+                                    <select class="form-select-sm mb-2 mx-1" name="type"
+                                            aria-multiselectable="false" th:field="*{type}">
+                                        <option th:each="c : ${T(com.trans.model.enums.TypeUser).values()}"
+                                                th:value="${c}" th:text="${c}"></option>
+                                    </select>
+                                </label>
+                                <label class="mx-5 mb-2">
+                                    Country
+                                    <select class="form-select-sm mb-2 mx-1" name="country"
+                                            aria-multiselectable="false" th:field="*{country}">
+                                        <option th:each="c : ${T(com.trans.model.enums.Countries).values()}"
+                                                th:value="${c}" th:text="${c}"></option>
+                                    </select>
+                                </label>
+                                <div class="form-floating mb-4">
+                                    <input type="text" class="form-control" id="floatingInput1"
+                                    th:field="*{firstName}" placeholder="firstName" required>
+                                    <label for="floatingInput1">First Name
+                                    </label>
                                     </div>
-                                <form th:action="@{/registration}" th:object="${user}" th:method="post">
                                     <div class="form-floating mb-4">
-                                        <input type="text" class="form-control" id="floatingInput1"
-                                               th:field="*{firstName}" placeholder="firstName" required>
-                                        <label for="floatingInput1">First Name
-                                        </label>
-                                    </div>
-                                    <div class="form-floating mb-2">
                                         <input type="text" class="form-control" id="floatingInput2"
-                                               th:field="*{lastName}" placeholder="lastName" required>
+                                        th:field="*{lastName}" placeholder="lastName" required>
                                         <label for="floatingInput2">Last Name
                                         </label>
                                     </div>
-                                    <label>
-                                        Country
-                                        <select class="form-select-sm mb-2" name="country"
-                                                aria-multiselectable="false" th:field="*{country}">
-                                            <option th:each="c : ${T(com.trans.model.enums.Countries).values()}"
-                                                    th:value="${c}" th:text="${c}"></option>
-                                        </select>
-                                    </label>
                                     <div class="form-floating mb-4">
                                         <input type="text" class="form-control" id="floatingInput3"
                                                th:field="*{city}" placeholder="city" required>

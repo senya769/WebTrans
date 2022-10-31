@@ -30,6 +30,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Characteristics</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Type</th>
                     <th scope="col">Owner</th>
                     <th scope="col">PANEL</th>
                 </div>
@@ -55,19 +56,22 @@
                 </td>
                 <td th:text="${c.name}">
                 <td>
-                    Weight:<span th:text="${c.weight} + 't'"></span>
+                    Weight: <span th:text="${c.weight} + ' t'"></span>
                     <br>
-                    Volume:<span th:text="${c.volume} + 'm3'"></span>
+                    Volume: <span th:text="${c.volume} + ' m3'"></span>
 
                 </td>
                 <td th:if="${c.price == 0.0}">contract</td>
                 <td th:if="${c.price != 0.0}">
                     <div th:text="${c.price}+' $'"></div>
                 </td>
+                <td th:text="${c.isFree}">
                 <td>
                     <div th:text="${c.user.activity.value}"></div>
                     <a th:href="@{/users/{user_id}/profile(user_id = ${c.user.id})}"
                        th:text="${c.user.nameCompany}"></a>
+                </td>
+
                 </td>
                 <td>
                     <div th:unless="${#authentication.getName() == c.user.email}">

@@ -3,6 +3,7 @@ package com.trans.controllers;
 import com.trans.dto.UserDTO;
 import com.trans.model.User;
 import com.trans.model.enums.Countries;
+import com.trans.model.enums.TypeUser;
 import com.trans.model.util.CustomUserDetails;
 import com.trans.service.CargoService;
 import com.trans.service.OrderService;
@@ -42,8 +43,8 @@ public class UserController {
     public ModelAndView profileGet(@PathVariable int user_id, ModelAndView modelAndView) {
         UserDTO user = userService.findDTOById(user_id);
         modelAndView.addObject("user", user);
-        modelAndView.addObject("countOrderByTransports", orderService.findAllByTransportUserId(user_id).size());
-        modelAndView.addObject("countOrderByCargo", orderService.findAllByCargoUserId(user_id).size());
+//        modelAndView.addObject("countOrderByTransports", orderService.findAllByTransportUserId(user_id).size());
+//        modelAndView.addObject("countOrderByCargo", orderService.findAllByCargoUserId(user_id).size());
         modelAndView.addObject("transportSentOrders", orderService.getTransportSentOrdersById(user_id));
         modelAndView.addObject("cargoSentOrders", orderService.getCargoSentOrdersById(user_id));
         modelAndView.addObject("transportReceivedOrders", orderService.getTransportReceivedOrdersById(user_id));
@@ -73,6 +74,7 @@ public class UserController {
                                @RequestParam String country,
                                @RequestParam String city,
                                @RequestParam String password,
+                               @RequestParam String type,
                                @PathVariable int user_id) {
         UserDTO user = userService.findDTOById(user_id);
         user.setEmail(email);
@@ -81,6 +83,7 @@ public class UserController {
         user.setCountry(Countries.fromString(country));
         user.setCity(city);
         user.setNumber(number);
+        user.setType(TypeUser.fromString(type));
         boolean isUpdate = userService.update(user, password);
         redirectAttributes.addFlashAttribute("isUpdate", isUpdate);
         redirectAttributes.addAttribute("user_id", user_id);
@@ -94,19 +97,10 @@ public class UserController {
         if (userDetails.getId() == user_id) {
             userService.deleteById(user_id);
         }
-        modelAndView.setViewName("redirect:/");
+        modelAndView.setViewName("redirect:/logout");
 
         return modelAndView;
     }
-
-/*
-    @PostMapping("/{user_id}/delete")
-    public ModelAndView deletePost(ModelAndView modelAndView, @PathVariable int user_id) {
-        userService.deleteById(user_id);
-        modelAndView.setViewName("redirect:/users/list");
-        return modelAndView;
-    }
-*/
 
     @GetMapping()
     public ModelAndView listUsers(ModelAndView modelAndView) {
