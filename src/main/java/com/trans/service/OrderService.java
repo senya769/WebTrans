@@ -24,6 +24,8 @@ public interface OrderService {
 
     // поиск полученных заказов на груз
     List<Order> getCargoSentOrdersById( Integer customerId);
+    // список
+    List<Order> findByTransportForLoggerInfo(Integer transport_user_id);
     //find by id
     Order findById(Integer id);
 

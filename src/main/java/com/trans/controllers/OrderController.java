@@ -4,6 +4,7 @@ import com.trans.model.Cargo;
 import com.trans.model.Order;
 import com.trans.model.Transport;
 import com.trans.model.enums.OrderStatus;
+import com.trans.model.enums.TypeTransport;
 import com.trans.model.util.CustomUserDetails;
 import com.trans.service.CargoService;
 import com.trans.service.OrderService;
@@ -50,7 +51,7 @@ public class OrderController {
         modelAndView.addObject("cargo", cargo);
        // List<Transport> transportListOfCustomer = userService.findById(userDetails.getId()).getTransportList();
         List<Transport> transportListOfCustomer = userService.findById(userDetails.getId()).getTransportList().stream()
-                .filter(ts -> ts.getType() == cargo.getTypeTransport()).toList();
+                .filter(ts -> ts.getType() == cargo.getTypeTransport()||cargo.getTypeTransport()== TypeTransport.ANY).toList();
         if (transportListOfCustomer.size() == 0 ) {
             modelAndView.addObject("NotFoundTransportOfCustomer", true);
             modelAndView.setViewName("forward:/cargo");
