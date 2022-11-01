@@ -21,6 +21,6 @@ public interface TransportRepository extends JpaRepository<Transport,Integer> {
     Page<Transport> findAllByType(TypeTransport type, Pageable pageable);
 //        List<Transport> findAllByTypeAndFree(TypeTransport type,boolean isFree);
 
-    @Query("select t from Transport t where concat(t.name,' ',t.maxCapacityLoad,' ',t.type,' ',t.user.activity) like %?1% and t.isFree = true")
+    @Query("select t from Transport t where concat(t.name,t.maxCapacityLoad,t.type,t.user.activity) like %?1% and t.isFree = true")
     List<Transport> searchAllByKeyword(String keyword);
 }

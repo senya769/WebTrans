@@ -49,10 +49,13 @@ public class CargoServiceImpl implements CargoService {
 
     @Override
     public boolean deleteById(int id) {
+        Cargo byId = findById(id);
+        byId.getOrderList().forEach(order -> order.setCargo(null));
+        byId.setOrderList(null);
+        save(byId);
         cargoRepository.deleteById(id);
         return true;
     }
-
 
     @Override
     public boolean deleteAllByUserId(int user_id) {
@@ -101,6 +104,17 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public Set<String> getDistinctCityFromCargo() {
        return cargoRepository.findAll().stream().map(Cargo::getCityFrom).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Page<Cargo> searchAllByKeyword(String keyword, int page) {
+        if(keyword!=null){
+            return cargoRepository
+                    .searchAllByKeyword(keyword, PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
+        }
+        else {
+           return findAllSortByDateCreated(page);
+        }
     }
 
     @Override

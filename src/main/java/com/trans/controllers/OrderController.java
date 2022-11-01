@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -117,12 +118,16 @@ public class OrderController {
     public ModelAndView acceptOrder(ModelAndView modelAndView, @PathVariable Integer order_id, RedirectAttributes attributes,
                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
         Order order = orderService.findById(order_id);
-        if (orderService.accept(order) != 0) {
-            attributes.addFlashAttribute("acceptOrder", true);
-            modelAndView.setViewName("redirect:/users/" + userDetails.getId() + "/profile");
-        } else {
-            modelAndView.addObject("");
-            modelAndView.setViewName("pages/error/400");
+        try {
+            if (orderService.accept(order) != 0) {
+                attributes.addFlashAttribute("acceptOrder", true);
+                modelAndView.setViewName("redirect:/users/" + userDetails.getId() + "/profile");
+            } else {
+                modelAndView.addObject("");
+                modelAndView.setViewName("pages/error/400");
+            }
+        } catch (SQLIntegrityConstraintViolationException e) {
+            modelAndView.setViewName("pages/error/503");
         }
         return modelAndView;
     }

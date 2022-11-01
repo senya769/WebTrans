@@ -18,20 +18,11 @@
       </span>
 <h3>
     Filter: City -
-    <span th:text="${cityFrom}"></span>
+    <span th:text="${keywordPage}"></span>
 </h3>
-    <form th:href="@{/cargo}">
-        <div class="form-group col-md-1">
-            <label for="country">Cities from:</label>
-            <select class="form-control" id="country" th:name="cityFrom">
-                <option>Any</option>
-                <option  th:each="city : ${citiesFrom}"
-                        th:value="${city}" th:text="${city}"></option>
-            </select>
-            <input th:name="name" th:class="input-group">
-            <button type="submit">Filter</button>
-            <button type="reset"><a th:href="@{/cargo}">reset</a></button>
-        </div>
+    <form class="form-inline" th:href="@{/cargo}">
+        <input class="form-control-sm col-4 mb-3" th:name="keyword" type="search" th:value="${keywordPage}" placeholder="Search">
+        <button class="btn btn-outline-success form-inline my-2 my-sm-0" type="submit">Search</button>
     </form>
     <table class="table table-hover table-info table-bordered table-sm">
         <thead class="table-group-divider table-light">
@@ -83,7 +74,7 @@
 
                 <div sec:authorize="isAuthenticated()">
                     <span th:text="${c.user.activity.value}"></span>
-                    <span th:text="${c.user.type.value + ', number - ' + c.user.number}"></span><br>
+                    <span th:text="${' - '+{c.user.type.value + ', number [ ' + c.user.number}+' ]'}"></span><br>
                     <a th:href="@{/users/{user_id}/profile(user_id = ${c.user.id})}" th:text="${c.user.nameCompany}"></a>
                 </div>
                 <div sec:authorize="!isAuthenticated()">
@@ -127,7 +118,7 @@
                         </div>
                         <div th:unless="${pageNumber} == ${cargoPage}">
                             <!--                            <li th:class="page-item">-->
-                            <a class="page-link" th:href="@{/cargo(page=${pageNumber},cityFrom = ${cityFrom})}"
+                            <a class="page-link" th:href="@{/cargo(page=${pageNumber},keyword = ${keywordPage})}"
                                th:text="${pageNumber}"></a>
                             <!--                            </li>-->
                         </div>
