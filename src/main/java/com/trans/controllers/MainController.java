@@ -51,15 +51,13 @@ public class MainController {
 
     @GetMapping("/cargo")
     protected ModelAndView listCargoAsktest(@RequestParam(defaultValue = "1") int page,
-                                            @RequestParam(defaultValue = "Any") String cityFrom,
-                                            @RequestParam(defaultValue = "") String name) {
+                                            @RequestParam(required = false) String keyword) {
         ModelAndView modelAndView = new ModelAndView();
-        Set<String> uniqueCityFromCargo = cargoService.getDistinctCityFromCargo();
-        Page<Cargo> cargoPage = cargoService.findAllByCityFromContaining(cityFrom, page);
-        modelAndView.addObject("citiesFrom", uniqueCityFromCargo);
+//        Page<Cargo> cargoPage = cargoService.findAllByCityFromContaining(cityFrom, page);
+        Page<Cargo> cargoPage = cargoService.searchAllByKeyword(keyword, page);
         modelAndView.addObject("cargoList", cargoPage.getContent());
         modelAndView.addObject("cargoPage", page);
-        modelAndView.addObject("cityFrom", cityFrom);
+        modelAndView.addObject("keywordPage", keyword);
         int totalPages = cargoPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());

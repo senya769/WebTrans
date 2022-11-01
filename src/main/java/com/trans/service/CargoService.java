@@ -23,4 +23,5 @@ public interface CargoService {
     void save(Cargo cargo);
     Page<Cargo> findAllByCityFromContaining(String cityFrom,Integer page);
     Set<String> getDistinctCityFromCargo();
+    Page<Cargo> searchAllByKeyword(String keyword,int page);
 }
