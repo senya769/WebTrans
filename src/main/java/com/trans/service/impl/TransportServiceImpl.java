@@ -8,6 +8,8 @@ import com.trans.service.TransportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -87,11 +89,17 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public List<Transport> search(String s) {
+    public Page<Transport> search(String s,int page) {
         if (s != null) {
-            return transportRepository.searchAllByKeyword(s);
+            return transportRepository.searchAllByKeyword(s,
+                    PageRequest.of(page-1,8, Sort.by("localDateCreated").descending()));
         } else {
-            return transportRepository.findAllByIsFreeIsTrue();
+            return transportRepository.findAllByIsFreeIsTrue(PageRequest.of(page-1,8, Sort.by("localDateCreated").descending()));
         }
+    }
+
+    @Override
+    public List<Transport> findAllByDeleteIsFalseAndFreeIsTrue() {
+        return transportRepository.findAllByDeleteIsFalseAndFreeIsTrue();
     }
 }

@@ -35,17 +35,10 @@ public class MainController {
 
     @GetMapping("/")
     protected ModelAndView listCargoAsk(ModelAndView modelAndView) {
-        modelAndView.addObject("countAllCargo", cargoService.findAll().size());
-        modelAndView.addObject("countAllTransport", transportService.findAll().size());
+        modelAndView.addObject("countAllCargo", cargoService.findAllByDeleteIsFalseAndFreeIsTrue().size());
+        modelAndView.addObject("countAllTransport", transportService.findAllByDeleteIsFalseAndFreeIsTrue().size());
         modelAndView.addObject("countAllUser", userService.findAll().size());
         modelAndView.setViewName("pages/main");
-        /*List<User> allUsers = userService.findAll();
-        int maxTransport = allUsers.stream().map(p -> p.getTransportList().size()).max(Comparator.naturalOrder()).orElse(0);
-        int maxCargo = allUsers.stream().map(p -> p.getCargoList().size()).max(Comparator.naturalOrder()).orElse(0);
-        User userMaxTransport = allUsers.stream().filter(user -> user.getTransportList().size()==maxTransport).findFirst().orElse(null);
-        User userMaxCargo = allUsers.stream().filter(user -> user.getCargoList().size()==maxCargo).findFirst().orElse(null);
-        modelAndView.addObject("userMaxTransport",userMaxTransport);
-        modelAndView.addObject("userMaxCargo",userMaxCargo);*/
         return modelAndView;
     }
 
@@ -53,7 +46,6 @@ public class MainController {
     protected ModelAndView listCargoAsktest(@RequestParam(defaultValue = "1") int page,
                                             @RequestParam(required = false) String keyword) {
         ModelAndView modelAndView = new ModelAndView();
-//        Page<Cargo> cargoPage = cargoService.findAllByCityFromContaining(cityFrom, page);
         Page<Cargo> cargoPage = cargoService.searchAllByKeyword(keyword, page);
         modelAndView.addObject("cargoList", cargoPage.getContent());
         modelAndView.addObject("cargoPage", page);
@@ -68,15 +60,14 @@ public class MainController {
     }
 
     @GetMapping("/transports")
-    protected ModelAndView listTransportAsk(@RequestParam(defaultValue = "1") int page,
-                                            @RequestParam(defaultValue = "All") String typeTransport,
+    protected ModelAndView listTransportAsk(ModelAndView modelAndView,
+                                            @RequestParam(defaultValue = "1") int page,
                                             @RequestParam(required = false) String keyword) {
-        ModelAndView modelAndView = new ModelAndView();
-        Page<Transport> transportPage = transportService.findAllByType(typeTransport, page);
-//        modelAndView.addObject("transportList", transportPage.getContent());
-        modelAndView.addObject("transportList", transportService.search(keyword));
+        Page<Transport> transportPage = transportService.search(keyword,page);
+        modelAndView.addObject("transportList", transportPage.getContent());
         modelAndView.addObject("transportPage", page);
-        modelAndView.addObject("typeTransport", typeTransport);
+        modelAndView.addObject("keywordPage", keyword);
+
         int totalPages = transportPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());

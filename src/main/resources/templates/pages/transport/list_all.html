@@ -8,26 +8,10 @@
     <link rel="stylesheet" th:href="@{/styles/css/lists.css}" media="all" type="text/css">
 </head>
 <body>
-<h3>
-    Filter: type -
-    <span th:text="${typeTransport}"></span>
-</h3>
 
 <form class="form-inline" th:href="@{/transports}">
     <input class="form-control-sm col-4 mb-3" th:name="keyword" type="search" placeholder="Search">
     <button class="btn btn-outline-success form-inline my-2 my-sm-0" type="submit">Search</button>
-</form>
-<form class="form-inline " th:href="@{/transports}">
-    <div class="form-group col-md-1">
-        <label for="country">Type:</label>
-        <select class="form-control" id="country" th:name="typeTransport">
-        <option>All</option>
-                <option th:each="city : ${T(com.trans.model.enums.TypeTransport).values()}"
-                        th:value="${city}" th:text="${city.typeValue}"></option>
-        </select>
-        <button type="submit">Filter</button>
-        <button type="reset"><a th:href="@{/transport}">reset</a></button>
-    </div>
 </form>
 
 <div class="page">
@@ -37,6 +21,7 @@
         <thead>
         <tr>
             <div class="head-table">
+                <th scope="col">Date</th>
                 <th scope="col">Name</th>
                 <th scope="col">Type</th>
                 <th scope="col">Capacity Load (Max)</th>
@@ -48,6 +33,9 @@
         </thead>
         <tbody>
         <tr th:each="t:${transportList}">
+            <td>
+                <div th:text="${#temporals.format(t.localDateCreated,'dd-MMM-yy HH:mm')}"></div>
+            </td>
             <td th:text="${t.name}">
             <td th:text="${t.type.typeValue}">
             <td th:text="${t.maxCapacityLoad}">
@@ -88,7 +76,7 @@
                         </div>
                         <div th:unless="${pageNumber} == ${transportPage}">
                             <!--                            <li th:class="page-item">-->
-                            <a class="page-link" th:href="@{/transports(page=${pageNumber},typeTransport =${typeTransport})}"
+                            <a class="page-link" th:href="@{/transports(page=${pageNumber},keyword =${keywordPage})}"
                                th:text="${pageNumber}"></a>
                             <!--                            </li>-->
                         </div>

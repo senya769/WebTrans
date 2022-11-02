@@ -18,6 +18,7 @@
             <tr>
                 <div class="head-table">
                     <th scope="col">ID</th>
+                    <th scope="col">Date</th>
                     <th scope="col">Customer</th>
                     <th scope="col">Owner</th>
                     <th scope="col">Transport</th>
@@ -31,6 +32,9 @@
             <tbody>
             <tr th:each="c:${orders}">
                 <td th:text="${c.id}"></td>
+                <td>
+                    <div th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}"></div>
+                </td>
                 <td>
                     <div th:if="${c.customerId ==c.transport.user.id }">
                         <div th:text="${c.transport.user.email}"></div>
@@ -67,9 +71,21 @@
                 </td>
                 <td th:text="${c.status}">
                 <td>
+
+                <div th:if="${c.status == T(com.trans.model.enums.OrderStatus).WAITING}">
+                    <a th:href="@{/orders/{order_id}/accept (order_id = ${c.id})}" class="badge bg-success">
+                        accept
+                    </a>
                     <a th:href="@{/orders/{order_id}/cancel (order_id = ${c.id})}" class="badge bg-danger">
                         cancel
                     </a>
+                </div>
+                <div th:if="${c.status == T(com.trans.model.enums.OrderStatus).ACTIVE}">
+                    <a th:href="@{/orders/{order_id}/complete (order_id = ${c.id})}"
+                       class="badge bg-info">
+                        complete
+                    </a>
+                </div>
                 </td>
             </tr>
         </table>

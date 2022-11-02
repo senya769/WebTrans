@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-    <title>orders</title>
+    <title>logger transport orders </title>
     <!-- CSS only -->
     <div th:replace="fragments/header::header-css"></div>
     <div th:replace="fragments/header::header-fr"></div>
@@ -8,12 +8,12 @@
 <body>
 <div class="page">
     TEST
-    <div th:class="null" th:unless="${orders.size > 0}">
+    <div th:class="null" th:unless="${logsOfTransports.size > 0}">
         <h2>No content</h2>
     </div>
-    <div th:if="${orders.size > 0}">
+    <div th:if="${logsOfTransports.size > 0}">
         <label>Cargo Order</label>
-        <table class="table table-hover table-info table-bordered table-sm">
+        <table class="table table-hover table-secondary table-bordered table-sm">
             <thead class="table-group-divider table-light">
             <tr>
                 <div class="head-table">
@@ -24,13 +24,12 @@
                     <th scope="col">Transport</th>
                     <th scope="col">Cargo</th>
                     <th scope="col">status</th>
-                    <th scope="col">panel</th>
                 </div>
 
             </tr>
             </thead>
             <tbody>
-            <tr th:each="c:${orders}">
+            <tr th:each="c:${logsOfTransports}">
                 <td th:text="${c.id}"></td>
                 <td>
                     <div th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}"></div>
@@ -70,11 +69,6 @@
                     <span th:text="${c.cargo.cityTo}"></span>
                 </td>
                 <td th:text="${c.status}">
-                <td>
-                    <a th:href="@{/orders/{order_id}/cancel (order_id = ${c.id})}" class="badge bg-danger">
-                        cancel
-                    </a>
-                </td>
             </tr>
         </table>
     </div>

@@ -61,6 +61,11 @@
                                     <span th:text="${cargoReceivedOrders.size()}"></span>
                                 </a>
                             </div>
+                            <a th:if="${principal.email == user.email}"
+                               th:href="@{/users/{user_id}/cargo/logs/orders (user_id = ${user.id})}"
+                               class="btn btn-outline-dark ">
+                                Logs of Cargo Orders:
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -235,13 +240,12 @@
                                     Received Transport Orders:
                                     <span th:text="${transportReceivedOrders.size()}"></span>
                                 </a>
-
-                                <!--   <a th:href="@{/user/{id}/transport/update (id = ${user.id})}"
-                                      class="btn btn-outline-success">Update</a>
-
-                                   <a th:href="@{/user/{id}/transport/delete (id = ${user.id})}"
-                                      class="btn btn-outline-danger">Remove</a>-->
                             </div>
+                            <a th:if="${principal.email == user.email}"
+                               th:href="@{/users/{user_id}/transports/logs/orders (user_id = ${user.id})}"
+                               class="btn btn-outline-dark ">
+                                Logs of Transport Orders:
+                            </a>
                         </div>
                     </div>
                 </div>

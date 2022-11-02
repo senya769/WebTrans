@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -43,8 +44,16 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public List<Cargo> findAllByUserId(int user_id) {
-        return cargoRepository.findAllByUserId(user_id);
+    public Page<Cargo> findAllByUserId(int user_id,int page) {
+        return cargoRepository.findAllByUserId(user_id,
+                PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
+    }
+
+    @Override
+    public List<Cargo> findAllActiveByUserId(int user_id, int page) {
+        return this.findAllByUserId(user_id, 1).getContent().stream()
+                .filter(cargo -> !cargo.isDelete()).toList();
+
     }
 
     @Override
@@ -67,6 +76,11 @@ public class CargoServiceImpl implements CargoService {
             byId.setDelete(true);
         }
         return true;
+    }
+
+    @Override
+    public List<Cargo> findAllByDeleteIsFalseAndFreeIsTrue() {
+        return cargoRepository.findAllByDeleteIsFalseAndFreeIsTrue();
     }
 
     @Override
@@ -132,6 +146,6 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public Page<Cargo> findAllSortByDateCreated(int page) {
         return cargoRepository
-                .findAll(PageRequest.of(page - 1, 8, Sort.by("localDateCreated", "price").descending()));
+                .findAllByDeleteIsFalseAndFreeIsTrue(PageRequest.of(page - 1, 8, Sort.by("localDateCreated", "price").descending()));
     }
 }

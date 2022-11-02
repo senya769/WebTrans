@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/users/{user_id}/cargo")
 public class CargoController {
@@ -38,6 +40,9 @@ public class CargoController {
             modelAndView.addObject("notExists", false);
         }
         modelAndView.addObject("user", user);
+      /*  List<Cargo> listActiveCargo = cargoService.findAllByUserId(user_id,1).getContent().stream()
+                .filter(cargo -> !cargo.isDelete()).toList();*/
+        modelAndView.addObject("listActiveCargo",cargoService.findAllActiveByUserId(user_id,1));
         modelAndView.setViewName("pages/cargo/list");
         return modelAndView;
     }

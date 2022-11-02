@@ -10,6 +10,7 @@ import com.trans.service.OrderService;
 import com.trans.service.TransportService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,10 +46,10 @@ public class UserController {
         modelAndView.addObject("user", user);
 //        modelAndView.addObject("countOrderByTransports", orderService.findAllByTransportUserId(user_id).size());
 //        modelAndView.addObject("countOrderByCargo", orderService.findAllByCargoUserId(user_id).size());
-        modelAndView.addObject("transportSentOrders", orderService.getTransportSentOrdersById(user_id));
-        modelAndView.addObject("cargoSentOrders", orderService.getCargoSentOrdersById(user_id));
-        modelAndView.addObject("transportReceivedOrders", orderService.getTransportReceivedOrdersById(user_id));
-        modelAndView.addObject("cargoReceivedOrders", orderService.getCargoReceivedOrdersById(user_id));
+        modelAndView.addObject("transportSentOrders", orderService.getTransportSentOrdersById(user_id, 0).getContent());
+        modelAndView.addObject("cargoSentOrders", orderService.getCargoSentOrdersById(user_id,0).getContent());
+        modelAndView.addObject("transportReceivedOrders", orderService.getTransportReceivedOrdersById(user_id,0).getContent());
+        modelAndView.addObject("cargoReceivedOrders", orderService.getCargoReceivedOrdersById(user_id,0).getContent());
         modelAndView.setViewName("pages/user/profile");
         return modelAndView;
     }
