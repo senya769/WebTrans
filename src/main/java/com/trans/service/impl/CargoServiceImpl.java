@@ -50,10 +50,9 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public List<Cargo> findAllActiveByUserId(int user_id, int page) {
-        return this.findAllByUserId(user_id, 1).getContent().stream()
-                .filter(cargo -> !cargo.isDelete()).toList();
-
+    public Page<Cargo> findAllActiveByUserId(int user_id, int page) {
+        return cargoRepository.findAllByUserIdAndDeleteIsNot(user_id,
+                        PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
     }
 
     @Override
@@ -142,6 +141,8 @@ public class CargoServiceImpl implements CargoService {
            return findAllSortByDateCreated(page);
         }
     }
+
+
 
     @Override
     public Page<Cargo> findAllSortByDateCreated(int page) {

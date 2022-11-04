@@ -7,7 +7,6 @@
 </head>
 <body>
 <div class="page">
-    TEST
     <div th:class="null" th:unless="${orders.size > 0}">
         <h2>No content</h2>
     </div>
@@ -71,21 +70,9 @@
                 </td>
                 <td th:text="${c.status}">
                 <td>
-
-                <div th:if="${c.status == T(com.trans.model.enums.OrderStatus).WAITING}">
-                    <a th:href="@{/orders/{order_id}/accept (order_id = ${c.id})}" class="badge bg-success">
-                        accept
-                    </a>
-                    <a th:href="@{/orders/{order_id}/cancel (order_id = ${c.id})}" class="badge bg-danger">
-                        cancel
-                    </a>
-                </div>
-                <div th:if="${c.status == T(com.trans.model.enums.OrderStatus).ACTIVE}">
-                    <a th:href="@{/orders/{order_id}/complete (order_id = ${c.id})}"
-                       class="badge bg-info">
-                        complete
-                    </a>
-                </div>
+                <a th:href="@{/orders/{order_id}/cancel (order_id = ${c.id})}" class="badge bg-danger">
+                    cancel
+                </a>
                 </td>
             </tr>
         </table>

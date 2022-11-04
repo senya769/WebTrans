@@ -6,7 +6,8 @@
     <div th:replace="fragments/header::header-fr"></div>
 </head>
 <body>
-TEST
+<div class="page">
+
 <form   th:method="post" th:href="@{/orders/cargo/{cargo_id}/book(cargo_id = ${cargo.id})}">
     <div class="form-group col-md-6">
         <label for="country">Your Available transport</label>
@@ -72,5 +73,7 @@ TEST
 </form>
 
 <div th:replace="fragments/footer::footer-fr"></div>
+</div>
+
 </body>
 </html>

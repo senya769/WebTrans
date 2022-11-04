@@ -8,63 +8,66 @@
     </title>
     <!-- CSS only -->
     <div th:replace="fragments/header::header-css"></div>
+    <div th:replace="fragments/header::header-fr"></div>
 </head>
 <body>
-<div class="container">
-    <div class="row">
-        <form th:object="${tr}" th:action="@{/users/{id}/transports/add (id = ${user_id})}"
-            th:method="post">
-        <div class="col-md-8 col-md-offset-2">
-            <legend class="text-center">Register</legend>
+<div class="page">
+    <section class="vh-65">
+        <!-- Jumbotron -->
+        <div class="px-4 py-5 px-md-5 text-center text-lg-start " style="background-color: hsl(0, 0%, 96%)">
+            <div class="container">
+                <div class="row center-block justify-content-lg-center">
+                    <div class="col-lg-5 mb-5 mb-lg-0">
+                        <div class="card">
+                            <div class="card-body py-5 px-md-5">
+                                <div class="row center-block justify-content-lg-center">
+                                    <h4 class="text-uppercase text-center mb-5">Register Transport</h4>
+                                </div>
+                                <!--custom exception user registration status identifier-->
 
-            <fieldset>
-                <legend>Account Details</legend>
-                <div class="form-group col-md-6">
-                    <input type="text" class="form-control" th:field="*{name}" placeholder="Volvo">
-                    <label>Name Transport</label>
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Max capacity load</label>
-                    <input type="text" th:field="*{maxCapacityLoad}"
-                           class="form-control" name="country_from" placeholder="maxCapacityLoad">
-                </div>
-            </fieldset>
-            <fieldset>
-                <legend>Optional Details</legend>
+                                <form th:object="${tr}" th:action="@{/users/{id}/transports/add (id = ${user_id})}"
+                                      th:method="post">
+                                    <div class="">
+                                        <fieldset>
+                                            <div class="form-floating mb-4">
+                                                <input type="text" class="form-control" id="floatingPassword1"
+                                                       placeholder="text" th:field="*{name}">
+                                                <label for="floatingPassword1">Name</label>
+                                            </div>
+                                            <div class="form-floating mb-4">
+                                                <input type="text" class="form-control" id="floatingPassword"
+                                                       placeholder="text" th:field="*{maxCapacityLoad}">
+                                                <label for="floatingPassword">Max capacity load (t)</label>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="form-floating  mb-5">
+                                                <select class="form-control" th:field="*{type}" id="country">
+                                                    <option th:each="type : ${T(com.trans.model.enums.TypeTransport).values()}"
+                                                            th:value="${type}" th:text="${type.typeValue}"></option>
+                                                </select>
+                                                <label for="country">Country of Residence</label>
+                                            </div>
+                                        </fieldset>
 
-                <div class="form-group col-md-6">
-                    <label for="country">Country of Residence</label>
-                    <select class="form-control" th:field="*{type}" id="country">
-                        <option th:each="type : ${T(com.trans.model.enums.TypeTransport).values()}"
-                                th:value="${type}" th:text="${type.typeValue}"></option>
-                    </select>
-                </div>
-            </fieldset>
+                                        <div class="form-group justify-content-center align-items-center ">
+                                            <div class="col-md-12">
+                                                <button type="submit" class="btn btn-primary">
+                                                    Add Transport
+                                                </button>
+                                            </div>
+                                        </div>
 
-            <!--    <div class="form-group">
-                    <div class="col-md-12">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="" id="" required>
-                                I accept the <a href="#">terms and conditions</a>.
-                            </label>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>-->
-
-            <div class="form-group">
-                <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">
-                        Add Transport
-                    </button>
                 </div>
             </div>
-
         </div>
-            </form>
-
-    </div>
-</div>
+    </section>
 <div th:replace="fragments/footer::footer-fr"></div>
+</div>
 </body>
 </html>

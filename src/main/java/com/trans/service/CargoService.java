@@ -12,7 +12,7 @@ public interface CargoService {
     List<Cargo> findAll();
     List<Cargo> findAll(Cargo cargo);
     Page<Cargo> findAllByUserId(int user_id,int page);
-    List<Cargo> findAllActiveByUserId(int user_id,int page);
+    Page<Cargo> findAllActiveByUserId(int user_id,int page);
     Cargo findById(int id);
     boolean deleteById(int id);
     List<Cargo>findAllByDeleteIsFalseAndFreeIsTrue();
@@ -26,4 +26,5 @@ public interface CargoService {
     Page<Cargo> findAllByCityFromContaining(String cityFrom,Integer page);
     Set<String> getDistinctCityFromCargo();
     Page<Cargo> searchAllByKeyword(String keyword,int page);
+
 }

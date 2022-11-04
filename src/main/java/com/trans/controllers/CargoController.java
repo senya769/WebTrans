@@ -7,6 +7,7 @@ import com.trans.model.util.CustomUserDetails;
 import com.trans.service.CargoService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/users/{user_id}/cargo")
@@ -31,18 +34,24 @@ public class CargoController {
 
 
     @GetMapping()
-    protected ModelAndView listCargoFromUser(@PathVariable int user_id) {
-        ModelAndView modelAndView = new ModelAndView();
+    protected ModelAndView listCargoFromUser( ModelAndView modelAndView,
+                                              @RequestParam(defaultValue = "1") int page,
+                                              @PathVariable int user_id) {
         UserDTO user = userService.findDTOById(user_id);
         if (user.getCargoList().isEmpty()) {
             modelAndView.addObject("notExists", true);
         } else {
             modelAndView.addObject("notExists", false);
         }
+        Page<Cargo> allActiveByUserId = cargoService.findAllActiveByUserId(user_id, page);
         modelAndView.addObject("user", user);
-      /*  List<Cargo> listActiveCargo = cargoService.findAllByUserId(user_id,1).getContent().stream()
-                .filter(cargo -> !cargo.isDelete()).toList();*/
-        modelAndView.addObject("listActiveCargo",cargoService.findAllActiveByUserId(user_id,1));
+        modelAndView.addObject("cargoPage", page);
+        modelAndView.addObject("listActiveCargo",allActiveByUserId.getContent());
+        int totalPages = allActiveByUserId.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+            modelAndView.addObject("pageNumbers", pageNumbers);
+        }
         modelAndView.setViewName("pages/cargo/list");
         return modelAndView;
     }

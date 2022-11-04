@@ -1,5 +1,6 @@
 package com.trans.service.impl;
 
+import com.trans.model.Cargo;
 import com.trans.model.Transport;
 import com.trans.model.User;
 import com.trans.model.enums.TypeTransport;
@@ -102,4 +103,5 @@ public class TransportServiceImpl implements TransportService {
     public List<Transport> findAllByDeleteIsFalseAndFreeIsTrue() {
         return transportRepository.findAllByDeleteIsFalseAndFreeIsTrue();
     }
+
 }

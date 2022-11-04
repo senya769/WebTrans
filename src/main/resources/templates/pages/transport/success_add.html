@@ -4,21 +4,30 @@
           th:href="@{https://w7.pngwing.com/pngs/548/737/png-transparent-peterbilt-semi-trailer-truck-truck.png}"
           type="image/x-icon">
     <title>
-     success
+        success
     </title>
     <!-- CSS only -->
     <div th:replace="fragments/header::header-css"></div>
     <div th:replace="fragments/header::header-fr"></div>
 </head>
 <body>
-<div th:if="${isCreateTransport}">
-    <div class="alert alert-success" role="alert">
-        <h4 class="alert-heading">Well done!</h4>
-        <p>Your transport has been successfully added</p>
-        <hr>
-        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+<div class="page">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-12 col-xl-6">
+                <div th:if="${isCreateTransport}">
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p>Your transport has been successfully added</p>
+                        <hr>
+                        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and
+                            tidy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <div th:replace="fragments/footer::footer-fr"></div>
 </div>
-<div th:replace="fragments/footer::footer-fr"></div>
 </body>
 </html>

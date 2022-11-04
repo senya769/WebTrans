@@ -46,12 +46,15 @@ public class OrderController {
         }*/
     @GetMapping("/cargo/{cargo_id}/book")
     public ModelAndView model(ModelAndView modelAndView, @PathVariable int cargo_id,
-                              @AuthenticationPrincipal CustomUserDetails userDetails,RedirectAttributes attributes) {
+                              @AuthenticationPrincipal CustomUserDetails userDetails) {
         Cargo cargo = cargoService.findById(cargo_id);
         modelAndView.addObject("cargo", cargo);
        // List<Transport> transportListOfCustomer = userService.findById(userDetails.getId()).getTransportList();
         List<Transport> transportListOfCustomer = userService.findById(userDetails.getId()).getTransportList().stream()
-                .filter(ts -> ts.getType() == cargo.getTypeTransport()||cargo.getTypeTransport()== TypeTransport.ANY).toList();
+                .filter(ts ->( ts.getType() == cargo.getTypeTransport()||
+                        cargo.getTypeTransport()== TypeTransport.ANY )&&
+                        !ts.isDelete() && ts.isFree())
+                .toList();
         if (transportListOfCustomer.size() == 0 ) {
             modelAndView.addObject("NotFoundTransportOfCustomer", true);
             modelAndView.setViewName("forward:/cargo");
@@ -84,7 +87,12 @@ public class OrderController {
                                   @AuthenticationPrincipal CustomUserDetails userDetails) {
         Transport transport = transportService.findById(ts_id);
         modelAndView.addObject("transport", transport);
-        List<Cargo> cargoListOfCustomer = userService.findById(userDetails.getId()).getCargoList();
+        List<Cargo> cargoListOfCustomer = userService.findById(userDetails.getId()).getCargoList()
+                .stream()
+                .filter(cargo ->!cargo.isDelete() && cargo.isFree() &&(
+                        transport.getType() == cargo.getTypeTransport() ||
+                        cargo.getTypeTransport() == TypeTransport.ANY))
+                .toList();
         if (cargoListOfCustomer == null) {
             modelAndView.addObject("NotFoundCargoOfCustomer", true);
             modelAndView.setViewName("redirect:/transports");
@@ -95,11 +103,11 @@ public class OrderController {
         return modelAndView;
     }
 
-    @PostMapping("/transports/{cargo_id}/book")
-    public ModelAndView bookCargo(ModelAndView modelAndView, @RequestParam Integer transport_id,
-                                  @PathVariable Integer cargo_id, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    @PostMapping("/transports/{ts_id}/book")
+    public ModelAndView bookCargo(ModelAndView modelAndView, @RequestParam Integer cargo_id,
+                                  @PathVariable Integer ts_id, @AuthenticationPrincipal CustomUserDetails userDetails) {
         Order order = Order.builder()
-                .transport(transportService.findById(transport_id))
+                .transport(transportService.findById(ts_id))
                 .cargo(cargoService.findById(cargo_id))
                 .customerId(userDetails.getId())
                 .status(OrderStatus.WAITING)

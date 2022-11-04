@@ -64,6 +64,28 @@
             </tr>
         </table>
     </div>
+    <div class="row" th:fragment="pagination">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                        <div th:if="${pageNumber} == ${transportPage}">
+                            <a class="page-link active"
+                               th:text="${pageNumber}"></a>
+                        </div>
+                        <div th:unless="${pageNumber} == ${transportPage}">
+                            <!--                            <li th:class="page-item">-->
+                            <a class="page-link" th:href="@{/transports(page=${pageNumber})}"
+                               th:text="${pageNumber}"></a>
+                            <!--                            </li>-->
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
     <div th:replace="fragments/footer::footer-fr"></div>
 </div>
 </body>

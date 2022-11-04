@@ -8,11 +8,16 @@
     <link rel="stylesheet" th:href="@{/styles/css/lists.css}" media="all" type="text/css">
 </head>
 <body>
-
-<form class="form-inline" th:href="@{/transports}">
-    <input class="form-control-sm col-4 mb-3" th:name="keyword" type="search" placeholder="Search">
-    <button class="btn btn-outline-success form-inline my-2 my-sm-0" type="submit">Search</button>
-</form>
+<div class="container py-3 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-10 col-xl-4 form-inline">
+            <form class="form-inline" th:href="@{/transports}">
+                <input class="form-control d-flex mb-3" th:name="keyword" type="search" placeholder="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="page">
 
@@ -25,7 +30,6 @@
                 <th scope="col">Name</th>
                 <th scope="col">Type</th>
                 <th scope="col">Capacity Load (Max)</th>
-                <th scope="col">Is free</th>
                 <th scope="col">Owner</th>
                 <th scope="col">PANEL</th>
             </div>
@@ -34,33 +38,32 @@
         <tbody>
         <tr th:each="t:${transportList}">
             <td>
-                <div th:text="${#temporals.format(t.localDateCreated,'dd-MMM-yy HH:mm')}"></div>
+                <span th:text="${#temporals.format(t.localDateCreated,'dd-MMM-yy HH:mm')}"></span>
             </td>
             <td th:text="${t.name}">
             <td th:text="${t.type.typeValue}">
-            <td th:text="${t.maxCapacityLoad}">
-            <td th:text="${t.isFree}">
+            <td th:text="${t.maxCapacityLoad}+' t'">
             <td>
-                <div th:text="${t.user.activity.value}"></div>
+                <div th:text="${t.user.activity.value + ' - ' + t.user.type.value}"></div>
                 <a th:href="@{/users/{user_id}/profile(user_id = ${t.user.id})}" th:text="${t.user.nameCompany}"></a>
             </td>
             <td>
-                <div class="align-items-center">
-                    <div th:if="${#authentication.getName()== t.user.email}">
+                <span class="align-items-center">
+                    <span th:if="${#authentication.getName()== t.user.email}">
                         Your transport!
-                    </div>
-                    <div th:unless="${#authentication.getName() == t.user.email}">
+                    </span>
+                    <span th:unless="${#authentication.getName() == t.user.email}">
                         <form th:action="@{/orders/transports/{ts_id}/book(ts_id = ${t.id})}" th:method="get">
                             <button type="submit" class="badge btn-primary">send offer</button>
                         </form>
-                    </div>
-                <div th:if="${#request.isUserInRole('ADMIN')}">
+                    </span>
+                <span th:if="${#request.isUserInRole('ADMIN')}">
                     <form th:action="@{/users/{user_id}/transport/remove/{ts_id} (user_id = ${t.user.id},ts_id = ${t.id})}"
                           method="get">
                         <button type="submit" class="badge badge-danger">delete</button>
                     </form>
-                </div>
-                </div>
+                </span>
+                </span>
             </td>
         </tr>
     </table>
@@ -84,7 +87,7 @@
                 </ul>
             </nav>
         </div>
-        <div class="col-md-2"></div>
+
     </div>
     <div th:replace="fragments/footer::footer-fr"></div>
 </div>

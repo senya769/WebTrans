@@ -3,13 +3,11 @@ package com.trans.controllers;
 
 import com.trans.model.Cargo;
 import com.trans.model.Transport;
-import com.trans.model.User;
 import com.trans.service.CargoService;
 import com.trans.service.TransportService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,8 +41,8 @@ public class MainController {
     }
 
     @GetMapping("/cargo")
-    protected ModelAndView listCargoAsktest(@RequestParam(defaultValue = "1") int page,
-                                            @RequestParam(required = false) String keyword) {
+    protected ModelAndView listCargoAsk(@RequestParam(defaultValue = "1") int page,
+                                        @RequestParam(required = false) String keyword) {
         ModelAndView modelAndView = new ModelAndView();
         Page<Cargo> cargoPage = cargoService.searchAllByKeyword(keyword, page);
         modelAndView.addObject("cargoList", cargoPage.getContent());

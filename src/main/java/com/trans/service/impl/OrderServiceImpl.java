@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.COMPLETED);
         order.setLocalDateCreated(LocalDateTime.now());
         order.getTransport().setFree(true);
-        cargoService.deleteById(order.getCargo().getId());
+        this.removeById(order.getCargo().getId());
         return orderRepository.save(order).getId();
     }
 

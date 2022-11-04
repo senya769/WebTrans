@@ -1,5 +1,6 @@
 package com.trans.service;
 
+import com.trans.model.Cargo;
 import com.trans.model.Transport;
 import com.trans.model.User;
 import org.springframework.data.domain.Page;
@@ -18,4 +19,5 @@ public interface TransportService {
     Page<Transport> findAllByType(String type, Integer page);
     Page<Transport> search(String s,int page);
     List<Transport> findAllByDeleteIsFalseAndFreeIsTrue();
+
 }

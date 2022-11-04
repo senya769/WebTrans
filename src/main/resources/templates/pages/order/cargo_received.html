@@ -1,12 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-    <title>orders</title>
+    <title>orders received</title>
     <!-- CSS only -->
     <div th:replace="fragments/header::header-css"></div>
     <div th:replace="fragments/header::header-fr"></div>
 </head>
 <body>
-TEST
 <div class="page">
 <div th:class="null" th:unless="${orders.size > 0}">
     <h2>No content</h2>
