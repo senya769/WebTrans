@@ -37,7 +37,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="c:${user.cargoList}">
+            <tr th:each="c:${listActiveCargo}">
                 <td th:text="${c.id}"></td>
                 <td>
                     <div th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}"></div>
@@ -80,7 +80,7 @@
                         </form>
                     </div>
                     <div th:if="${user.email == #request.userPrincipal.getName()} or ${#request.isUserInRole('ADMIN')}">
-                        <form th:action="@{/users/{user_id}/cargo/remove/{cargo_id} (cargo_id = ${c.id},user_id = ${user.id})}"
+                        <form th:action="@{/users/{user_id}/cargo/remove/{cargo_id} (cargo_id = ${c.id},user_id = ${c.user.id})}"
                               method="get">
                             <button type="submit" class="badge badge-danger">delete</button>
                         </form>
@@ -88,6 +88,29 @@
                 </td>
             </tr>
         </table>
+    </div>
+    <div class="row" th:fragment="pagination">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                        <div th:if="${pageNumber} == ${cargoPage}">
+                            <!--                            <li class="page-item active">-->
+                            <a class="page-link active" th:text="${pageNumber}"></a>
+                            <!--                            </li>-->
+                        </div>
+                        <div th:unless="${pageNumber} == ${cargoPage}">
+                            <!--                            <li th:class="page-item">-->
+                            <a class="page-link" th:href="@{/users/{user_id}/cargo(user_id = ${user.id},page=${pageNumber})}"
+                               th:text="${pageNumber}"></a>
+                            <!--                            </li>-->
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-2"></div>
     </div>
     <div th:replace="fragments/footer::footer-fr"></div>
 </div>

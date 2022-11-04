@@ -9,108 +9,132 @@
 
 </head>
 <body>
-<div class="container">
-    <div class="row">
+<div class="page">
+    <section class="">
+    <!-- Jumbotron -->
+    <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
+        <div class="container">
+            <div class="row center-block justify-content-lg-center">
+                <div class="col-lg-5 mb-5 mb-lg-0">
+                    <div class="card">
+                        <div class="card-body py-5 px-md-5">
+                            <div class="row center-block justify-content-lg-center">
+                                <h4 class="text-uppercase text-center">User registration form</h4>
+                            </div>
+                            <!--custom exception user registration status identifier-->
+                            <div class="form-floating mb-4 alert-warning">
+                                <div th:if="${message}!=null" class="alert alert-warning" role="alert">
+                                    <div th:text="${message}"></div>
+                                </div>
+                            </div>
 
-        <div class="col-md-8 col-md-offset-2">
-            <form th:action="@{/users/{user_id}/cargo/add (user_id = ${user_id})}" th:method="post" th:object="${cargo}">
-                <legend class="text-center">Register</legend>
+                            <form th:action="@{/users/{user_id}/cargo/add (user_id = ${user_id})}" th:method="post" th:object="${cargo}">
+                                <legend class="text-center">Register</legend>
 
-                <fieldset>
-                    <legend>Account Details</legend>
+                                <fieldset>
+                                    <div class="form-floating mb-4">
+                                        <input type="text" id="form3Example3" class="form-control"
+                                               th:field="*{name}"
+                                               placeholder="mail" required/>
+                                        <label class="form-label" for="form3Example3">Name Cargo</label>
+                                    </div>
 
-                    <div class="form-group col-md-6">
-                        <label>Name Cargo</label>
-                        <input type="text" class="form-control" th:field="*{name}" placeholder="First Name">
-                    </div>
-                    <label>
-                        Country from
-                        <select class="form-select-sm mb-2" name="country-from"
-                                aria-multiselectable="false" th:field="*{countryFrom}">
-                            <option th:each="c : ${T(com.trans.model.enums.Countries).values()}"
-                                    th:value="${c}" th:text="${c}"></option>
-                        </select>
-                    </label>
-                    <label>
-                        Country to
-                        <select class="form-select-sm mb-2" name="country-to"
-                                aria-multiselectable="false" th:field="*{countryTo}">
-                            <option th:each="c : ${T(com.trans.model.enums.Countries).values()}"
-                                    th:value="${c}" th:text="${c}"></option>
-                        </select>
-                    </label>
+                                    <label>
+                                        Country from
+                                        <select class="form-select-sm mb-4 mx-2" name="country-from"
+                                                aria-multiselectable="false" th:field="*{countryFrom}">
+                                            <option th:each="c : ${T(com.trans.model.enums.Countries).values()}"
+                                                    th:value="${c}" th:text="${c}"></option>
+                                        </select>
+                                    </label>
+                                    <label>
+                                        Country to
+                                        <select class="form-select-sm mb-4" name="country-to"
+                                                aria-multiselectable="false" th:field="*{countryTo}">
+                                            <option th:each="c : ${T(com.trans.model.enums.Countries).values()}"
+                                                    th:value="${c}" th:text="${c}"></option>
+                                        </select>
+                                    </label>
+                                    <div class="form-floating mb-4">
+                                        <input type="text" id="form3Example3" class="form-control"
+                                               th:field="*{cityFrom}"
+                                               placeholder="mail" required/>
+                                        <label class="form-label" for="form3Example3">Country from</label>
+                                    </div>
+                                    <div class="form-floating mb-4">
+                                        <input type="text" id="form3Example3" class="form-control"
+                                               th:field="*{cityTo}"
+                                               placeholder="mail" required/>
+                                        <label class="form-label" for="form3Example3">Country to</label>
+                                    </div>
 
-                    <div class="form-group col-md-6">
-                        <label for="">Country from</label>
-                        <input type="text" th:field="*{cityFrom}"
-                               class="form-control" name="country_to" placeholder="country_to">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="">Country to</label>
-                        <input type="text" th:field="*{cityTo}"
-                               class="form-control" name="country_to" placeholder="country_to">
-                    </div>
-                    <div>
-                        <label>Date of dateline</label>
-                        <input type="datetime-local" name="dateDeadline"  required/>
-                    </div>
+                                    <div class="mb-4">
+                                        <label>Date of dateline</label>
+                                        <input class="input-group-lg" type="datetime-local" name="dateDeadline"  required/>
+                                    </div>
 
-                    <div class="form-group col-md-6">
-                        <label>Weight</label>
-                        <input type="text" th:field="*{weight}"
-                               class="form-control" placeholder="weight">
-                    </div>
 
-                    <div class="form-group col-md-6">
-                        <label>volume</label>
-                        <input type="text" th:field="*{volume}"
-                               class="form-control" placeholder="length">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>price</label>
-                        <input type="text" th:field="*{price}"
-                               class="form-control" placeholder="length">
-                    </div>
+                                    <div class="form-floating mb-4">
+                                        <input type="number" id="form3Example3" class="form-control"
+                                               th:field="*{weight}"
+                                               placeholder="mail" required/>
+                                        <label class="form-label" for="form3Example3">Weight</label>
+                                    </div>
+                                    <div class="form-floating mb-4">
+                                        <input type="number" id="form3Example3" class="form-control"
+                                               th:field="*{volume}"
+                                               placeholder="mail" required/>
+                                        <label class="form-label" for="form3Example3">Volume</label>
+                                    </div>
 
-                </fieldset>
+                                       <div class="form-floating mb-4">
+                                        <input type="number" id="form3Example3" class="form-control"
+                                               th:field="*{price}"
+                                               placeholder="if 0 then " required/>
+                                        <label class="form-label" for="form3Example3">Price</label>
+                                    </div>
+                                </fieldset>
 
-                <fieldset>
-                    <legend>Type Transport</legend>
+                                <fieldset>
+                                    <div class="form-group col-md-6">
+                                        <label>
+                                            Type transport
+                                            <select class="form-select-sm mb-2 mx-2" name="country"
+                                                    aria-multiselectable="false" th:field="*{typeTransport}">
+                                                <option th:each="c : ${T(com.trans.model.enums.TypeTransport).values()}"
+                                                        th:value="${c}" th:text="${c.getTypeValue()}"></option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </fieldset>
 
-                    <div class="form-group col-md-6">
-                        <label>
-                            Type transport
-                            <select class="form-select-sm mb-2" name="country"
-                                    aria-multiselectable="false" th:field="*{typeTransport}">
-                                <option th:each="c : ${T(com.trans.model.enums.TypeTransport).values()}"
-                                        th:value="${c}" th:text="${c.getTypeValue()}"></option>
-                            </select>
-                        </label>
-                    </div>
-                </fieldset>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="checkbox mb-3">
+                                            <label>
+                                                <input type="checkbox" value="" id="" required>
+                                                I accept the <a href="#">terms and conditions</a>.
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="" id="" required>
-                                I accept the <a href="#">terms and conditions</a>.
-                            </label>
-                        </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary">
+                                            New Cargo
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary">
-                            New Cargo
-                        </button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
+</section>
 <div th:replace="fragments/footer::footer-fr"></div>
+</div>
 </body>
 </html>

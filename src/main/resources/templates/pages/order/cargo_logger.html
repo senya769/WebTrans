@@ -1,16 +1,16 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-    <title>orders received</title>
+    <title>orders</title>
     <!-- CSS only -->
     <div th:replace="fragments/header::header-css"></div>
     <div th:replace="fragments/header::header-fr"></div>
 </head>
 <body>
 <div class="page">
-<div th:class="null" th:unless="${orders.size > 0}">
-    <h2>No content</h2>
-</div>
-    <div th:class="notnull" th:if="${orders.size > 0}">
+    <div th:class="null" th:unless="${logsOfCargo.size > 0}">
+        <h2>No content</h2>
+    </div>
+    <div th:class="notnull" th:if="${logsOfCargo.size > 0}">
         <label>Cargo Order</label>
         <table class="table table-hover table-info table-bordered table-sm">
             <thead class="table-group-divider table-light">
@@ -23,17 +23,16 @@
                     <th scope="col">Transport</th>
                     <th scope="col">Cargo</th>
                     <th scope="col">status</th>
-                    <th scope="col">panel</th>
                 </div>
 
             </tr>
             </thead>
             <tbody>
-            <tr th:each="c:${orders}">
+            <tr th:each="c:${logsOfCargo}">
+                <td th:text="${c.id}"></td>
                 <td>
                     <div th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}"></div>
                 </td>
-                <td th:text="${c.id}"></td>
                 <td>
                     <div th:if="${c.customerId ==c.transport.user.id }">
                         <div th:text="${c.transport.user.email}"></div>
@@ -55,7 +54,7 @@
                     <span th:text="${c.transport.id}"></span>
                     <label>name: </label>
                     <span th:text="${c.transport.name}"></span>
-                    <label>name: </label>
+                    <label>type: </label>
                     <span th:text="${c.transport.type}"></span>
                 </td>
                 <td>
@@ -63,28 +62,12 @@
                     <span th:text="${c.cargo.id}"></span>
                     <label>name: </label>
                     <span th:text="${c.cargo.name}"></span>
-                    <label>Cities: </label>
+                    <label>cities: </label>
                     <span th:text="${c.cargo.cityFrom}"></span>
                     ->
                     <span th:text="${c.cargo.cityTo}"></span>
                 </td>
                 <td th:text="${c.status}">
-                <td>
-                    <div th:if="${c.status == T(com.trans.model.enums.OrderStatus).WAITING}">
-                        <a th:href="@{/orders/{order_id}/accept (order_id = ${c.id})}" class="badge bg-success">
-                            accept
-                        </a>
-                        <a th:href="@{/orders/{order_id}/cancel (order_id = ${c.id})}" class="badge bg-danger">
-                            cancel
-                        </a>
-                    </div>
-                    <div th:if="${c.status == T(com.trans.model.enums.OrderStatus).ACTIVE}">
-                        <a th:href="@{/orders/{order_id}/complete (order_id = ${c.id})}"
-                           class="badge bg-info">
-                            complete
-                        </a>
-                    </div>
-                </td>
             </tr>
         </table>
     </div>

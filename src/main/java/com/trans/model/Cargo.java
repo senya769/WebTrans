@@ -29,6 +29,7 @@ public class Cargo {
     private double price;
     private double weight;
     private double volume;
+    private boolean isDelete = false;
     private boolean isFree = true;
     @NotNull
     @Enumerated(EnumType.STRING)

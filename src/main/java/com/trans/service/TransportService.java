@@ -1,5 +1,6 @@
 package com.trans.service;
 
+import com.trans.model.Cargo;
 import com.trans.model.Transport;
 import com.trans.model.User;
 import org.springframework.data.domain.Page;
@@ -16,8 +17,7 @@ public interface TransportService {
     void saveWithUser(Transport transport, User user);
     Page<Transport> findAll(int page);
     Page<Transport> findAllByType(String type, Integer page);
-    List<Transport> search(String s);
-   /* List<Cargo> findAllSortByDateCreated();
-    List<Cargo> findAll(int page,int count);
-    List<Cargo> findAllSortByDateCreated(int page);*/
+    Page<Transport> search(String s,int page);
+    List<Transport> findAllByDeleteIsFalseAndFreeIsTrue();
+
 }

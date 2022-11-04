@@ -7,7 +7,6 @@
 </head>
 <body>
 <div class="page">
-    TEST
     <div th:class="null" th:unless="${orders.size > 0}">
         <h2>No content</h2>
     </div>
@@ -18,6 +17,7 @@
             <tr>
                 <div class="head-table">
                     <th scope="col">ID</th>
+                    <th scope="col">Date</th>
                     <th scope="col">Customer</th>
                     <th scope="col">Owner</th>
                     <th scope="col">Transport</th>
@@ -31,6 +31,9 @@
             <tbody>
             <tr th:each="c:${orders}">
                 <td th:text="${c.id}"></td>
+                <td>
+                    <div th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}"></div>
+                </td>
                 <td>
                     <div th:if="${c.customerId ==c.transport.user.id }">
                         <div th:text="${c.transport.user.email}"></div>

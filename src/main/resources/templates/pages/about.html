@@ -5,9 +5,23 @@
     <div th:replace="fragments/header :: header-fr"></div>
 </head>
 <body>
-<div th:text="${orderBuild}"></div>
+<div class="page">
 
-<div th:replace="fragments/footer :: footer-fr"></div>
-
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-12 col-xl-6">
+                <div th:if="${orderBuild!=null}">
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p>Your order has been successfully send</p>
+                        <hr>
+                        <p class="mb-0">You can see the lists of orders and information about them in your profile)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer-fr"></div>
+</div>
 </body>
 </html>

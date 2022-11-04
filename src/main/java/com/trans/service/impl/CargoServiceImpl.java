@@ -2,9 +2,12 @@ package com.trans.service.impl;
 
 import com.trans.dto.UserDTO;
 import com.trans.model.Cargo;
+import com.trans.model.Order;
 import com.trans.model.User;
+import com.trans.model.enums.OrderStatus;
 import com.trans.repository.CargoRepository;
 import com.trans.service.CargoService;
+import com.trans.service.OrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -15,17 +18,20 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
 public class CargoServiceImpl implements CargoService {
 
     private final CargoRepository cargoRepository;
+
     private final ModelMapper modelMapper;
 
     @Autowired
     public CargoServiceImpl(CargoRepository cargoRepository, ModelMapper modelMapper) {
         this.cargoRepository = cargoRepository;
+
         this.modelMapper = modelMapper;
     }
 
@@ -38,8 +44,15 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public List<Cargo> findAllByUserId(int user_id) {
-        return cargoRepository.findAllByUserId(user_id);
+    public Page<Cargo> findAllByUserId(int user_id,int page) {
+        return cargoRepository.findAllByUserId(user_id,
+                PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
+    }
+
+    @Override
+    public Page<Cargo> findAllActiveByUserId(int user_id, int page) {
+        return cargoRepository.findAllByUserIdAndDeleteIsNot(user_id,
+                        PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
     }
 
     @Override
@@ -50,11 +63,23 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public boolean deleteById(int id) {
         Cargo byId = findById(id);
-        byId.getOrderList().forEach(order -> order.setCargo(null));
-        byId.setOrderList(null);
-        save(byId);
+        boolean notReadyToDelete = byId.getOrderList().stream()
+                .anyMatch(order -> order.getStatus() == OrderStatus.ACTIVE || order.getStatus() == OrderStatus.WAITING);
+        if(notReadyToDelete){
+            return false;
+        }
+
+        if(byId.getOrderList().isEmpty()){
         cargoRepository.deleteById(id);
+        }else {
+            byId.setDelete(true);
+        }
         return true;
+    }
+
+    @Override
+    public List<Cargo> findAllByDeleteIsFalseAndFreeIsTrue() {
+        return cargoRepository.findAllByDeleteIsFalseAndFreeIsTrue();
     }
 
     @Override
@@ -117,9 +142,11 @@ public class CargoServiceImpl implements CargoService {
         }
     }
 
+
+
     @Override
     public Page<Cargo> findAllSortByDateCreated(int page) {
         return cargoRepository
-                .findAll(PageRequest.of(page - 1, 8, Sort.by("localDateCreated", "price").descending()));
+                .findAllByDeleteIsFalseAndFreeIsTrue(PageRequest.of(page - 1, 8, Sort.by("localDateCreated", "price").descending()));
     }
 }

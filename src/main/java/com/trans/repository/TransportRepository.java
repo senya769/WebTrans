@@ -1,6 +1,7 @@
 package com.trans.repository;
 
 
+import com.trans.model.Cargo;
 import com.trans.model.Transport;
 import com.trans.model.enums.TypeTransport;
 import org.springframework.data.domain.Page;
@@ -13,7 +14,7 @@ import java.util.List;
 @Repository
 public interface TransportRepository extends JpaRepository<Transport,Integer> {
     List<Transport> findAll();
-    List<Transport> findAllByIsFreeIsTrue();
+    Page<Transport> findAllByIsFreeIsTrue(Pageable pageable);
     List<Transport> findAllByUserId(int user_id);
     Transport findById(int id);
     void deleteById(int id);
@@ -22,5 +23,8 @@ public interface TransportRepository extends JpaRepository<Transport,Integer> {
 //        List<Transport> findAllByTypeAndFree(TypeTransport type,boolean isFree);
 
     @Query("select t from Transport t where concat(t.name,t.maxCapacityLoad,t.type,t.user.activity) like %?1% and t.isFree = true")
-    List<Transport> searchAllByKeyword(String keyword);
+    Page<Transport> searchAllByKeyword(String keyword,Pageable pageable);
+    @Query("select t from Transport t where t.isDelete = false and t.isFree = true")
+    List<Transport> findAllByDeleteIsFalseAndFreeIsTrue();
+
 }

@@ -11,9 +11,11 @@ import java.util.Set;
 public interface CargoService {
     List<Cargo> findAll();
     List<Cargo> findAll(Cargo cargo);
-    List<Cargo> findAllByUserId(int user_id);
+    Page<Cargo> findAllByUserId(int user_id,int page);
+    Page<Cargo> findAllActiveByUserId(int user_id,int page);
     Cargo findById(int id);
     boolean deleteById(int id);
+    List<Cargo>findAllByDeleteIsFalseAndFreeIsTrue();
     boolean deleteAllByUserId(int user_id);
     int saveWithUser(Cargo cargo, UserDTO user);
     List<Cargo> findAllSortByDateCreated();
@@ -24,4 +26,5 @@ public interface CargoService {
     Page<Cargo> findAllByCityFromContaining(String cityFrom,Integer page);
     Set<String> getDistinctCityFromCargo();
     Page<Cargo> searchAllByKeyword(String keyword,int page);
+
 }
