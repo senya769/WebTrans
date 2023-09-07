@@ -22,6 +22,9 @@
     <div th:each="t:${transport}"
             th:value="${t.id}" th:text="${'id: '+t.id +' name: '+ t.name + ' type: '+ t.type + ' owner ' + t.user.id}"></div>
 -->
+    <br>
+    <br>
+    <br>
     <table class="table table-hover table-info table-bordered table-sm">
         <thead class="table-group-divider table-light">
         <thead>
@@ -50,7 +53,7 @@
 
         </tr>
     </table>
-    <button type="submit">Send order</button>
+    <button type="submit" class="glyphicon-align-center btn btn-success">Send order</button>
 </form>
 <div th:replace="fragments/footer::footer-fr"></div>
 </div>

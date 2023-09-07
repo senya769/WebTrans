@@ -14,27 +14,21 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
-    //List<Order> findAllByTransportUserId(int transport_user_id);
     Page<Order> findAllByTransport_User_Id(Integer transport_user_id,
                                            Pageable pageable);
+
     Page<Order> findAllByCargo_User_Id(Integer cargo_user_id,
                                            Pageable pageable);
 
+    List<Order> findAllByCargoId(Integer cargo_id);
 
     List<Order> findAllByCargo_User_Id(Integer cargo_user_id);
-
-    List<Order> findAllByTransport(Transport transport);
-
-    List<Order> findAllByCargo(Cargo cargo);
 
     @Query("select o from Order o where o.transport.isDelete = ?1")
     List<Order> findAllByTransport_Delete(boolean isDelete);
     @Query("select o from Order o where o.cargo.isDelete = ?1")
     List<Order> findAllByCargo_Delete(boolean isDelete);
 
-    List<Order> findAllByStatusAndTransport_User_Id(OrderStatus status, Integer transport_user_id);
-
-    List<Order> findAllByStatusAndCargo_User_Id(OrderStatus status, Integer transport_user_id);
 
     // поиск отправленных заказов на транспорт
 

@@ -30,10 +30,10 @@
             </thead>
             <tbody>
             <tr th:each="c:${orders}">
+                <td th:text="${c.id}"></td>
                 <td>
                     <div th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}"></div>
                 </td>
-                <td th:text="${c.id}"></td>
                 <td>
                     <div th:if="${c.customerId ==c.transport.user.id }">
                         <div th:text="${c.transport.user.email}"></div>

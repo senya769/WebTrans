@@ -2,14 +2,10 @@ package com.trans.controllers;
 
 import com.trans.model.Order;
 import com.trans.model.util.CustomUserDetails;
-import com.trans.service.CargoService;
 import com.trans.service.OrderService;
-import com.trans.service.TransportService;
-import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,7 +63,7 @@ public class UserOrderController {
                                                @PathVariable Integer user_id,
                                                @AuthenticationPrincipal CustomUserDetails userDetails) {
         if (userDetails.getId() == user_id) {
-            modelAndView.addObject("orders", orderService.getTransportSentOrdersById(user_id,page));
+            modelAndView.addObject("orders", orderService.getTransportSentOrdersById(user_id,page).getContent());
             modelAndView.setViewName("pages/order/transport_sent");
         }else {
             modelAndView.addObject("id", user_id);

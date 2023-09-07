@@ -2,6 +2,8 @@ package com.trans.service.impl;
 
 
 import com.trans.dto.UserDTO;
+import com.trans.model.Cargo;
+import com.trans.model.Transport;
 import com.trans.model.enums.Roles;
 import com.trans.model.User;
 import com.trans.repository.UserRepository;
@@ -59,11 +61,11 @@ public class UserServiceImpl implements UserService {
     }
 
     private User setNameCompanyEI(User user) {
-        user.setNameCompany(new StringBuilder("EI \"")
-                .append(user.getFirstName())
-                .append(" ")
-                .append(user.getLastName())
-                .append("\"").toString()
+        user.setNameCompany("EI \"" +
+                user.getFirstName() +
+                " " +
+                user.getLastName() +
+                "\""
         );
         return user;
     }
@@ -75,12 +77,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(int id) {
-        userRepository.save(userRepository.findById(id));
+        userRepository.save(userRepository.findById(id).get());
     }
 
     @Override
     public boolean update(UserDTO userDTO, String password) {
-        User userWithPassword = userRepository.findById(userDTO.getId().intValue());
+        User userWithPassword = userRepository.findById(userDTO.getId().intValue()).orElse(null);
         User userFromDB = userRepository.findByEmailOrNumber(userDTO.getEmail(), userDTO.getNumber()).orElse(null);
         if ((userFromDB == null || userFromDB.getId() == userWithPassword.getId())&&
                 passwordEncoder.matches(password, userWithPassword.getPassword())) {
@@ -106,13 +108,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findDTOById(int id) {
-        User userFromDb = userRepository.findById(id);
+        User userFromDb = userRepository.findById(id).get();
         return modelMapper.map(userFromDb, UserDTO.class);
     }
 
     @Override
+    public UserDTO findActiveDTOById(int id) {
+        User userFromDb = userRepository.findById(id).orElse(null);
+        if(userFromDb !=null) {
+            UserDTO map = modelMapper.map(userFromDb, UserDTO.class);
+            List<Cargo> cargos = userFromDb.getCargoList().stream()
+                    .filter(cargo -> !cargo.isDelete()).toList();
+            List<Transport> transports = userFromDb.getTransportList().stream()
+                    .filter(transport -> !transport.isDelete()).toList();
+            map.setTransportList(transports);
+            map.setCargoList(cargos);
+        return map;
+        }
+        return null;
+    }
+
+    @Override
     public User findById(int id) {
-        return userRepository.findById(id);
+        return userRepository.findById(id).get();
     }
 
     @Override

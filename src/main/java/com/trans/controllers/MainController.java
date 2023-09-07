@@ -3,6 +3,7 @@ package com.trans.controllers;
 
 import com.trans.model.Cargo;
 import com.trans.model.Transport;
+import com.trans.model.enums.TypeTransport;
 import com.trans.service.CargoService;
 import com.trans.service.TransportService;
 import com.trans.service.UserService;
@@ -42,9 +43,17 @@ public class MainController {
 
     @GetMapping("/cargo")
     protected ModelAndView listCargoAsk(@RequestParam(defaultValue = "1") int page,
-                                        @RequestParam(required = false) String keyword) {
+                                        @RequestParam(required = false) String keyword,
+                                        @RequestParam(required = false) String countryFrom,
+                                        @RequestParam(required = false) String countryTo,
+                                        @RequestParam(required = false) Double price,
+                                        @RequestParam(required = false) Double volume,
+                                        @RequestParam(required = false) Double weight,
+                                        @RequestParam(required = false) String cityFrom,
+                                        @RequestParam(required = false) String cityTo) {
         ModelAndView modelAndView = new ModelAndView();
-        Page<Cargo> cargoPage = cargoService.searchAllByKeyword(keyword, page);
+        Page<Cargo> cargoPage = cargoService.searchByArgs(page,keyword, countryFrom, countryTo,cityFrom, cityTo,price,volume,weight);
+
         modelAndView.addObject("cargoList", cargoPage.getContent());
         modelAndView.addObject("cargoPage", page);
         modelAndView.addObject("keywordPage", keyword);
@@ -60,11 +69,14 @@ public class MainController {
     @GetMapping("/transports")
     protected ModelAndView listTransportAsk(ModelAndView modelAndView,
                                             @RequestParam(defaultValue = "1") int page,
-                                            @RequestParam(required = false) String keyword) {
-        Page<Transport> transportPage = transportService.search(keyword,page);
+                                            @RequestParam(required = false) String name,
+                                            @RequestParam(required = false) Double maxCapacityLoad,
+                                            @RequestParam(required = false) TypeTransport type
+                                            ) {
+        Page<Transport> transportPage = transportService.searchByArgs(page,name,type,maxCapacityLoad);
         modelAndView.addObject("transportList", transportPage.getContent());
         modelAndView.addObject("transportPage", page);
-        modelAndView.addObject("keywordPage", keyword);
+        modelAndView.addObject("keywordPage", name);
 
         int totalPages = transportPage.getTotalPages();
         if (totalPages > 0) {

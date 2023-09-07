@@ -72,15 +72,14 @@ public class CargoController {
        return new RedirectView("/users/{user_id}/profile",true);
     }
 
-
     @GetMapping("/remove/{cargo}")
-    protected RedirectView removeCargo(RedirectAttributes redirectAttributes, @AuthenticationPrincipal CustomUserDetails userDetails,
+    protected RedirectView removeCargo(RedirectAttributes redirectAttributes,
                                        @PathVariable("user_id") int user_id, @PathVariable("cargo") int cargo_id) {
         redirectAttributes.addAttribute("user_id", user_id);
-        if (cargoService.deleteById(cargo_id) && user_id == userDetails.getId()) {
+        if (cargoService.deleteById(cargo_id)) {
             redirectAttributes.addFlashAttribute("cargoIsDelete", true);
         } else {
-            redirectAttributes.addFlashAttribute("isNotFoundCargo", true);
+            redirectAttributes.addFlashAttribute("cargoIsNotDelete", true);
         }
         return new RedirectView("/users/{user_id}/profile",true);
 

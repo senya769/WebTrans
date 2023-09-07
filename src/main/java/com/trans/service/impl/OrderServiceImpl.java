@@ -71,7 +71,6 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order).getId();
     }
 
-
     @Override
     public boolean removeById(Integer id) {
         Order orderForDelete = orderRepository.findById(id).orElse(null);

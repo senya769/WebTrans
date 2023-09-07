@@ -19,8 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/orders")
@@ -83,7 +81,7 @@ public class OrderController {
     }
 
     @GetMapping("/transports/{ts_id}/book")
-    public ModelAndView bookCargo(ModelAndView modelAndView, @PathVariable int ts_id,
+    public ModelAndView bookTs(ModelAndView modelAndView, @PathVariable int ts_id,
                                   @AuthenticationPrincipal CustomUserDetails userDetails) {
         Transport transport = transportService.findById(ts_id);
         modelAndView.addObject("transport", transport);
@@ -104,7 +102,7 @@ public class OrderController {
     }
 
     @PostMapping("/transports/{ts_id}/book")
-    public ModelAndView bookCargo(ModelAndView modelAndView, @RequestParam Integer cargo_id,
+    public ModelAndView bookTs(ModelAndView modelAndView, @RequestParam Integer cargo_id,
                                   @PathVariable Integer ts_id, @AuthenticationPrincipal CustomUserDetails userDetails) {
         Order order = Order.builder()
                 .transport(transportService.findById(ts_id))
