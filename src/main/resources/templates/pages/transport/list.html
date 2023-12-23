@@ -8,6 +8,13 @@
 
 </head>
 <body>
+<div th:unless="${listActiveTransports.size() != 0}">
+
+    <div class="text-center alert alert-info">
+        Dont have info!
+    </div>
+</div>
+<div th:if="${listActiveTransports.size() != 0}">
 
 <div th:if="${notExists}" class="alert alert-warning" role="alert">
     <h4 class="alert-heading">You dont have transport!</h4>
@@ -124,7 +131,7 @@
         </div>
         <div class="col-md-2"></div>
     </div>
-
+</div>
     <div th:replace="fragments/footer::footer-fr"></div>
 </div>
 </body>

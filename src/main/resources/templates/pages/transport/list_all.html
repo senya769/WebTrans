@@ -46,6 +46,12 @@
     </div>
 </div>
 
+    <div th:if="${transportList.size() == 0}">
+        <div class="text-center alert alert-info">
+            Dont have info!
+        </div>
+    </div>
+    <div th:if="${pageNumbers != null && transportList.size() != 0}">
 
     <table class="table table-hover table-info table-bordered table-sm">
         <thead class="table-group-divider table-light">
@@ -64,7 +70,7 @@
         <tbody>
         <tr th:each="t:${transportList}">
             <td>
-                <span th:text="${#temporals.format(t.localDateCreated,'dd-MMM-yy HH:mm')}"></span>
+                <span th:text="${#temporals.format(t.localDateCreated,'dd-MM-yy HH:mm')}"></span>
             </td>
             <td th:text="${t.name}">
             <td th:text="${t.type.typeValue}">
@@ -137,7 +143,7 @@
             </div>
             <div class="col-md-2"></div>
         </div>
-
+    </div>
     <div th:replace="fragments/footer::footer-fr"></div>
 </div>
 </body>

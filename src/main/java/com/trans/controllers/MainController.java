@@ -52,12 +52,13 @@ public class MainController {
                                         @RequestParam(required = false) String cityFrom,
                                         @RequestParam(required = false) String cityTo) {
         ModelAndView modelAndView = new ModelAndView();
-        Page<Cargo> cargoPage = cargoService.searchByArgs(page,keyword, countryFrom, countryTo,cityFrom, cityTo,price,volume,weight);
+        Page<Cargo> list = cargoService.searchByArgs(page,keyword, countryFrom, countryTo,cityFrom, cityTo,price,volume,weight);
+        int totalPages = list.getTotalPages();
+        List<Cargo> cargoPage = list.stream().filter(Cargo -> !Cargo.isDelete() && Cargo.isFree()).toList();
 
-        modelAndView.addObject("cargoList", cargoPage.getContent());
+        modelAndView.addObject("cargoList", cargoPage);
         modelAndView.addObject("cargoPage", page);
         modelAndView.addObject("keywordPage", keyword);
-        int totalPages = cargoPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
             modelAndView.addObject("pageNumbers", pageNumbers);
@@ -73,12 +74,13 @@ public class MainController {
                                             @RequestParam(required = false) Double maxCapacityLoad,
                                             @RequestParam(required = false) TypeTransport type
                                             ) {
-        Page<Transport> transportPage = transportService.searchByArgs(page,name,type,maxCapacityLoad);
-        modelAndView.addObject("transportList", transportPage.getContent());
+        Page<Transport> list = transportService.searchByArgs(page,name,type,maxCapacityLoad);
+        int totalPages = list.getTotalPages();
+        List<Transport> transportPage = list.stream().filter(transport -> !transport.isDelete() && transport.isFree()).toList();
+        modelAndView.addObject("transportList", transportPage);
         modelAndView.addObject("transportPage", page);
         modelAndView.addObject("keywordPage", name);
 
-        int totalPages = transportPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
             modelAndView.addObject("pageNumbers", pageNumbers);
