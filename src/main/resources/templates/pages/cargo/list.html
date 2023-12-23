@@ -9,6 +9,13 @@
     <div th:replace="fragments/header::header-fr"></div>
 </head>
 <body>
+<div th:unless="${listActiveCargo.size() != 0}">
+
+    <div class="text-center alert alert-info">
+        Dont have info!
+    </div>
+</div>
+<div th:if="${listActiveCargo.size() != 0}">
 
 <div th:if="${notExists}" class="alert alert-warning" role="alert">
     <h4 class="alert-heading">You dont have cargo!</h4>
@@ -30,7 +37,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Characteristics</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Type</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Owner</th>
                     <th scope="col">PANEL</th>
                 </div>
@@ -89,29 +96,68 @@
             </tr>
         </table>
     </div>
-    <div class="row" th:fragment="pagination">
-        <div class="col-md-2"></div>
+<!--    <div class="row" th:fragment="pagination">-->
+<!--        <div class="col-md-2"></div>-->
+<!--        <div class="col-md-8">-->
+<!--            <nav aria-label="Pagination">-->
+<!--                <ul class="pagination justify-content-center">-->
+<!--                    <li class="page-item" th:each="pageNumber : ${pageNumbers}">-->
+<!--                        <div th:if="${pageNumber} == ${cargoPage}">-->
+<!--                            &lt;!&ndash;                            <li class="page-item active">&ndash;&gt;-->
+<!--                            <a class="page-link active" th:text="${pageNumber}"></a>-->
+<!--                            &lt;!&ndash;                            </li>&ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <div th:unless="${pageNumber} == ${cargoPage}">-->
+<!--                            &lt;!&ndash;                            <li th:class="page-item">&ndash;&gt;-->
+<!--                            <a class="page-link" th:href="@{/users/{user_id}/cargo(user_id = ${user.id},page=${pageNumber})}"-->
+<!--                               th:text="${pageNumber}"></a>-->
+<!--                            &lt;!&ndash;                            </li>&ndash;&gt;-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </nav>-->
+<!--        </div>-->
+<!--        <div class="col-md-2"></div>-->
+<!--    </div>-->
+    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-5" th:fragment="pagination">
+        <!--        <div class="col-md-2"></div>-->
         <div class="col-md-8">
             <nav aria-label="Pagination">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item" th:each="pageNumber : ${pageNumbers}">
-                        <div th:if="${pageNumber} == ${cargoPage}">
-                            <!--                            <li class="page-item active">-->
-                            <a class="page-link active" th:text="${pageNumber}"></a>
-                            <!--                            </li>-->
-                        </div>
-                        <div th:unless="${pageNumber} == ${cargoPage}">
-                            <!--                            <li th:class="page-item">-->
-                            <a class="page-link" th:href="@{/users/{user_id}/cargo(user_id = ${user.id},page=${pageNumber})}"
-                               th:text="${pageNumber}"></a>
-                            <!--                            </li>-->
-                        </div>
+                <ul class="pagination">
+                    <div th:if="${cargoPage != 1}">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{/users/{user_id}/cargo(page=${cargoPage - 1},user_id = ${user.id})}"
+                               th:text="${'<'}"></a>
+                        </li>
+                    </div>
+                    <div th:if="${cargoPage == 1}">
+                        <li class="page-item">
+                            <a class="page-link" disabled
+                               th:text="${'<'}"></a>
+                        </li>
+                    </div>
+                    <li class="page-item">
+                        <a class="page-link active"
+                           th:text="${cargoPage}"></a>
                     </li>
+                    <div th:if="${cargoPage != pageNumbers.size()}">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{/users/{user_id}/cargo(page=${cargoPage+1},user_id = ${user.id})}"
+                               th:text="${'>'}"></a>
+                        </li>
+                    </div>
+                    <div th:if="${cargoPage == pageNumbers.size()}">
+                        <li class="page-item">
+                            <a class="page-link" readonly
+                               th:text="${'>'}"></a>
+                        </li>
+                    </div>
                 </ul>
             </nav>
         </div>
-        <div class="col-md-2"></div>
+        <!--        <div class="col-md-2"></div>-->
     </div>
+</div>
     <div th:replace="fragments/footer::footer-fr"></div>
 </div>
 </body>

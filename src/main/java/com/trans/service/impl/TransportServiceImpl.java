@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -35,8 +36,8 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public List<Transport> findAllByUserId(int user_id) {
-        return transportRepository.findAllByUserId(user_id);
+    public List<Transport> findAllByUserId(int user_id, int page) {
+        return transportRepository.findAllByUserId(user_id, PageRequest.of(page-1,5)).getContent();
     }
 
     @Override
@@ -90,18 +91,35 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public Page<Transport> search(String s,int page) {
+    public Page<Transport> searchAllByKeyword(String s, int page) {
         if (s != null) {
             return transportRepository.searchAllByKeyword(s,
                     PageRequest.of(page-1,8, Sort.by("localDateCreated").descending()));
         } else {
-            return transportRepository.findAllByIsFreeIsTrue(PageRequest.of(page-1,8, Sort.by("localDateCreated").descending()));
+            return transportRepository.findAllByDeleteIsFalseAndFreeIsTrue(PageRequest.of(page-1,8, Sort.by("localDateCreated").descending()));
         }
     }
 
     @Override
     public List<Transport> findAllByDeleteIsFalseAndFreeIsTrue() {
         return transportRepository.findAllByDeleteIsFalseAndFreeIsTrue();
+    }
+
+    @Override
+    public Page<Transport> findAllActiveByUserId(int user_id, int page) {
+        return transportRepository.findAllByUserIdAndDeleteIsNot(user_id,
+                PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
+    }
+
+    @Override
+    public Page<Transport> searchByArgs(int page, Object... args) {
+        Pageable pageable = PageRequest.of(page-1,5,Sort.by("localDateCreated").descending());
+        Specification<Transport> specification = TransportRepository.transportFilter(
+                (String) args[0],
+                (TypeTransport) args[1],
+                (Double) args[2]
+        );
+        return transportRepository.findAll(specification,pageable);
     }
 
 }

@@ -13,7 +13,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmailAndPassword(String email, String pas);
-    User findById(int id);
     void deleteById(int id);
     List<User> findAll();
     User findByEmail(String email);

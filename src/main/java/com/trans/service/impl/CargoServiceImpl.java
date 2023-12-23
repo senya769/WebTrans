@@ -6,31 +6,43 @@ import com.trans.model.Order;
 import com.trans.model.User;
 import com.trans.model.enums.OrderStatus;
 import com.trans.repository.CargoRepository;
+import com.trans.repository.OrderRepository;
 import com.trans.service.CargoService;
-import com.trans.service.OrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Transactional
 public class CargoServiceImpl implements CargoService {
 
     private final CargoRepository cargoRepository;
+    private final OrderRepository orderRepository;
+    @PersistenceContext
+    private EntityManager em;
+
 
     private final ModelMapper modelMapper;
 
     @Autowired
-    public CargoServiceImpl(CargoRepository cargoRepository, ModelMapper modelMapper) {
+    public CargoServiceImpl(CargoRepository cargoRepository, OrderRepository orderRepository, ModelMapper modelMapper) {
         this.cargoRepository = cargoRepository;
+        this.orderRepository = orderRepository;
 
         this.modelMapper = modelMapper;
     }
@@ -39,20 +51,21 @@ public class CargoServiceImpl implements CargoService {
     public List<Cargo> findAll() {
         return cargoRepository.findAll();
     }
+
     public List<Cargo> findAll(Cargo cargo) {
         return cargoRepository.findAll(Example.of(cargo));
     }
 
     @Override
-    public Page<Cargo> findAllByUserId(int user_id,int page) {
+    public Page<Cargo> findAllByUserId(int user_id, int page) {
         return cargoRepository.findAllByUserId(user_id,
-                PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
+                PageRequest.of(page - 1, 8, Sort.by("localDateCreated").descending()));
     }
 
     @Override
     public Page<Cargo> findAllActiveByUserId(int user_id, int page) {
         return cargoRepository.findAllByUserIdAndDeleteIsNot(user_id,
-                        PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
+                PageRequest.of(page - 1, 8, Sort.by("localDateCreated").descending()));
     }
 
     @Override
@@ -63,16 +76,18 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public boolean deleteById(int id) {
         Cargo byId = findById(id);
-        boolean notReadyToDelete = byId.getOrderList().stream()
+        List<Order> allByCargoId = orderRepository.findAllByCargoId(id);
+        boolean notReadyToDelete = allByCargoId.stream()
                 .anyMatch(order -> order.getStatus() == OrderStatus.ACTIVE || order.getStatus() == OrderStatus.WAITING);
-        if(notReadyToDelete){
+        if (notReadyToDelete) {
             return false;
         }
 
-        if(byId.getOrderList().isEmpty()){
-        cargoRepository.deleteById(id);
-        }else {
+        if (allByCargoId.isEmpty()) {
+            cargoRepository.deleteById(id);
+        } else {
             byId.setDelete(true);
+            cargoRepository.save(byId);
         }
         return true;
     }
@@ -90,15 +105,15 @@ public class CargoServiceImpl implements CargoService {
 
     @Override
     public int saveWithUser(Cargo cargo, UserDTO user) {
-        cargo.setUser(modelMapper.map(user,User.class));
+        cargo.setUser(modelMapper.map(user, User.class));
         return cargoRepository.save(cargo).getId();
     }
 
     @Override
     public void saveWithUserAndDate(Cargo cargo, UserDTO user, String dateDeadline) {
-        cargo.setUser(modelMapper.map(user,User.class));
+        cargo.setUser(modelMapper.map(user, User.class));
         cargo.setLocalDateDeadline(LocalDateTime.parse(dateDeadline));
-         cargoRepository.save(cargo);
+        cargoRepository.save(cargo);
     }
 
     @Override
@@ -120,29 +135,42 @@ public class CargoServiceImpl implements CargoService {
 
     @Override
     public Page<Cargo> findAllByCityFromContaining(String cityFrom, Integer page) {
-        if(cityFrom.equals("Any")){
+        if (cityFrom.equals("Any")) {
             return findAllSortByDateCreated(page);
         }
-        return cargoRepository.findAllByCityFromContaining(cityFrom, PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
+        return cargoRepository.findAllByCityFromContaining(cityFrom, PageRequest.of(page - 1, 8, Sort.by("localDateCreated").descending()));
     }
 
     @Override
     public Set<String> getDistinctCityFromCargo() {
-       return cargoRepository.findAll().stream().map(Cargo::getCityFrom).collect(Collectors.toSet());
+        return cargoRepository.findAll().stream().map(Cargo::getCityFrom).collect(Collectors.toSet());
     }
 
     @Override
     public Page<Cargo> searchAllByKeyword(String keyword, int page) {
-        if(keyword!=null){
+        if (keyword != null) {
             return cargoRepository
-                    .searchAllByKeyword(keyword, PageRequest.of(page-1,8,Sort.by("localDateCreated").descending()));
-        }
-        else {
-           return findAllSortByDateCreated(page);
+                    .searchAllByKeyword(keyword, PageRequest.of(page - 1, 8, Sort.by("localDateCreated").descending()));
+        } else {
+            return findAllSortByDateCreated(page);
         }
     }
 
-
+    @Override
+    public Page<Cargo> searchByArgs(int page, Object []args) {
+        Pageable pageable = PageRequest.of(page-1,5,Sort.by("localDateCreated").descending());
+        Specification<Cargo> specification =
+                CargoRepository.cargoFilter(
+                        (String) args[0],
+                        (String) args[1],
+                        (String) args[2],
+                        (String) args[3],
+                        (String) args[4],
+                        (Double) args[5],
+                        (Double) args[6],
+                        (Double) args[7]);
+        return cargoRepository.findAll(specification,pageable);
+    }
 
     @Override
     public Page<Cargo> findAllSortByDateCreated(int page) {

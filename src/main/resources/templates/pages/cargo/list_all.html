@@ -8,31 +8,53 @@
 </head>
 <body>
 <div class="page">
-      <span class="d-flex justify-content-between align-items-center">
-    <div class="alert alert-success alert-dismissible fade show" role="alert"
-         th:if="${NotFoundTransportOfCustomer == true}">
-       You don't have this type of transport
-        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                aria-label="Close"></button>
-    </div>
-      </span>
+
     <div class="container py-3 h-100">
+        <div class="container" style="margin-top: 6px;">
+            <form th:href="@{/cargo}">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input class="form-control mb-3 " th:name="keyword" type="search" th:value="${keywordPage}"
+                               placeholder="Name">
+                    </div>
+                    <div class="col-md-3"><input class="form-control  mb-3 " th:name="countryFrom" type="search"
+                                                 placeholder="Country From"></div>
+                    <div class="col-md-3"><input class="form-control  mb-3 " th:name="countryTo" type="search"
+                                                 placeholder="Country To"></div>
+                    <div class="col-md-3"><input class="form-control  mb-3 " th:name="cityFrom" type="search"
+                                                 placeholder="City From"></div>
+                    <div class="col-md-3"><input class="form-control  mb-3 " th:name="cityTo" type="search"
+                                                 placeholder="City To"></div>
+                    <div class="col-md-3"><input class="form-control  mb-3 " th:name="price" type="number" step="0.1"
+                                                 min="0" max="100000"
+                                                 placeholder="Price"></div>
+                    <div class="col-md-3"><input class="form-control  mb-3 " th:name="volume" type="number" step="0.1"
+                                                 min="0" max="100"
+                                                 placeholder="Volume"></div>
+                    <div class="col-md-3"><input class="form-control  mb-3 " th:name="weight" type="number" step="0.1"
+                                                 min="0" max="30"
+                                                 placeholder="Weight"></div>
+                </div>
+                <div class="text-center flex-box">
+                    <button class="btn btn-outline-success col-4" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
         <div class="row d-flex justify-content-center ">
             <div class="col-4">
                 <h3 th:if="${keywordPage != '' and keywordPage != null}">
                     Filter:
                     <span th:text="${keywordPage}"></span>
                 </h3>
-                <div class="">
-                    <form th:href="@{/cargo}">
-                        <input class="form-control  mb-3 " th:name="keyword" type="search" th:value="${keywordPage}"
-                               placeholder="Search">
-                        <button class="btn btn-outline-success " type="submit">Search</button>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
+    <div th:if="${cargoList.size() == 0}">
+        <div class="text-center alert alert-info">
+            Dont have info!
+        </div>
+    </div>
+    <div th:if="${cargoList.size() != 0}">
     <table class="table table-hover table-info table-bordered table-sm">
         <thead class="table-group-divider table-light">
         <thead>
@@ -53,9 +75,9 @@
         <tbody>
         <tr th:each="c:${cargoList}">
             <td>
-                <div th:text="${#temporals.format(c.localDateCreated,'dd-MMM-yy HH:mm')}+' -->'"></div>
+                <div th:text="${#temporals.format(c.localDateCreated,'dd-MM-yy HH:mm')}+' -->'"></div>
 
-                <span th:text="${#temporals.format(c.localDateDeadline,'dd-MMM-yy HH:mm')}"></span>
+                <span th:text="${#temporals.format(c.localDateDeadline,'dd-MM-yy HH:mm')}"></span>
             </td>
             <td>
                 <span th:text="${c.countryFrom}"></span>
@@ -83,7 +105,7 @@
 
                 <div sec:authorize="isAuthenticated()">
                     <span th:text="${c.user.activity.value}"></span>
-                    <span th:text="${' - '+{c.user.type.value + ', number [ ' + c.user.number}+' ]'}"></span><br>
+                    <span th:text="' - '+${c.user.type.value + ', number [ ' + c.user.number}+' ]'"></span><br>
                     <a th:href="@{/users/{user_id}/profile(user_id = ${c.user.id})}"
                        th:text="${c.user.nameCompany}"></a>
                 </div>
@@ -114,29 +136,48 @@
             </td>
         </tr>
     </table>
+        <div th:if="${pageNumbers != null}">
 
-    <div class="row" th:fragment="pagination">
-        <div class="col-md-2"></div>
+    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-5" th:fragment="pagination">
+<!--        <div class="col-md-2"></div>-->
         <div class="col-md-8">
             <nav aria-label="Pagination">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item" th:each="pageNumber : ${pageNumbers}">
-                        <div th:if="${pageNumber} == ${cargoPage}">
-                            <!--                            <li class="page-item active">-->
-                            <a class="page-link active" th:text="${pageNumber}"></a>
-                            <!--                            </li>-->
-                        </div>
-                        <div th:unless="${pageNumber} == ${cargoPage}">
-                            <!--                            <li th:class="page-item">-->
-                            <a class="page-link" th:href="@{/cargo(page=${pageNumber},keyword = ${keywordPage})}"
-                               th:text="${pageNumber}"></a>
-                            <!--                            </li>-->
-                        </div>
-                    </li>
+                <ul class="pagination">
+                    <div th:if="${cargoPage != 1}">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{/cargo(page=${cargoPage - 1})}"
+                               th:text="${'<'}"></a>
+                        </li>
+                    </div>
+                    <div th:if="${cargoPage == 1}">
+                        <li class="page-item">
+                            <a class="page-link" disabled
+                               th:text="${'<'}"></a>
+                        </li>
+                    </div>
+                        <li class="page-item">
+                            <a class="page-link active"
+                               th:text="${cargoPage}"></a>
+                        </li>
+                    <div th:if="${cargoPage != pageNumbers.size()}">
+                        <li class="page-item">
+                            <a class="page-link" th:href="@{/cargo(page=${cargoPage+1})}"
+                               th:text="${'>'}"></a>
+                        </li>
+                    </div>
+                    <div th:if="${cargoPage == pageNumbers.size()}">
+                        <li class="page-item">
+                            <a class="page-link" readonly
+                               th:text="${'>'}"></a>
+                        </li>
+                    </div>
                 </ul>
             </nav>
         </div>
-        <div class="col-md-2"></div>
+        </div>
+
+<!--        <div class="col-md-2"></div>-->
+    </div>
     </div>
     <div th:replace="fragments/footer::footer-fr"></div>
 </div>

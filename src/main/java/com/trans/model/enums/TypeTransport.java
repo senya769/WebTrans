@@ -4,7 +4,7 @@ public enum TypeTransport {
     ANY("Any"),
     AUTO("Auto"),
     CARGO("Cargo"),
-    CITY_TAXI("City_taxi"),
+    CITY_TAXI("City taxi"),
     COUCH("Couch"),
     TRUCK("Truck");
     private final String typeValue;

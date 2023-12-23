@@ -47,6 +47,7 @@
         <td>
         <div th:if="${#request.isUserInRole('ADMIN')}">
             <form th:action="@{/users/{id}/delete(id = ${u.id})}" method="post">
+                <button type="submit" class="badge badge">update</button>
                 <button type="submit" class="badge badge-danger">delete</button>
             </form>
         </div>

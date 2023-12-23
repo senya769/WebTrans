@@ -10,9 +10,7 @@ import com.trans.service.OrderService;
 import com.trans.service.TransportService;
 import com.trans.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,29 +38,28 @@ public class UserController {
         this.orderService = orderService;
     }
 
+    //todo get size ts/cargo with status isDelete = false and isFree = true
     @GetMapping("/{user_id}/profile")
     public ModelAndView profileGet(@PathVariable int user_id, ModelAndView modelAndView) {
-        UserDTO user = userService.findDTOById(user_id);
-        modelAndView.addObject("user", user);
-//        modelAndView.addObject("countOrderByTransports", orderService.findAllByTransportUserId(user_id).size());
-//        modelAndView.addObject("countOrderByCargo", orderService.findAllByCargoUserId(user_id).size());
-        modelAndView.addObject("transportSentOrders", orderService.getTransportSentOrdersById(user_id, 0).getContent());
-        modelAndView.addObject("cargoSentOrders", orderService.getCargoSentOrdersById(user_id,0).getContent());
-        modelAndView.addObject("transportReceivedOrders", orderService.getTransportReceivedOrdersById(user_id,0).getContent());
-        modelAndView.addObject("cargoReceivedOrders", orderService.getCargoReceivedOrdersById(user_id,0).getContent());
-        modelAndView.setViewName("pages/user/profile");
+        UserDTO user = userService.findActiveDTOById(user_id);
+        if(user != null) {
+            modelAndView.addObject("user", user);
+            modelAndView.addObject("transportSentOrders", orderService.getTransportSentOrdersById(user_id, 0).getContent());
+            modelAndView.addObject("cargoSentOrders", orderService.getCargoSentOrdersById(user_id, 0).getContent());
+            modelAndView.addObject("transportReceivedOrders", orderService.getTransportReceivedOrdersById(user_id, 0).getContent());
+            modelAndView.addObject("cargoReceivedOrders", orderService.getCargoReceivedOrdersById(user_id, 0).getContent());
+            modelAndView.setViewName("pages/user/profile");
+        }
+        else
+            modelAndView.setViewName("/pages/error/403");
         return modelAndView;
     }
 
     @GetMapping("{user_id}/update")
     public ModelAndView updateGet(@PathVariable int user_id, @AuthenticationPrincipal CustomUserDetails userDetails) {
         ModelAndView modelAndView = new ModelAndView();
-        if (userDetails.getId() == user_id) {
             modelAndView.addObject("user", userService.findDTOById(user_id));
             modelAndView.setViewName("pages/user/update");
-        } else {
-            modelAndView.setViewName("pages/error/405");
-        }
         return modelAndView;
     }
 
@@ -93,13 +90,9 @@ public class UserController {
     }
 
     @GetMapping("/{user_id}/delete")
-    public ModelAndView deleteGet(ModelAndView modelAndView, @PathVariable int user_id,
-                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
-        if (userDetails.getId() == user_id) {
+    public ModelAndView deleteGet(ModelAndView modelAndView, @PathVariable int user_id) {
             userService.deleteById(user_id);
-        }
-        modelAndView.setViewName("redirect:/logout");
-
+            modelAndView.setViewName("redirect:/");
         return modelAndView;
     }
 
